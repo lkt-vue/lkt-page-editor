@@ -1,4 +1,4 @@
-import { defineComponent, resolveComponent, openBlock, createElementBlock, createElementVNode, createVNode, Fragment, renderList, unref, createCommentVNode, createBlock, normalizeClass, withCtx, resolveDynamicComponent } from "vue";
+import { defineComponent, ref, resolveComponent, openBlock, createElementBlock, createElementVNode, createVNode, Fragment, renderList, createCommentVNode, createBlock, normalizeClass, withCtx, resolveDynamicComponent } from "vue";
 const _hoisted_1 = { class: "lmm-page-editor" };
 const _hoisted_2 = { class: "lmm-page-editor-nav" };
 const _hoisted_3 = { class: "lmm-page-editor-writer" };
@@ -64,7 +64,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
           })
         ]),
         createElementVNode("div", _hoisted_3, [
-          (openBlock(true), createElementBlock(Fragment, null, renderList(unref(content), (block) => {
+          (openBlock(true), createElementBlock(Fragment, null, renderList(content.value, (block) => {
             return openBlock(), createElementBlock(Fragment, null, [
               createElementVNode("div", _hoisted_4, [
                 _cache[0] || (_cache[0] = createElementVNode("div", null, "Block config", -1)),

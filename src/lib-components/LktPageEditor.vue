@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {LktObject} from "lkt-ts-interfaces";
+import {ref} from "vue";
 
 const props = withDefaults(defineProps<{
     modelValue: LktObject[]
