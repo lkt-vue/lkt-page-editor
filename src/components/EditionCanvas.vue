@@ -24,7 +24,6 @@ const onClickAddBlock = () => {
     <template v-for="block in content">
 
         <div
-            v-if="block.component !== 'lkt-field-textarea' && block.component !== 'lkt-field-editor'"
             class="lmm-block-config"
             style="background: #00001E; color: #ffffff; padding: 15px;">
             <div>Block config</div>

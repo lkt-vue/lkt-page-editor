@@ -2,7 +2,6 @@ import { defineComponent, ref, resolveComponent, openBlock, createElementBlock, 
 import { openModal, closeModal, addModal } from "lkt-modal";
 const _hoisted_1$2 = { class: "lkt-page-editor-canvas lkt-grid-1" };
 const _hoisted_2 = {
-  key: 0,
   class: "lmm-block-config",
   style: { "background": "#00001E", "color": "#ffffff", "padding": "15px" }
 };
@@ -33,7 +32,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       return openBlock(), createElementBlock("div", _hoisted_1$2, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(content.value, (block) => {
           return openBlock(), createElementBlock(Fragment, null, [
-            block.component !== "lkt-field-textarea" && block.component !== "lkt-field-editor" ? (openBlock(), createElementBlock("div", _hoisted_2, [
+            createElementVNode("div", _hoisted_2, [
               _cache[0] || (_cache[0] = createElementVNode("div", null, "Block config", -1)),
               block.classNameOpts && block.classNameOpts.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_3, [
                 createVNode(_component_lkt_field_select, {
@@ -42,9 +41,9 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                   options: block.classNameOpts
                 }, null, 8, ["modelValue", "onUpdate:modelValue", "options"])
               ])) : createCommentVNode("", true)
-            ])) : createCommentVNode("", true),
+            ]),
             block.component === "lkt-box" ? (openBlock(), createBlock(_component_lkt_box, {
-              key: 1,
+              key: 0,
               class: normalizeClass(block.className)
             }, {
               default: withCtx(() => [
@@ -55,17 +54,17 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
               ]),
               _: 2
             }, 1032, ["class"])) : block.component === "lkt-field-editor" ? (openBlock(), createBlock(_component_lkt_field_editor, {
-              key: 2,
+              key: 1,
               class: normalizeClass(block.className),
               modelValue: block.content,
               "onUpdate:modelValue": ($event) => block.content = $event
             }, null, 8, ["class", "modelValue", "onUpdate:modelValue"])) : block.component === "lkt-field-textarea" ? (openBlock(), createBlock(_component_lkt_field_textarea, {
-              key: 3,
+              key: 2,
               class: normalizeClass(block.className),
               modelValue: block.content,
               "onUpdate:modelValue": ($event) => block.content = $event
             }, null, 8, ["class", "modelValue", "onUpdate:modelValue"])) : block.component === "lkt-accordion" ? (openBlock(), createBlock(_component_lkt_accordion, {
-              key: 4,
+              key: 3,
               class: normalizeClass(block.className)
             }, {
               header: withCtx(() => [
@@ -78,7 +77,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                 }, null, 8, ["modelValue", "onUpdate:modelValue"])
               ]),
               _: 2
-            }, 1032, ["class"])) : (openBlock(), createBlock(resolveDynamicComponent(block.component), { key: 5 }))
+            }, 1032, ["class"])) : (openBlock(), createBlock(resolveDynamicComponent(block.component), { key: 4 }))
           ], 64);
         }), 256)),
         createElementVNode("div", _hoisted_4, [
