@@ -42,6 +42,14 @@ export class PageBlock {
         })
     }
 
+    static createLktFieldTextarea() {
+        return new PageBlock({
+            component: 'lkt-field-textarea',
+            classNameOpts: [
+            ],
+        })
+    }
+
     static createLktBox() {
         return new PageBlock({
             component: 'lkt-box',

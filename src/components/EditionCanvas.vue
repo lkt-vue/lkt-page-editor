@@ -20,10 +20,13 @@ const onClickAddBlock = () => {
 </script>
 
 <template>
-<div class="lkt-page-editor-canvas">
+<div class="lkt-page-editor-canvas lkt-grid-1">
     <template v-for="block in content">
 
-        <div class="lmm-block-config" style="background: #00001E; color: #ffffff; padding: 15px;">
+        <div
+            v-if="block.component !== 'lkt-field-textarea' && block.component !== 'lkt-field-editor'"
+            class="lmm-block-config"
+            style="background: #00001E; color: #ffffff; padding: 15px;">
             <div>Block config</div>
             <div v-if="block.classNameOpts && block.classNameOpts.length > 0">
                 <lkt-field-select
@@ -42,6 +45,12 @@ const onClickAddBlock = () => {
 
         <lkt-field-editor
             v-else-if="block.component === 'lkt-field-editor'"
+            :class="block.className"
+            v-model="block.content"
+        />
+
+        <lkt-field-textarea
+            v-else-if="block.component === 'lkt-field-textarea'"
             :class="block.className"
             v-model="block.content"
         />

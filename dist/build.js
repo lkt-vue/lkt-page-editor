@@ -1,7 +1,8 @@
 import { defineComponent, ref, resolveComponent, openBlock, createElementBlock, Fragment, renderList, createElementVNode, createVNode, createCommentVNode, createBlock, normalizeClass, withCtx, resolveDynamicComponent } from "vue";
 import { openModal, closeModal, addModal } from "lkt-modal";
-const _hoisted_1$2 = { class: "lkt-page-editor-canvas" };
+const _hoisted_1$2 = { class: "lkt-page-editor-canvas lkt-grid-1" };
 const _hoisted_2 = {
+  key: 0,
   class: "lmm-block-config",
   style: { "background": "#00001E", "color": "#ffffff", "padding": "15px" }
 };
@@ -25,13 +26,14 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
       const _component_edition_canvas = resolveComponent("edition-canvas", true);
       const _component_lkt_box = resolveComponent("lkt-box");
       const _component_lkt_field_editor = resolveComponent("lkt-field-editor");
+      const _component_lkt_field_textarea = resolveComponent("lkt-field-textarea");
       const _component_lkt_field_text = resolveComponent("lkt-field-text");
       const _component_lkt_accordion = resolveComponent("lkt-accordion");
       const _component_lkt_button = resolveComponent("lkt-button");
       return openBlock(), createElementBlock("div", _hoisted_1$2, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(content.value, (block) => {
           return openBlock(), createElementBlock(Fragment, null, [
-            createElementVNode("div", _hoisted_2, [
+            block.component !== "lkt-field-textarea" && block.component !== "lkt-field-editor" ? (openBlock(), createElementBlock("div", _hoisted_2, [
               _cache[0] || (_cache[0] = createElementVNode("div", null, "Block config", -1)),
               block.classNameOpts && block.classNameOpts.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_3, [
                 createVNode(_component_lkt_field_select, {
@@ -40,9 +42,9 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                   options: block.classNameOpts
                 }, null, 8, ["modelValue", "onUpdate:modelValue", "options"])
               ])) : createCommentVNode("", true)
-            ]),
+            ])) : createCommentVNode("", true),
             block.component === "lkt-box" ? (openBlock(), createBlock(_component_lkt_box, {
-              key: 0,
+              key: 1,
               class: normalizeClass(block.className)
             }, {
               default: withCtx(() => [
@@ -53,12 +55,17 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
               ]),
               _: 2
             }, 1032, ["class"])) : block.component === "lkt-field-editor" ? (openBlock(), createBlock(_component_lkt_field_editor, {
-              key: 1,
+              key: 2,
+              class: normalizeClass(block.className),
+              modelValue: block.content,
+              "onUpdate:modelValue": ($event) => block.content = $event
+            }, null, 8, ["class", "modelValue", "onUpdate:modelValue"])) : block.component === "lkt-field-textarea" ? (openBlock(), createBlock(_component_lkt_field_textarea, {
+              key: 3,
               class: normalizeClass(block.className),
               modelValue: block.content,
               "onUpdate:modelValue": ($event) => block.content = $event
             }, null, 8, ["class", "modelValue", "onUpdate:modelValue"])) : block.component === "lkt-accordion" ? (openBlock(), createBlock(_component_lkt_accordion, {
-              key: 2,
+              key: 4,
               class: normalizeClass(block.className)
             }, {
               header: withCtx(() => [
@@ -71,7 +78,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
                 }, null, 8, ["modelValue", "onUpdate:modelValue"])
               ]),
               _: 2
-            }, 1032, ["class"])) : (openBlock(), createBlock(resolveDynamicComponent(block.component), { key: 3 }))
+            }, 1032, ["class"])) : (openBlock(), createBlock(resolveDynamicComponent(block.component), { key: 5 }))
           ], 64);
         }), 256)),
         createElementVNode("div", _hoisted_4, [
@@ -133,6 +140,12 @@ class PageBlock {
       classNameOpts: []
     });
   }
+  static createLktFieldTextarea() {
+    return new PageBlock({
+      component: "lkt-field-textarea",
+      classNameOpts: []
+    });
+  }
   static createLktBox() {
     return new PageBlock({
       component: "lkt-box",
@@ -179,6 +192,12 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       }
       closeModal(props.modalName, props.modalKey);
     };
+    const addLktFieldTextarea = () => {
+      if (typeof props.onPicked === "function") {
+        props.onPicked(PageBlock.createLktFieldTextarea());
+      }
+      closeModal(props.modalName, props.modalKey);
+    };
     return (_ctx, _cache) => {
       const _component_lkt_button = resolveComponent("lkt-button");
       const _component_lkt_accordion = resolveComponent("lkt-accordion");
@@ -202,6 +221,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 createVNode(_component_lkt_button, {
                   text: "LKT Text Editor",
                   onClick: addLktFieldEditor
+                }),
+                createVNode(_component_lkt_button, {
+                  text: "LKT Text Area",
+                  onClick: addLktFieldTextarea
                 }),
                 createVNode(_component_lkt_button, {
                   text: "LKT Box",

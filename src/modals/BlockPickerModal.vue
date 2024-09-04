@@ -36,6 +36,14 @@ const addLktFieldEditor = () => {
 
     closeModal(props.modalName, props.modalKey);
 }
+
+const addLktFieldTextarea = () => {
+    if (typeof props.onPicked === 'function') {
+        props.onPicked(PageBlock.createLktFieldTextarea());
+    }
+
+    closeModal(props.modalName, props.modalKey);
+}
 </script>
 
 <template>
@@ -55,6 +63,7 @@ const addLktFieldEditor = () => {
         >
             <div class="lkt-grid-1">
                 <lkt-button text="LKT Text Editor" @click="addLktFieldEditor"/>
+                <lkt-button text="LKT Text Area" @click="addLktFieldTextarea"/>
                 <lkt-button text="LKT Box" @click="addLktBox"/>
                 <lkt-button text="LKT Accordion" @click="addLktAccordion"/>
                 <lkt-button text="LKT Banner" @click="addLktAccordion"/>
