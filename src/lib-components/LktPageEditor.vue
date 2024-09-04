@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {LktObject} from "lkt-ts-interfaces";
 import {ref} from "vue";
+import {PageBlock} from "../instances/PageBlock";
+import EditionCanvas from "../components/EditionCanvas.vue";
 
 const props = withDefaults(defineProps<{
-    modelValue: LktObject[]
+    modelValue: PageBlock[]
 }>(), {
     modelValue: [],
 });
@@ -12,56 +14,26 @@ const props = withDefaults(defineProps<{
 const content = ref([]);
 
 const addLktBox = () => {
-    content.value.push({
+    content.value.push(new PageBlock({
         component: 'lkt-box',
-
-        content: '',
-
-        className: '',
         classNameOpts: [
             {value: 'info-box', label: 'Info Box'},
             {value: 'info-box with-header', label: 'Info Box (header)'},
             {value: 'warning-box', label: 'Warning Box'},
         ],
-
-        props: {
-            title: '',
-        },
-
-        config: {
-            onlyContent: false,
-        }
-    });
+    }));
 }
 
 const addLktAccordion = () => {
-    content.value.push({
+    content.value.push(new PageBlock({
         component: 'lkt-accordion',
-
-        content: '',
-
-        className: '',
         classNameOpts: [],
-
-        props: {
-            title: '',
-        },
-
-        config: {
-            onlyContent: false,
-            alwaysOpen: false,
-        }
-    });
+    }));
 }
 </script>
 
 <template>
     <div class="lmm-page-editor">
-
-        <div class="lmm-page-editor-nav">
-            <lkt-button text="LKT Box" @click="addLktBox"/>
-            <lkt-button text="LKT Accordion" @click="addLktAccordion"/>
-        </div>
 
         <div class="lmm-page-editor-writer">
             <template v-for="block in content">
@@ -98,5 +70,13 @@ const addLktAccordion = () => {
                 <component v-else :is="block.component"/>
             </template>
         </div>
+
+        <div class="lmm-page-editor-nav">
+            <lkt-button text="LKT Box" @click="addLktBox"/>
+            <lkt-button text="LKT Accordion" @click="addLktAccordion"/>
+            <lkt-button text="LKT Banner" @click="addLktAccordion"/>
+        </div>
+
+        <edition-canvas v-model="content"/>
     </div>
 </template>

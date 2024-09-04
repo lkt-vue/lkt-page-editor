@@ -1,3 +1,6 @@
 .lkt-page-editor {
-
+    display: flex;
+    align-items: flex-start;
+    justify-content: stretch;
+    gap: 15px;
 }
