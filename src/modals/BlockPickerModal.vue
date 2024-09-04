@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
+import {closeModal} from "lkt-modal";
 
 const props = withDefaults(defineProps<{
     modalName: string
     modalKey: string
     zIndex: number
-    onCreate?: Function
-    onUpdate?: Function
+    onPicked?: Function
 }>(), {
     modalName: '',
     modalKey: '_',
@@ -14,21 +14,27 @@ const props = withDefaults(defineProps<{
 });
 
 const addLktBox = () => {
-    // content.value.push(new PageBlock({
-    //     component: 'lkt-box',
-    //     classNameOpts: [
-    //         {value: 'info-box', label: 'Info Box'},
-    //         {value: 'info-box with-header', label: 'Info Box (header)'},
-    //         {value: 'warning-box', label: 'Warning Box'},
-    //     ],
-    // }));
+    if (typeof props.onPicked === 'function') {
+        props.onPicked(PageBlock.createLktBox());
+    }
+
+    closeModal(props.modalName, props.modalKey);
 }
 
 const addLktAccordion = () => {
-    // content.value.push(new PageBlock({
-    //     component: 'lkt-accordion',
-    //     classNameOpts: [],
-    // }));
+    if (typeof props.onPicked === 'function') {
+        props.onPicked(PageBlock.createLktAccordion());
+    }
+
+    closeModal(props.modalName, props.modalKey);
+}
+
+const addLktFieldEditor = () => {
+    if (typeof props.onPicked === 'function') {
+        props.onPicked(PageBlock.createLktFieldEditor());
+    }
+
+    closeModal(props.modalName, props.modalKey);
 }
 </script>
 
@@ -48,6 +54,7 @@ const addLktAccordion = () => {
             toggle-mode="display"
         >
             <div class="lkt-grid-1">
+                <lkt-button text="LKT Text Editor" @click="addLktFieldEditor"/>
                 <lkt-button text="LKT Box" @click="addLktBox"/>
                 <lkt-button text="LKT Accordion" @click="addLktAccordion"/>
                 <lkt-button text="LKT Banner" @click="addLktAccordion"/>

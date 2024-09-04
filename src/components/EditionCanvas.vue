@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {LktObject} from "lkt-ts-interfaces";
 import {ref} from "vue";
 import {PageBlock} from "../instances/PageBlock";
 import {openModal} from "lkt-modal";
@@ -14,7 +13,9 @@ const props = withDefaults(defineProps<{
 const content = ref(props.modelValue);
 
 const onClickAddBlock = () => {
-    openModal('lkt-page-editor-block-picker');
+    openModal('lkt-page-editor-block-picker', '_', {
+        onPicked: (block) => content.value.push(block),
+    });
 };
 </script>
 
@@ -39,10 +40,21 @@ const onClickAddBlock = () => {
             <edition-canvas v-model="block.blocks"/>
         </lkt-box>
 
+        <lkt-field-editor
+            v-else-if="block.component === 'lkt-field-editor'"
+            :class="block.className"
+            v-model="block.content"
+        />
+
         <lkt-accordion
             v-else-if="block.component === 'lkt-accordion'"
             :class="block.className"
         >
+            <template #header>
+                <lkt-field-text
+                    placeholder="Title"
+                />
+            </template>
             <edition-canvas v-model="block.blocks"/>
         </lkt-accordion>
         <component v-else :is="block.component"/>
