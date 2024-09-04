@@ -1,4 +1,5 @@
 import { defineComponent, ref, resolveComponent, openBlock, createElementBlock, Fragment, renderList, createElementVNode, createVNode, createCommentVNode, createBlock, normalizeClass, withCtx, resolveDynamicComponent } from "vue";
+import { openModal, addModal } from "lkt-modal";
 class PageBlock {
   constructor(data = {}) {
     this.id = 0;
@@ -25,14 +26,14 @@ class PageBlock {
     }
   }
 }
-const _hoisted_1$1 = { class: "lkt-page-editor-canvas" };
+const _hoisted_1$2 = { class: "lkt-page-editor-canvas" };
 const _hoisted_2$1 = {
   class: "lmm-block-config",
   style: { "background": "#00001E", "color": "#ffffff", "padding": "15px" }
 };
 const _hoisted_3$1 = { key: 0 };
 const _hoisted_4$1 = { class: "lkt-page-editor-canvas-nav" };
-const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "EditionCanvas",
   props: {
     modelValue: { default: [] }
@@ -41,13 +42,15 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     const props = __props;
     const content = ref(props.modelValue);
     const onClickAddBlock = () => {
+      openModal("lkt-page-editor-block-picker");
     };
     return (_ctx, _cache) => {
       const _component_lkt_field_select = resolveComponent("lkt-field-select");
       const _component_edition_canvas = resolveComponent("edition-canvas", true);
       const _component_lkt_box = resolveComponent("lkt-box");
+      const _component_lkt_accordion = resolveComponent("lkt-accordion");
       const _component_lkt_button = resolveComponent("lkt-button");
-      return openBlock(), createElementBlock("div", _hoisted_1$1, [
+      return openBlock(), createElementBlock("div", _hoisted_1$2, [
         (openBlock(true), createElementBlock(Fragment, null, renderList(content.value, (block) => {
           return openBlock(), createElementBlock(Fragment, null, [
             createElementVNode("div", _hoisted_2$1, [
@@ -71,7 +74,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
                 }, null, 8, ["modelValue", "onUpdate:modelValue"])
               ]),
               _: 2
-            }, 1032, ["class"])) : block.component === "lkt-accordion" ? (openBlock(), createBlock(_component_lkt_box, {
+            }, 1032, ["class"])) : block.component === "lkt-accordion" ? (openBlock(), createBlock(_component_lkt_accordion, {
               key: 1,
               class: normalizeClass(block.className)
             }, {
@@ -95,7 +98,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _hoisted_1 = { class: "lmm-page-editor" };
+const _hoisted_1$1 = { class: "lmm-page-editor" };
 const _hoisted_2 = { class: "lmm-page-editor-writer" };
 const _hoisted_3 = {
   class: "lmm-block-config",
@@ -103,7 +106,7 @@ const _hoisted_3 = {
 };
 const _hoisted_4 = { key: 0 };
 const _hoisted_5 = { class: "lmm-page-editor-nav" };
-const _sfc_main = /* @__PURE__ */ defineComponent({
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "LktPageEditor",
   props: {
     modelValue: { default: [] }
@@ -131,7 +134,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const _component_lkt_field_editor = resolveComponent("lkt-field-editor");
       const _component_lkt_box = resolveComponent("lkt-box");
       const _component_lkt_button = resolveComponent("lkt-button");
-      return openBlock(), createElementBlock("div", _hoisted_1, [
+      return openBlock(), createElementBlock("div", _hoisted_1$1, [
         createElementVNode("div", _hoisted_2, [
           (openBlock(true), createElementBlock(Fragment, null, renderList(content.value, (block) => {
             return openBlock(), createElementBlock(Fragment, null, [
@@ -187,7 +190,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             onClick: addLktAccordion
           })
         ]),
-        createVNode(_sfc_main$1, {
+        createVNode(_sfc_main$2, {
           modelValue: content.value,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => content.value = $event)
         }, null, 8, ["modelValue"])
@@ -195,9 +198,67 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
+const _hoisted_1 = { class: "lkt-grid-1" };
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "BlockPickerModal",
+  props: {
+    modalName: { default: "" },
+    modalKey: { default: "_" },
+    zIndex: { default: 500 },
+    onCreate: {},
+    onUpdate: {}
+  },
+  setup(__props) {
+    const addLktBox = () => {
+    };
+    const addLktAccordion = () => {
+    };
+    return (_ctx, _cache) => {
+      const _component_lkt_button = resolveComponent("lkt-button");
+      const _component_lkt_accordion = resolveComponent("lkt-accordion");
+      const _component_lkt_modal = resolveComponent("lkt-modal");
+      return openBlock(), createBlock(_component_lkt_modal, {
+        title: "",
+        "modal-name": _ctx.modalName,
+        "modal-key": _ctx.modalKey,
+        "z-index": _ctx.zIndex
+      }, {
+        default: withCtx(() => [
+          createVNode(_component_lkt_accordion, {
+            title: "LKT Components",
+            icon: "",
+            "model-value": true,
+            "always-open": "",
+            "toggle-mode": "display"
+          }, {
+            default: withCtx(() => [
+              createElementVNode("div", _hoisted_1, [
+                createVNode(_component_lkt_button, {
+                  text: "LKT Box",
+                  onClick: addLktBox
+                }),
+                createVNode(_component_lkt_button, {
+                  text: "LKT Accordion",
+                  onClick: addLktAccordion
+                }),
+                createVNode(_component_lkt_button, {
+                  text: "LKT Banner",
+                  onClick: addLktAccordion
+                })
+              ])
+            ]),
+            _: 1
+          })
+        ]),
+        _: 1
+      }, 8, ["modal-name", "title", "modal-key", "z-index"]);
+    };
+  }
+});
 const LktPageEditor = {
   install: (app) => {
-    if (app.component("lkt-page-editor") === void 0) app.component("lkt-page-editor", _sfc_main);
+    if (app.component("lkt-page-editor") === void 0) app.component("lkt-page-editor", _sfc_main$1);
+    addModal("lkt-page-editor-block-picker", _sfc_main);
   }
 };
 export {

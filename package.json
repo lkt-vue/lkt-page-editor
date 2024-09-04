@@ -42,6 +42,7 @@
   "dependencies": {
     "lkt-button": "^1.1.21",
     "lkt-i18n": "^1.0.4",
+    "lkt-modal": "^1.1.7",
     "lkt-ts-interfaces": "^1.0.5",
     "process": "^0.11.10",
     "sass": "^1.57.1",

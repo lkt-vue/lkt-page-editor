@@ -35,6 +35,7 @@ export default {
                 'lkt-http-client',
                 'lkt-ts-interfaces',
                 'lkt-i18n',
+                'lkt-modal',
                 'lkt-session'
             ],
             output: {
