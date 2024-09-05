@@ -3,4 +3,12 @@
     align-items: flex-start;
     justify-content: stretch;
     gap: 15px;
+    padding: 15px;
+    background-color: var(--lkt-field-bg);
+    border-width: var(--lkt-field-border-width);
+    border-style: var(--lkt-field-border-style);
+    border-color: var(--lkt-field-border-color);
+    box-shadow: var(--lkt-field-shadow);
+    border-radius: var(--lkt-field-border-radius);
+    transition: var(--lkt-field-transition-input);
 }

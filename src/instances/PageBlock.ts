@@ -1,4 +1,8 @@
 import {LktObject} from "lkt-ts-interfaces";
+import {AccordionConfig} from "./config/AccordionConfig";
+import {BoxConfig} from "./config/BoxConfig";
+import {AbstractConfig} from "./config/AbstractConfig";
+import {BannerBoxConfig} from "./config/BannerBoxConfig";
 
 export class PageBlock {
     id: number = 0;
@@ -20,7 +24,7 @@ export class PageBlock {
         title: '',
     };
 
-    config: LktObject = {
+    config: AbstractConfig = {
         onlyContent: false,
         alwaysOpen: false,
     }
@@ -50,6 +54,14 @@ export class PageBlock {
         })
     }
 
+    static createLktBannerBox() {
+        return new PageBlock({
+            component: 'lkt-banner-box',
+            classNameOpts: [],
+            config: new BannerBoxConfig()
+        })
+    }
+
     static createLktBox() {
         return new PageBlock({
             component: 'lkt-box',
@@ -58,14 +70,15 @@ export class PageBlock {
                 {value: 'info-box with-header', label: 'Info Box (header)'},
                 {value: 'warning-box', label: 'Warning Box'},
             ],
+            config: new BoxConfig()
         })
     }
 
     static createLktAccordion() {
         return new PageBlock({
             component: 'lkt-accordion',
-            classNameOpts: [
-            ],
+            classNameOpts: [],
+            config: new AccordionConfig()
         })
     }
 }

@@ -44,6 +44,14 @@ const addLktFieldTextarea = () => {
 
     closeModal(props.modalName, props.modalKey);
 }
+
+const addLktBannerBox = () => {
+    if (typeof props.onPicked === 'function') {
+        props.onPicked(PageBlock.createLktBannerBox());
+    }
+
+    closeModal(props.modalName, props.modalKey);
+}
 </script>
 
 <template>
@@ -66,7 +74,7 @@ const addLktFieldTextarea = () => {
                 <lkt-button text="LKT Text Area" @click="addLktFieldTextarea"/>
                 <lkt-button text="LKT Box" @click="addLktBox"/>
                 <lkt-button text="LKT Accordion" @click="addLktAccordion"/>
-                <lkt-button text="LKT Banner" @click="addLktAccordion"/>
+                <lkt-button text="LKT Banner" @click="addLktBannerBox"/>
             </div>
         </lkt-accordion>
     </lkt-modal>

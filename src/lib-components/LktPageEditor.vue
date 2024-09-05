@@ -12,7 +12,10 @@ const content = ref([]);
 </script>
 
 <template>
-    <div class="lmm-page-editor">
-        <edition-canvas v-model="content"/>
+    <div class="lkt-page-editor-container">
+        <div class="like-lkt-field-label">Page content</div>
+        <div class="lkt-page-editor">
+            <edition-canvas v-model="content"/>
+        </div>
     </div>
 </template>
