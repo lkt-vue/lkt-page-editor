@@ -52,6 +52,14 @@ const addLktBannerBox = () => {
 
     closeModal(props.modalName, props.modalKey);
 }
+
+const addColumnEngine = () => {
+    if (typeof props.onPicked === 'function') {
+        props.onPicked(PageBlock.createColumnEngine());
+    }
+
+    closeModal(props.modalName, props.modalKey);
+}
 </script>
 
 <template>
@@ -75,6 +83,7 @@ const addLktBannerBox = () => {
                 <lkt-button text="LKT Box" @click="addLktBox"/>
                 <lkt-button text="LKT Accordion" @click="addLktAccordion"/>
                 <lkt-button text="LKT Banner" @click="addLktBannerBox"/>
+                <lkt-button text="Column System" @click="addColumnEngine"/>
             </div>
         </lkt-accordion>
     </lkt-modal>

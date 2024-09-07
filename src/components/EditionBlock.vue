@@ -5,8 +5,10 @@ import EditionCanvas from "./EditionCanvas.vue";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
+    editMode?: boolean
 }>(), {
     modelValue: [],
+    editMode: false,
 });
 
 const item = ref(props.modelValue);
@@ -54,6 +56,7 @@ const computedBlockTitle = computed(() => {
         }
     });
 
+
 </script>
 
 <template>
@@ -66,8 +69,7 @@ const computedBlockTitle = computed(() => {
     >
         <template #intro>
             <div
-                class="lkt-page-editor-block-config"
-                style="background: #00001E; color: #ffffff; padding: 15px;">
+                class="lkt-page-editor-block-config">
                 <div>Block config</div>
                 <div v-if="item.classNameOpts && item.classNameOpts.length > 0">
                     <lkt-field-select
@@ -86,6 +88,17 @@ const computedBlockTitle = computed(() => {
                         :resource-data="{_lmm_type: 'multimedia'}"
                         field-name="_lmm_block"/>
                 </div>
+
+                <div>
+                    <lkt-field-text
+                        v-if="item.component === 'lkt-box' || item.component === 'lkt-accordion'"
+                        v-model="item.config.amountOfColumns"
+                        label="Default amount of columns"
+                        is-number
+                        :min="1"
+                        :max="12"
+                    />
+                </div>
             </div>
         </template>
 
@@ -93,19 +106,21 @@ const computedBlockTitle = computed(() => {
             v-if="item.component === 'lkt-box'"
             :class="item.className"
         >
-            <edition-canvas v-model="item.blocks"/>
+            <edition-canvas v-model="item.blocks" :columns="item.config.amountOfColumns" :edit-mode="editMode"/>
         </lkt-box>
 
         <lkt-field-editor
             v-else-if="item.component === 'lkt-field-editor'"
             :class="item.className"
             v-model="item.content"
+            :read-mode="!editMode"
         />
 
         <lkt-field-textarea
             v-else-if="item.component === 'lkt-field-textarea'"
             :class="item.className"
             v-model="item.content"
+            :read-mode="!editMode"
         />
 
         <lkt-banner-box
@@ -125,8 +140,9 @@ const computedBlockTitle = computed(() => {
                     placeholder="Title"
                 />
             </template>
-            <edition-canvas v-model="item.blocks"/>
+            <edition-canvas v-model="item.blocks" :columns="item.config.amountOfColumns" :edit-mode="editMode"/>
         </lkt-accordion>
+
         <component v-else :is="item.component"/>
     </lkt-accordion>
 </template>

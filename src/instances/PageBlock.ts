@@ -3,6 +3,7 @@ import {AccordionConfig} from "./config/AccordionConfig";
 import {BoxConfig} from "./config/BoxConfig";
 import {AbstractConfig} from "./config/AbstractConfig";
 import {BannerBoxConfig} from "./config/BannerBoxConfig";
+import {ColumnsConfig} from "./config/ColumnsConfig";
 
 export class PageBlock {
     id: number = 0;
@@ -59,6 +60,14 @@ export class PageBlock {
             component: 'lkt-banner-box',
             classNameOpts: [],
             config: new BannerBoxConfig()
+        })
+    }
+
+    static createColumnEngine() {
+        return new PageBlock({
+            component: 'edition-columns',
+            classNameOpts: [],
+            config: new ColumnsConfig()
         })
     }
 
