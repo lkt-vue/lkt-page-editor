@@ -3,6 +3,7 @@ export class CustomItemType {
     component: string;
     text: string;
     resource: string;
+    icon: string;
     resourceData: {};
 }
 export function addItemTypeToEditor(config: any): void;

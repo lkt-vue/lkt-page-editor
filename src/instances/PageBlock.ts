@@ -1,15 +1,15 @@
 import {LktObject} from "lkt-ts-interfaces";
 import {AccordionConfig} from "./config/AccordionConfig";
 import {BoxConfig} from "./config/BoxConfig";
-import {AbstractConfig} from "./config/AbstractConfig";
 import {BannerBoxConfig} from "./config/BannerBoxConfig";
 import {ColumnsConfig} from "./config/ColumnsConfig";
+import {BlockConfig} from "../types/BlockConfig";
 
 export class PageBlock {
     id: number = 0;
 
     // Block type
-    component: string = 'lkt-box';
+    component: string = 'text';
 
     // item selection
     itemType: string = '';
@@ -24,25 +24,14 @@ export class PageBlock {
     content: string = '';
 
     // Content organization
+    title: string = '';
     blocks: PageBlock[] = [];
     columns: number = 1;
 
     // Class name config
     className: string = '';
-    classNameOpts: LktObject[] = [
-        {value: 'info-box', label: 'Info Box'},
-        {value: 'info-box with-header', label: 'Info Box (header)'},
-        {value: 'warning-box', label: 'Warning Box'},
-    ];
 
-    props: LktObject = {
-        title: '',
-    };
-
-    config: AbstractConfig = {
-        onlyContent: false,
-        alwaysOpen: false,
-    }
+    config: BlockConfig = {}
 
     constructor(data: LktObject = {}) {
         for (let k in data) {
@@ -57,63 +46,36 @@ export class PageBlock {
         return new PageBlock({
             component: 'item',
             itemType,
-            classNameOpts: [
-            ],
         })
     }
 
     static createTextEditor() {
         return new PageBlock({
             component: 'text',
-            classNameOpts: [
-            ],
         })
     }
 
     static createHeadingOneEditor() {
         return new PageBlock({
             component: 'h1',
-            classNameOpts: [
-            ],
         })
     }
 
     static createHeadingTwoEditor() {
         return new PageBlock({
             component: 'h2',
-            classNameOpts: [
-            ],
         })
     }
 
     static createHeadingThreeEditor() {
         return new PageBlock({
             component: 'h3',
-            classNameOpts: [
-            ],
-        })
-    }
-
-    static createLktFieldEditor() {
-        return new PageBlock({
-            component: 'lkt-field-editor',
-            classNameOpts: [
-            ],
-        })
-    }
-
-    static createLktFieldTextarea() {
-        return new PageBlock({
-            component: 'lkt-field-textarea',
-            classNameOpts: [
-            ],
         })
     }
 
     static createLktBannerBox() {
         return new PageBlock({
             component: 'lkt-banner-box',
-            classNameOpts: [],
             config: new BannerBoxConfig()
         })
     }
@@ -121,7 +83,6 @@ export class PageBlock {
     static createColumnEngine() {
         return new PageBlock({
             component: 'edition-columns',
-            classNameOpts: [],
             config: new ColumnsConfig()
         })
     }
@@ -129,11 +90,6 @@ export class PageBlock {
     static createLktBox() {
         return new PageBlock({
             component: 'lkt-box',
-            classNameOpts: [
-                {value: 'info-box', label: 'Info Box'},
-                {value: 'info-box with-header', label: 'Info Box (header)'},
-                {value: 'warning-box', label: 'Warning Box'},
-            ],
             config: new BoxConfig()
         })
     }
@@ -141,7 +97,6 @@ export class PageBlock {
     static createLktAccordion() {
         return new PageBlock({
             component: 'lkt-accordion',
-            classNameOpts: [],
             config: new AccordionConfig()
         })
     }
