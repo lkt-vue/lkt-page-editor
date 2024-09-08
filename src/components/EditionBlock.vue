@@ -2,6 +2,7 @@
 import {PageBlock} from "../instances/PageBlock";
 import {computed, ref} from "vue";
 import EditionCanvas from "./EditionCanvas.vue";
+import TextEditor from "../edition-components/TextEditor.vue";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -60,7 +61,12 @@ const computedBlockTitle = computed(() => {
 </script>
 
 <template>
+    <div class="lkt-page-editor-block">
+        <text-editor v-model="item" :edit-mode="editMode"/>
+    </div>
+
     <lkt-accordion
+        v-if="false"
         class="lkt-page-editor-block"
         :title="computedBlockTitle"
         :icon="computedBlockIcon"

@@ -12,3 +12,24 @@
     border-radius: var(--lkt-field-border-radius);
     transition: var(--lkt-field-transition-input);
 }
+.lkt-text-editor[data-v-3dc17ba9] {
+}
+.lkt-text-editor.is-h1[data-v-3dc17ba9] {
+    font-size: 32px;
+    font-weight: 700;
+}
+.lkt-text-editor.is-h2[data-v-3dc17ba9] {
+    font-size: 28px;
+    font-weight: 600;
+}
+.lkt-text-editor.is-h3[data-v-3dc17ba9] {
+    font-size: 24px;
+    font-weight: 600;
+}
+.lkt-text-editor.is-text[data-v-3dc17ba9] {
+    font-size: 16px;
+}
+
+.lkt-page-editor-add-menu[data-v-dfd7925b] {
+    width: 150px;
+}

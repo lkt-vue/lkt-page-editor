@@ -39,6 +39,38 @@ export class PageBlock {
         }
     }
 
+    static createTextEditor() {
+        return new PageBlock({
+            component: 'text',
+            classNameOpts: [
+            ],
+        })
+    }
+
+    static createHeadingOneEditor() {
+        return new PageBlock({
+            component: 'h1',
+            classNameOpts: [
+            ],
+        })
+    }
+
+    static createHeadingTwoEditor() {
+        return new PageBlock({
+            component: 'h2',
+            classNameOpts: [
+            ],
+        })
+    }
+
+    static createHeadingThreeEditor() {
+        return new PageBlock({
+            component: 'h3',
+            classNameOpts: [
+            ],
+        })
+    }
+
     static createLktFieldEditor() {
         return new PageBlock({
             component: 'lkt-field-editor',

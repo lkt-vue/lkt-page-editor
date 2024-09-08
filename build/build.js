@@ -1,229 +1,5 @@
-import { defineComponent, ref, computed, resolveComponent, openBlock, createBlock, withCtx, createElementVNode, createElementBlock, createVNode, createCommentVNode, normalizeClass, resolveDynamicComponent, Fragment, renderList } from "vue";
-import { openModal, closeModal, addModal } from "lkt-modal";
-const _hoisted_1$3 = { class: "lkt-page-editor-block-config" };
-const _hoisted_2$2 = { key: 0 };
-const _hoisted_3 = { key: 1 };
-const _sfc_main$3 = /* @__PURE__ */ defineComponent({
-  __name: "EditionBlock",
-  props: {
-    modelValue: { default: [] },
-    editMode: { type: Boolean, default: false }
-  },
-  setup(__props) {
-    const props = __props;
-    const item = ref(props.modelValue);
-    const computedBlockTitle = computed(() => {
-      switch (item.value.component) {
-        case "lkt-box":
-          return "LKT Box";
-        case "lkt-accordion":
-          return "LKT Accordion";
-        case "lkt-field-editor":
-          return "LKT Text Editor";
-        case "lkt-field-textarea":
-          return "LKT Text Area";
-        case "lkt-banner-box":
-          return "LKT Banner Box";
-        default:
-          return "";
-      }
-    }), computedBlockIcon = computed(() => {
-      switch (item.value.component) {
-        case "lkt-box":
-          return "";
-        case "lkt-accordion":
-          return "";
-        case "lkt-field-editor":
-          return "";
-        case "lkt-field-textarea":
-          return "";
-        case "lkt-banner-box":
-          return "";
-        default:
-          return "";
-      }
-    });
-    return (_ctx, _cache) => {
-      const _component_lkt_field_select = resolveComponent("lkt-field-select");
-      const _component_lmm_multimedia = resolveComponent("lmm-multimedia");
-      const _component_lkt_field_text = resolveComponent("lkt-field-text");
-      const _component_lkt_box = resolveComponent("lkt-box");
-      const _component_lkt_field_editor = resolveComponent("lkt-field-editor");
-      const _component_lkt_field_textarea = resolveComponent("lkt-field-textarea");
-      const _component_lkt_banner_box = resolveComponent("lkt-banner-box");
-      const _component_lkt_accordion = resolveComponent("lkt-accordion");
-      return openBlock(), createBlock(_component_lkt_accordion, {
-        class: "lkt-page-editor-block",
-        title: computedBlockTitle.value,
-        icon: computedBlockIcon.value,
-        "model-value": true,
-        "toggle-mode": "display"
-      }, {
-        intro: withCtx(() => [
-          createElementVNode("div", _hoisted_1$3, [
-            _cache[9] || (_cache[9] = createElementVNode("div", null, "Block config", -1)),
-            item.value.classNameOpts && item.value.classNameOpts.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$2, [
-              createVNode(_component_lkt_field_select, {
-                modelValue: item.value.className,
-                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => item.value.className = $event),
-                options: item.value.classNameOpts
-              }, null, 8, ["modelValue", "options"])
-            ])) : createCommentVNode("", true),
-            item.value.component === "lkt-banner-box" ? (openBlock(), createElementBlock("div", _hoisted_3, [
-              createVNode(_component_lmm_multimedia, {
-                modelValue: item.value.backgroundImageId,
-                "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => item.value.backgroundImageId = $event),
-                data: item.value.backgroundImage,
-                "onUpdate:data": _cache[2] || (_cache[2] = ($event) => item.value.backgroundImage = $event),
-                label: "Background image",
-                "read-mode": false,
-                "resource-data": { _lmm_type: "multimedia" },
-                "field-name": "_lmm_block"
-              }, null, 8, ["modelValue", "data"])
-            ])) : createCommentVNode("", true),
-            createElementVNode("div", null, [
-              item.value.component === "lkt-box" || item.value.component === "lkt-accordion" ? (openBlock(), createBlock(_component_lkt_field_text, {
-                key: 0,
-                modelValue: item.value.config.amountOfColumns,
-                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => item.value.config.amountOfColumns = $event),
-                label: "Default amount of columns",
-                "is-number": "",
-                min: 1,
-                max: 12
-              }, null, 8, ["modelValue"])) : createCommentVNode("", true)
-            ])
-          ])
-        ]),
-        default: withCtx(() => [
-          item.value.component === "lkt-box" ? (openBlock(), createBlock(_component_lkt_box, {
-            key: 0,
-            class: normalizeClass(item.value.className)
-          }, {
-            default: withCtx(() => [
-              createVNode(_sfc_main$2, {
-                modelValue: item.value.blocks,
-                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => item.value.blocks = $event),
-                columns: item.value.config.amountOfColumns,
-                "edit-mode": _ctx.editMode
-              }, null, 8, ["modelValue", "columns", "edit-mode"])
-            ]),
-            _: 1
-          }, 8, ["class"])) : item.value.component === "lkt-field-editor" ? (openBlock(), createBlock(_component_lkt_field_editor, {
-            key: 1,
-            class: normalizeClass(item.value.className),
-            modelValue: item.value.content,
-            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => item.value.content = $event),
-            "read-mode": !_ctx.editMode
-          }, null, 8, ["class", "modelValue", "read-mode"])) : item.value.component === "lkt-field-textarea" ? (openBlock(), createBlock(_component_lkt_field_textarea, {
-            key: 2,
-            class: normalizeClass(item.value.className),
-            modelValue: item.value.content,
-            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => item.value.content = $event),
-            "read-mode": !_ctx.editMode
-          }, null, 8, ["class", "modelValue", "read-mode"])) : item.value.component === "lkt-banner-box" ? (openBlock(), createBlock(_component_lkt_banner_box, {
-            key: 3,
-            class: normalizeClass(item.value.className),
-            modelValue: item.value.content,
-            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => item.value.content = $event)
-          }, null, 8, ["class", "modelValue"])) : item.value.component === "lkt-accordion" ? (openBlock(), createBlock(_component_lkt_accordion, {
-            key: 4,
-            class: normalizeClass(item.value.className),
-            "model-value": true,
-            "toggle-mode": "display"
-          }, {
-            header: withCtx(() => [
-              createVNode(_component_lkt_field_text, { placeholder: "Title" })
-            ]),
-            default: withCtx(() => [
-              createVNode(_sfc_main$2, {
-                modelValue: item.value.blocks,
-                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => item.value.blocks = $event),
-                columns: item.value.config.amountOfColumns,
-                "edit-mode": _ctx.editMode
-              }, null, 8, ["modelValue", "columns", "edit-mode"])
-            ]),
-            _: 1
-          }, 8, ["class"])) : (openBlock(), createBlock(resolveDynamicComponent(item.value.component), { key: 5 }))
-        ]),
-        _: 1
-      }, 8, ["title", "icon"]);
-    };
-  }
-});
-const _hoisted_1$2 = { class: "lkt-page-editor-canvas lkt-grid-1" };
-const _hoisted_2$1 = { class: "lkt-page-editor-canvas-nav" };
-const _sfc_main$2 = /* @__PURE__ */ defineComponent({
-  __name: "EditionCanvas",
-  props: {
-    modelValue: { default: [] },
-    columns: { default: 1 },
-    editMode: { type: Boolean, default: false }
-  },
-  setup(__props) {
-    const props = __props;
-    const content = ref(props.modelValue);
-    const onClickAddBlock = () => {
-      openModal("lkt-page-editor-block-picker", "_", {
-        onPicked: (block) => content.value.push(block)
-      });
-    };
-    const computedColumnClass = computed(() => {
-      return "lkt-grid-" + props.columns;
-    });
-    return (_ctx, _cache) => {
-      const _component_lkt_button = resolveComponent("lkt-button");
-      return openBlock(), createElementBlock("div", _hoisted_1$2, [
-        createElementVNode("div", {
-          class: normalizeClass(computedColumnClass.value)
-        }, [
-          (openBlock(true), createElementBlock(Fragment, null, renderList(content.value, (_, i) => {
-            return openBlock(), createBlock(_sfc_main$3, {
-              modelValue: content.value[i],
-              "onUpdate:modelValue": ($event) => content.value[i] = $event,
-              "edit-mode": _ctx.editMode
-            }, null, 8, ["modelValue", "onUpdate:modelValue", "edit-mode"]);
-          }), 256))
-        ], 2),
-        createElementVNode("div", _hoisted_2$1, [
-          createVNode(_component_lkt_button, {
-            text: "Add block",
-            onClick: onClickAddBlock
-          })
-        ])
-      ]);
-    };
-  }
-});
-const _hoisted_1$1 = { class: "lkt-page-editor-container" };
-const _hoisted_2 = { class: "lkt-page-editor" };
-const _sfc_main$1 = /* @__PURE__ */ defineComponent({
-  __name: "LktPageEditor",
-  props: {
-    modelValue: { default: [] }
-  },
-  setup(__props) {
-    const content = ref([]);
-    const editMode = ref(true);
-    return (_ctx, _cache) => {
-      const _component_lkt_field_switch = resolveComponent("lkt-field-switch");
-      return openBlock(), createElementBlock("div", _hoisted_1$1, [
-        _cache[2] || (_cache[2] = createElementVNode("div", { class: "like-lkt-field-label" }, "Page content", -1)),
-        createVNode(_component_lkt_field_switch, {
-          label: "edit mode",
-          modelValue: editMode.value,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => editMode.value = $event)
-        }, null, 8, ["modelValue"]),
-        createElementVNode("div", _hoisted_2, [
-          createVNode(_sfc_main$2, {
-            modelValue: content.value,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => content.value = $event),
-            "edit-mode": editMode.value
-          }, null, 8, ["modelValue", "edit-mode"])
-        ])
-      ]);
-    };
-  }
-});
+import { defineComponent, ref, onMounted, computed, resolveComponent, openBlock, createElementBlock, normalizeClass, createElementVNode, createVNode, withCtx, Fragment, createCommentVNode, renderList, createBlock, unref } from "vue";
+import { closeModal, addModal } from "lkt-modal";
 class AbstractConfig {
   constructor(data = {}) {
     this.amountOfColumns = 1;
@@ -281,6 +57,30 @@ class PageBlock {
       }
     }
   }
+  static createTextEditor() {
+    return new PageBlock({
+      component: "text",
+      classNameOpts: []
+    });
+  }
+  static createHeadingOneEditor() {
+    return new PageBlock({
+      component: "h1",
+      classNameOpts: []
+    });
+  }
+  static createHeadingTwoEditor() {
+    return new PageBlock({
+      component: "h2",
+      classNameOpts: []
+    });
+  }
+  static createHeadingThreeEditor() {
+    return new PageBlock({
+      component: "h3",
+      classNameOpts: []
+    });
+  }
   static createLktFieldEditor() {
     return new PageBlock({
       component: "lkt-field-editor",
@@ -326,6 +126,284 @@ class PageBlock {
     });
   }
 }
+const getSelectionText = () => {
+  var text = "";
+  let activeEl = document.activeElement;
+  var activeElTagName = activeEl ? activeEl.tagName.toLowerCase() : null;
+  if (activeElTagName == "textarea" || activeElTagName == "input" && /^(?:text|search|password|tel|url)$/i.test(activeEl.type) && typeof activeEl.selectionStart == "number") {
+    text = activeEl.value.slice(activeEl.selectionStart, activeEl.selectionEnd);
+  } else if (window.getSelection) {
+    text = window.getSelection().toString();
+  }
+  return text;
+};
+const _hoisted_1$4 = ["contenteditable", "innerHTML"];
+const _hoisted_2$2 = {
+  class: "",
+  style: { "background": "red", "padding": "15px" }
+};
+const _sfc_main$4 = /* @__PURE__ */ defineComponent({
+  __name: "TextEditor",
+  props: {
+    modelValue: { default: [] },
+    editMode: { type: Boolean, default: false }
+  },
+  setup(__props) {
+    const props = __props;
+    const editor = ref(null);
+    const item = ref(props.modelValue);
+    const showToolbar = ref(false);
+    const onSelectedText = () => {
+      if (!props.editMode) return;
+      let text = getSelectionText();
+      showToolbar.value = text.length > 0;
+      console.log("onSelectedText", text);
+    };
+    function execDefaultAction(action) {
+      document.execCommand(action, false);
+      item.value.content = document.activeElement.innerHTML;
+    }
+    onMounted(() => {
+      editor.value.addEventListener("mouseup", onSelectedText);
+      editor.value.addEventListener("keyup", onSelectedText);
+      editor.value.addEventListener("selectionchange", onSelectedText);
+    });
+    const computedClass = computed(() => {
+      let r = [];
+      if (item.value.component === "text") r.push("is-text");
+      if (item.value.component === "h1") r.push("is-h1");
+      if (item.value.component === "h2") r.push("is-h2");
+      if (item.value.component === "h3") r.push("is-h3");
+      return r.join(" ");
+    });
+    return (_ctx, _cache) => {
+      const _component_lkt_button = resolveComponent("lkt-button");
+      const _component_lkt_tooltip = resolveComponent("lkt-tooltip");
+      return openBlock(), createElementBlock("div", {
+        class: normalizeClass(["lkt-text-editor", computedClass.value])
+      }, [
+        createElementVNode("div", {
+          class: "lkt-text-editor-content",
+          ref_key: "editor",
+          ref: editor,
+          contenteditable: _ctx.editMode,
+          innerHTML: item.value.content
+        }, null, 8, _hoisted_1$4),
+        createVNode(_component_lkt_tooltip, {
+          modelValue: showToolbar.value,
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => showToolbar.value = $event),
+          referrer: editor.value,
+          "location-y": "top"
+        }, {
+          default: withCtx(({ doClose }) => [
+            createElementVNode("div", _hoisted_2$2, [
+              createVNode(_component_lkt_button, {
+                text: "bold",
+                onClick: _cache[0] || (_cache[0] = () => execDefaultAction("bold"))
+              }),
+              createVNode(_component_lkt_button, {
+                text: "italic",
+                onClick: _cache[1] || (_cache[1] = () => execDefaultAction("italic"))
+              }),
+              createVNode(_component_lkt_button, {
+                text: "underline",
+                onClick: _cache[2] || (_cache[2] = () => execDefaultAction("underline"))
+              }),
+              createVNode(_component_lkt_button, {
+                text: "strike-through",
+                onClick: _cache[3] || (_cache[3] = () => execDefaultAction("strikeThrough"))
+              })
+            ])
+          ]),
+          _: 1
+        }, 8, ["modelValue", "referrer"])
+      ], 2);
+    };
+  }
+});
+const _export_sfc = (sfc, props) => {
+  const target = sfc.__vccOpts || sfc;
+  for (const [key, val] of props) {
+    target[key] = val;
+  }
+  return target;
+};
+const TextEditor = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-3dc17ba9"]]);
+const _hoisted_1$3 = { class: "lkt-page-editor-block" };
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "EditionBlock",
+  props: {
+    modelValue: { default: [] },
+    editMode: { type: Boolean, default: false }
+  },
+  setup(__props) {
+    const props = __props;
+    const item = ref(props.modelValue);
+    computed(() => {
+      switch (item.value.component) {
+        case "lkt-box":
+          return "LKT Box";
+        case "lkt-accordion":
+          return "LKT Accordion";
+        case "lkt-field-editor":
+          return "LKT Text Editor";
+        case "lkt-field-textarea":
+          return "LKT Text Area";
+        case "lkt-banner-box":
+          return "LKT Banner Box";
+        default:
+          return "";
+      }
+    });
+    computed(() => {
+      switch (item.value.component) {
+        case "lkt-box":
+          return "";
+        case "lkt-accordion":
+          return "";
+        case "lkt-field-editor":
+          return "";
+        case "lkt-field-textarea":
+          return "";
+        case "lkt-banner-box":
+          return "";
+        default:
+          return "";
+      }
+    });
+    return (_ctx, _cache) => {
+      resolveComponent("lkt-field-select");
+      resolveComponent("lmm-multimedia");
+      resolveComponent("lkt-field-text");
+      resolveComponent("lkt-box");
+      resolveComponent("lkt-field-editor");
+      resolveComponent("lkt-field-textarea");
+      resolveComponent("lkt-banner-box");
+      resolveComponent("lkt-accordion");
+      return openBlock(), createElementBlock(Fragment, null, [
+        createElementVNode("div", _hoisted_1$3, [
+          createVNode(TextEditor, {
+            modelValue: item.value,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => item.value = $event),
+            "edit-mode": _ctx.editMode
+          }, null, 8, ["modelValue", "edit-mode"])
+        ]),
+        createCommentVNode("", true)
+      ], 64);
+    };
+  }
+});
+const _hoisted_1$2 = { class: "lkt-page-editor-canvas lkt-grid-1" };
+const _hoisted_2$1 = { class: "lkt-page-editor-canvas-nav" };
+const _hoisted_3 = { class: "lkt-page-editor-add-menu" };
+const _sfc_main$2 = /* @__PURE__ */ defineComponent({
+  __name: "EditionCanvas",
+  props: {
+    modelValue: { default: [] },
+    columns: { default: 1 },
+    editMode: { type: Boolean, default: false }
+  },
+  setup(__props) {
+    const props = __props;
+    const content = ref(props.modelValue);
+    const computedColumnClass = computed(() => {
+      return "lkt-grid-" + props.columns;
+    });
+    return (_ctx, _cache) => {
+      const _component_lkt_button = resolveComponent("lkt-button");
+      return openBlock(), createElementBlock("div", _hoisted_1$2, [
+        createElementVNode("div", {
+          class: normalizeClass(computedColumnClass.value)
+        }, [
+          (openBlock(true), createElementBlock(Fragment, null, renderList(content.value, (_, i) => {
+            return openBlock(), createBlock(_sfc_main$3, {
+              modelValue: content.value[i],
+              "onUpdate:modelValue": ($event) => content.value[i] = $event,
+              "edit-mode": _ctx.editMode
+            }, null, 8, ["modelValue", "onUpdate:modelValue", "edit-mode"]);
+          }), 256))
+        ], 2),
+        createElementVNode("div", _hoisted_2$1, [
+          createVNode(_component_lkt_button, {
+            text: "Add block",
+            "tooltip-window-margin": "30",
+            "tooltip-referrer-margin": "7",
+            split: ""
+          }, {
+            split: withCtx(({ doClose }) => [
+              createElementVNode("div", _hoisted_3, [
+                createVNode(_component_lkt_button, {
+                  class: "tooltip-menu-button",
+                  text: "Text Paragraph",
+                  onClick: () => {
+                    doClose();
+                    content.value.push(unref(PageBlock).createTextEditor());
+                  }
+                }, null, 8, ["onClick"]),
+                createVNode(_component_lkt_button, {
+                  class: "tooltip-menu-button",
+                  text: "Heading 1",
+                  onClick: () => {
+                    doClose();
+                    content.value.push(unref(PageBlock).createHeadingOneEditor());
+                  }
+                }, null, 8, ["onClick"]),
+                createVNode(_component_lkt_button, {
+                  class: "tooltip-menu-button",
+                  text: "Heading 2",
+                  onClick: () => {
+                    doClose();
+                    content.value.push(unref(PageBlock).createHeadingTwoEditor());
+                  }
+                }, null, 8, ["onClick"]),
+                createVNode(_component_lkt_button, {
+                  class: "tooltip-menu-button",
+                  text: "Heading 3",
+                  onClick: () => {
+                    doClose();
+                    content.value.push(unref(PageBlock).createHeadingThreeEditor());
+                  }
+                }, null, 8, ["onClick"])
+              ])
+            ]),
+            _: 1
+          })
+        ])
+      ]);
+    };
+  }
+});
+const EditionCanvas = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-dfd7925b"]]);
+const _hoisted_1$1 = { class: "lkt-page-editor-container" };
+const _hoisted_2 = { class: "lkt-page-editor" };
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "LktPageEditor",
+  props: {
+    modelValue: { default: [] }
+  },
+  setup(__props) {
+    const content = ref([]);
+    const editMode = ref(true);
+    return (_ctx, _cache) => {
+      const _component_lkt_field_switch = resolveComponent("lkt-field-switch");
+      return openBlock(), createElementBlock("div", _hoisted_1$1, [
+        _cache[2] || (_cache[2] = createElementVNode("div", { class: "like-lkt-field-label" }, "Page content", -1)),
+        createVNode(_component_lkt_field_switch, {
+          label: "edit mode",
+          modelValue: editMode.value,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => editMode.value = $event)
+        }, null, 8, ["modelValue"]),
+        createElementVNode("div", _hoisted_2, [
+          createVNode(EditionCanvas, {
+            modelValue: content.value,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => content.value = $event),
+            "edit-mode": editMode.value
+          }, null, 8, ["modelValue", "edit-mode"])
+        ])
+      ]);
+    };
+  }
+});
 const _hoisted_1 = { class: "lkt-grid-1" };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "BlockPickerModal",
