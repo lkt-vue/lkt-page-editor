@@ -12,30 +12,67 @@
     border-radius: var(--lkt-field-border-radius);
     transition: var(--lkt-field-transition-input);
 }
-.lkt-text-editor[data-v-adc2818c] {
+
+.lkt-editor-block  {
+    display: flex;
+    gap: 15px;
+    width: 100%;
 }
-.lkt-text-editor.is-h1[data-v-adc2818c] {
+
+.lkt-text-editor-content {
+    width: 100%;
+}
+
+.lkt-page-editor .lkt-editor-toolbar.lkt-tooltip {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    height: 40px;
+}
+.lkt-page-editor-block-buttons .drag-indicator[data-v-d529b354] {
+    width: 20px;
+    height: 30px;
+    --dot-bg: #ffffff;
+    --dot-color: #aaa;
+    --dot-size: 3px;
+    --dot-space: 10px;
+    background: linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
+}
+
+.lkt-text-editor[data-v-6c474beb] {
+}
+.lkt-text-editor.is-h1[data-v-6c474beb] {
     font-size: 32px;
     font-weight: 700;
 }
-.lkt-text-editor.is-h2[data-v-adc2818c] {
+.lkt-text-editor.is-h2[data-v-6c474beb] {
     font-size: 28px;
     font-weight: 600;
 }
-.lkt-text-editor.is-h3[data-v-adc2818c] {
+.lkt-text-editor.is-h3[data-v-6c474beb] {
     font-size: 24px;
     font-weight: 600;
 }
-.lkt-text-editor.is-text[data-v-adc2818c] {
+.lkt-text-editor.is-text[data-v-6c474beb] {
     font-size: 16px;
 }
-[contenteditable][data-v-adc2818c]:empty:before {
+[contenteditable][data-v-6c474beb]:empty:before {
     content: attr(placeholder);
+    color: #949494;
 }
-[contenteditable][data-v-adc2818c] {
+[contenteditable][data-v-6c474beb] {
     -webkit-tap-highlight-color: transparent;
 }
+[contenteditable][data-v-6c474beb]:focus {
+    outline: 0px solid transparent;
+}
 
-.lkt-page-editor-add-menu[data-v-dfd7925b] {
+.lkt-item-editor-content[data-v-41437320] {
+    background: #f1f1f1;
+    padding: 15px;
+    width: 100%;
+}
+
+.lkt-page-editor-add-menu[data-v-191b32ba] {
     width: 150px;
 }

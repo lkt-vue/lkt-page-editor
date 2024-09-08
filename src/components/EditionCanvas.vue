@@ -56,6 +56,12 @@ const computedColumnClass = computed(() => {
                         text="Heading 3"
                         @click="() => {doClose(); content.push(PageBlock.createHeadingThreeEditor())}"
                     />
+
+                    <lkt-button
+                        class="tooltip-menu-button"
+                        text="Project"
+                        @click="() => {doClose(); content.push(PageBlock.createItemEditor('project'))}"
+                    />
                 </div>
             </template>
         </lkt-button>

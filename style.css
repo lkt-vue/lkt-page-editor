@@ -12,3 +12,20 @@
     border-radius: var(--lkt-field-border-radius);
     transition: var(--lkt-field-transition-input);
 }
+
+.lkt-editor-block  {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.lkt-text-editor-content {
+    width: 100%;
+}
+
+.lkt-page-editor .lkt-editor-toolbar.lkt-tooltip {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    height: 40px;
+}

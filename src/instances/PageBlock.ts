@@ -8,14 +8,26 @@ import {ColumnsConfig} from "./config/ColumnsConfig";
 export class PageBlock {
     id: number = 0;
 
+    // Block type
     component: string = 'lkt-box';
 
+    // item selection
     itemType: string = '';
+    itemId: number = 0;
+    item: LktObject = {};
 
+    // items selection
+    items: LktObject[] = [];
+    itemsIds: number[] = [];
+
+    // Text editor
     content: string = '';
 
+    // Content organization
     blocks: PageBlock[] = [];
+    columns: number = 1;
 
+    // Class name config
     className: string = '';
     classNameOpts: LktObject[] = [
         {value: 'info-box', label: 'Info Box'},

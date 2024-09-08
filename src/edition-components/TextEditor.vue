@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
+import {getSelectionText} from "../functions/editor-functions";
+import {computed, onMounted, ref} from "vue";
+import BlockButtons from "../components/BlockButtons.vue";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -13,14 +16,10 @@ const editor = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
 
-import {getSelectionText} from "../functions/editor-functions";
-import {computed, onMounted, ref} from "vue";
-
 const onSelectedText = () => {
     if (!props.editMode) return;
     let text = getSelectionText();
     showToolbar.value = text.length > 0;
-    console.log('onSelectedText', text)
 }
 
 const convertToTag = (tag: string = 'p') => {
@@ -67,7 +66,10 @@ const computedClass = computed(() => {
 </script>
 
 <template>
-    <div class="lkt-text-editor" :class="computedClass">
+    <div class="lkt-editor-block lkt-text-editor" :class="computedClass">
+
+        <block-buttons/>
+
         <div
             class="lkt-text-editor-content"
             ref="editor"
@@ -76,12 +78,13 @@ const computedClass = computed(() => {
             v-html="item.content"/>
 
         <lkt-tooltip
+            class="lkt-editor-toolbar"
             v-model="showToolbar"
             :referrer="editor"
             location-y="top"
         >
             <template #default="{doClose}">
-                <div class="" style="background: red; padding: 15px;">
+                <div class="">
                     <lkt-button text="bold" @click="() => execDefaultAction('bold')"/>
                     <lkt-button text="italic" @click="() => execDefaultAction('italic')"/>
                     <lkt-button text="underline" @click="() => execDefaultAction('underline')"/>
@@ -118,9 +121,14 @@ const computedClass = computed(() => {
 
 [contenteditable]:empty:before {
     content: attr(placeholder);
+    color: #949494;
 }
 
 [contenteditable] {
     -webkit-tap-highlight-color: transparent;
+}
+
+[contenteditable]:focus {
+    outline: 0px solid transparent;
 }
 </style>
