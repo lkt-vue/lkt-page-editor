@@ -137,7 +137,7 @@ const getSelectionText = () => {
   }
   return text;
 };
-const _hoisted_1$4 = ["contenteditable", "innerHTML"];
+const _hoisted_1$4 = ["placeholder", "contenteditable", "innerHTML"];
 const _hoisted_2$2 = {
   class: "",
   style: { "background": "red", "padding": "15px" }
@@ -175,6 +175,18 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       if (item.value.component === "h2") r.push("is-h2");
       if (item.value.component === "h3") r.push("is-h3");
       return r.join(" ");
+    }), computedPlaceholder = computed(() => {
+      switch (item.value.component) {
+        case "h1":
+          return "Heading 1";
+        case "h2":
+          return "Heading 2";
+        case "h3":
+          return "Heading 3";
+        case "text":
+          return "Time to write something";
+      }
+      return "";
     });
     return (_ctx, _cache) => {
       const _component_lkt_button = resolveComponent("lkt-button");
@@ -186,6 +198,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
           class: "lkt-text-editor-content",
           ref_key: "editor",
           ref: editor,
+          placeholder: computedPlaceholder.value,
           contenteditable: _ctx.editMode,
           innerHTML: item.value.content
         }, null, 8, _hoisted_1$4),
@@ -228,7 +241,7 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const TextEditor = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-3dc17ba9"]]);
+const TextEditor = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-adc2818c"]]);
 const _hoisted_1$3 = { class: "lkt-page-editor-block" };
 const _sfc_main$3 = /* @__PURE__ */ defineComponent({
   __name: "EditionBlock",

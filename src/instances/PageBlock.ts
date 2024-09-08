@@ -10,6 +10,8 @@ export class PageBlock {
 
     component: string = 'lkt-box';
 
+    itemType: string = '';
+
     content: string = '';
 
     blocks: PageBlock[] = [];
@@ -37,6 +39,15 @@ export class PageBlock {
                 this[k] = data[k];
             }
         }
+    }
+
+    static createItemEditor(itemType: string) {
+        return new PageBlock({
+            component: 'item',
+            itemType,
+            classNameOpts: [
+            ],
+        })
     }
 
     static createTextEditor() {

@@ -12,22 +12,28 @@
     border-radius: var(--lkt-field-border-radius);
     transition: var(--lkt-field-transition-input);
 }
-.lkt-text-editor[data-v-3dc17ba9] {
+.lkt-text-editor[data-v-adc2818c] {
 }
-.lkt-text-editor.is-h1[data-v-3dc17ba9] {
+.lkt-text-editor.is-h1[data-v-adc2818c] {
     font-size: 32px;
     font-weight: 700;
 }
-.lkt-text-editor.is-h2[data-v-3dc17ba9] {
+.lkt-text-editor.is-h2[data-v-adc2818c] {
     font-size: 28px;
     font-weight: 600;
 }
-.lkt-text-editor.is-h3[data-v-3dc17ba9] {
+.lkt-text-editor.is-h3[data-v-adc2818c] {
     font-size: 24px;
     font-weight: 600;
 }
-.lkt-text-editor.is-text[data-v-3dc17ba9] {
+.lkt-text-editor.is-text[data-v-adc2818c] {
     font-size: 16px;
+}
+[contenteditable][data-v-adc2818c]:empty:before {
+    content: attr(placeholder);
+}
+[contenteditable][data-v-adc2818c] {
+    -webkit-tap-highlight-color: transparent;
 }
 
 .lkt-page-editor-add-menu[data-v-dfd7925b] {
