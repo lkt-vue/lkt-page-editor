@@ -3,23 +3,24 @@ import {PageBlock} from "../instances/PageBlock";
 import {computed, ref} from "vue";
 import BlockButtons from "../components/BlockButtons.vue";
 import {Settings} from "../settings/Settings";
+import EditionCanvas from "../components/EditionCanvas.vue";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
     editMode?: boolean
+    canvasLevel: number
 }>(), {
     modelValue: [],
     editMode: false,
 });
 
 const editor = ref(null);
-const itemPicker = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
 
 const computedClass = computed(() => {
         let r = [];
-        if (item.value.component === 'item') r.push('is-item');
+        if (item.value.component === 'lkt-accordion') r.push('is-accordion');
         return r.join(' ');
     });
 
@@ -33,37 +34,36 @@ const computedIcon = computed(() => {
     if (typeof customItemType.value === 'undefined') return 'icon-cog';
     if (customItemType.value.icon) return customItemType.value.icon;
     return 'icon-cog';
+});
+
+const computedCanvasLevel = computed(() => {
+    if (item.value.component === 'columns') return 0;
+    return props.canvasLevel + 1;
 })
 
-const onSelectedOption = (opt) => {
-    item.value.item = opt;
-    showToolbar.value = false;
-}
+const computedBlockTitle = computed(() => {
+    if (item.value.component === 'columns') {
+        return 'Column engine (' + item.value.columns + ' columns)'
+    }
+
+    return item.value.component;
+})
 
 
 </script>
 
 <template>
-    <div class="lkt-editor-block lkt-item-editor" :class="computedClass">
+    <div class="lkt-editor-block lkt-container-editor" :class="computedClass">
 
         <block-buttons/>
 
         <div
-            class="lkt-item-editor-content"
+            class="lkt-container-editor-content"
             ref="editor"
             @click="showToolbar = true">
 
             <i :class="computedIcon"/>
-            <template v-if="item.itemId <= 0">
-                Pick an item
-            </template>
-            <template v-else-if="customItemType?.slot">
-                <component :is="customItemType.slot" :item="item.item"/>
-            </template>
-            <template v-else>
-                {{item.item.label}}
-            </template>
-
+            {{computedBlockTitle}}
         </div>
 
 
@@ -75,25 +75,35 @@ const onSelectedOption = (opt) => {
         >
             <template #default="{doClose}">
                 <div class="">
-                    <lkt-field-select
-                        ref="itemPicker"
-                        v-model="item.itemId"
-                        label="Select item"
-                        searchable
-                        :resource="customItemType?.resource"
-                        :resource-data="customItemType?.resourceData"
-                        @selected-option="onSelectedOption"
+                    <lkt-field-text
+                        v-model="item.title"
+                        label="Title"
+                    />
+
+                    <lkt-field-text
+                        v-model="item.columns"
+                        label="Columns"
+                        is-number
+                        :min="1"
+                        :max="10"
                     />
                 </div>
             </template>
         </lkt-tooltip>
     </div>
+
+    <div class="lkt-container-editor-canvas">
+        <edition-canvas v-model="item.blocks" :edit-mode="editMode" :canvas-level="computedCanvasLevel" :columns="item.columns"/>
+    </div>
 </template>
 
 <style scoped>
-.lkt-item-editor-content {
+.lkt-container-editor-content {
     background: #f1f1f1;
     padding: 15px;
     width: 100%;
+}
+.lkt-container-editor-canvas {
+    padding-left: 30px;
 }
 </style>

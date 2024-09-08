@@ -18,7 +18,7 @@ const editMode = ref(true);
         <div class="like-lkt-field-label">Page content</div>
         <lkt-field-switch label="edit mode" v-model="editMode"/>
         <div class="lkt-page-editor">
-            <edition-canvas v-model="content" :edit-mode="editMode"/>
+            <edition-canvas v-model="content" :edit-mode="editMode" :canvas-level="0"/>
         </div>
     </div>
 </template>

@@ -1,10 +1,12 @@
 import {LktObject} from "lkt-ts-interfaces";
+import {Component} from "vue";
 
 export class CustomItemType {
     component: string = '';
     text: string = '';
     resource: string = '';
     icon: string = '';
+    slot: string|Component = '';
     resourceData: LktObject = {};
 
     constructor(data: LktObject = {}) {

@@ -4,6 +4,7 @@ export class CustomItemType {
     text: string;
     resource: string;
     icon: string;
+    slot: string;
     resourceData: {};
 }
 export function addItemTypeToEditor(config: any): void;

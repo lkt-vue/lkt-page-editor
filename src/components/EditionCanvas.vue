@@ -8,10 +8,12 @@ const props = withDefaults(defineProps<{
     modelValue: PageBlock[]
     columns?: number
     editMode?: boolean
+    canvasLevel: number
 }>(), {
     modelValue: [],
     columns: 1,
     editMode: false,
+    canvasLevel: 0
 });
 
 
@@ -27,7 +29,7 @@ const computedCustomItemTypes = computed(() => Settings.customItemTypes);
 <template>
 <div class="lkt-page-editor-canvas lkt-grid-1">
     <div :class="computedColumnClass">
-        <edition-block v-for="(_, i) in content" v-model="content[i]" :edit-mode="editMode"/>
+        <edition-block v-for="(_, i) in content" v-model="content[i]" :edit-mode="editMode" :canvas-level="canvasLevel"/>
     </div>
 
     <div class="lkt-page-editor-canvas-nav">
@@ -41,7 +43,7 @@ const computedCustomItemTypes = computed(() => Settings.customItemTypes);
                 <div class="lkt-page-editor-add-menu">
                     <lkt-button
                         class="tooltip-menu-button"
-                        text="Text Paragraph"
+                        text="Text"
                         @click="() => {doClose(); content.push(PageBlock.createTextEditor())}"
                     />
                     <lkt-button
@@ -58,6 +60,27 @@ const computedCustomItemTypes = computed(() => Settings.customItemTypes);
                         class="tooltip-menu-button"
                         text="Heading 3"
                         @click="() => {doClose(); content.push(PageBlock.createHeadingThreeEditor())}"
+                    />
+
+                    <lkt-button
+                        v-if="canvasLevel === 0"
+                        class="tooltip-menu-button"
+                        text="Accordion"
+                        @click="() => {doClose(); content.push(PageBlock.createLktAccordion())}"
+                    />
+
+                    <lkt-button
+                        v-if="canvasLevel === 0"
+                        class="tooltip-menu-button"
+                        text="Box"
+                        @click="() => {doClose(); content.push(PageBlock.createLktBox())}"
+                    />
+
+                    <lkt-button
+                        v-if="canvasLevel === 0"
+                        class="tooltip-menu-button"
+                        text="Columns"
+                        @click="() => {doClose(); content.push(PageBlock.createColumnEngine())}"
                     />
 
                     <lkt-button

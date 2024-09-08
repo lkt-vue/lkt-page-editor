@@ -78,12 +78,21 @@
     outline: 0px solid transparent;
 }
 
-.lkt-item-editor-content[data-v-248dfef4] {
+.lkt-item-editor-content[data-v-78c1c0a4] {
     background: #f1f1f1;
     padding: 15px;
     width: 100%;
 }
 
-.lkt-page-editor-add-menu[data-v-1cf78fba] {
+.lkt-container-editor-content[data-v-bd5383c9] {
+    background: #f1f1f1;
+    padding: 15px;
+    width: 100%;
+}
+.lkt-container-editor-canvas[data-v-bd5383c9] {
+    padding-left: 30px;
+}
+
+.lkt-page-editor-add-menu[data-v-885bd1bc] {
     width: 150px;
 }

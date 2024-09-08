@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
 import {computed, ref} from "vue";
-import EditionCanvas from "./EditionCanvas.vue";
 import TextEditor from "../edition-components/TextEditor.vue";
 import ItemEditor from "../edition-components/ItemEditor.vue";
+import ContainerEditor from "../edition-components/ContainerEditor.vue";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
     editMode?: boolean
+    canvasLevel: number
 }>(), {
     modelValue: [],
     editMode: false,
@@ -25,6 +26,11 @@ const computedRenderEditor = computed(() => {
 
             case 'item':
                 return 1;
+
+            case 'lkt-accordion':
+            case 'lkt-box':
+            case 'columns':
+                return 2;
         }
     });
 
@@ -35,6 +41,7 @@ const computedRenderEditor = computed(() => {
     <div class="lkt-page-editor-block">
         <text-editor v-if="computedRenderEditor === 0" v-model="item" :edit-mode="editMode"/>
         <item-editor v-if="computedRenderEditor === 1" v-model="item" :edit-mode="editMode"/>
+        <container-editor v-if="computedRenderEditor === 2" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
     </div>
 </template>
 

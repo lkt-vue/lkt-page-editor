@@ -82,7 +82,8 @@ export class PageBlock {
 
     static createColumnEngine() {
         return new PageBlock({
-            component: 'edition-columns',
+            component: 'columns',
+            columns: 2,
             config: new ColumnsConfig()
         })
     }
