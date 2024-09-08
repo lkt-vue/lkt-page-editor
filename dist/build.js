@@ -292,6 +292,11 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       if (found) return found;
       return void 0;
     });
+    const computedIcon = computed(() => {
+      if (typeof customItemType.value === "undefined") return "icon-cog";
+      if (customItemType.value.icon) return customItemType.value.icon;
+      return "icon-cog";
+    });
     const onSelectedOption = (opt) => {
       item.value.item = opt;
       showToolbar.value = false;
@@ -309,6 +314,9 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
           ref: editor,
           onClick: _cache[0] || (_cache[0] = ($event) => showToolbar.value = true)
         }, [
+          createElementVNode("i", {
+            class: normalizeClass(computedIcon.value)
+          }, null, 2),
           item.value.itemId <= 0 ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
             createTextVNode(" Pick an item ")
           ], 64)) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
@@ -346,7 +354,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const ItemEditor = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-769226f4"]]);
+const ItemEditor = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["__scopeId", "data-v-248dfef4"]]);
 const _hoisted_1$3 = { class: "lkt-page-editor-block" };
 const _sfc_main$3 = /* @__PURE__ */ defineComponent({
   __name: "EditionBlock",
@@ -614,6 +622,7 @@ class CustomItemType {
     this.component = "";
     this.text = "";
     this.resource = "";
+    this.icon = "";
     this.resourceData = {};
     for (let k in data) {
       if (this.hasOwnProperty(k)) {

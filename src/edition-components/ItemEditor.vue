@@ -33,6 +33,12 @@ const customItemType = computed(() => {
     return undefined;
 });
 
+const computedIcon = computed(() => {
+    if (typeof customItemType.value === 'undefined') return 'icon-cog';
+    if (customItemType.value.icon) return customItemType.value.icon;
+    return 'icon-cog';
+})
+
 const onSelectedOption = (opt) => {
     item.value.item = opt;
     showToolbar.value = false;
@@ -50,6 +56,7 @@ const onSelectedOption = (opt) => {
             class="lkt-item-editor-content"
             ref="editor"
             @click="showToolbar = true">
+            <i :class="computedIcon"/>
             <template v-if="item.itemId <= 0">
                 Pick an item
             </template>

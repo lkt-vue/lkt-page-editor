@@ -4,6 +4,7 @@ export class CustomItemType {
     component: string = '';
     text: string = '';
     resource: string = '';
+    icon: string = '';
     resourceData: LktObject = {};
 
     constructor(data: LktObject = {}) {
