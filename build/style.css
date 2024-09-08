@@ -21,13 +21,24 @@
 
 .lkt-text-editor-content {
     width: 100%;
+    line-height: 1.425;
 }
 
 .lkt-page-editor .lkt-editor-toolbar.lkt-tooltip {
     background: #ffffff;
     border: 1px solid #dddddd;
     border-radius: 5px;
-    height: 40px;
+    min-height: 40px;
+}
+
+.lkt-page-editor-add-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lkt-page-editor .lkt-tooltip .lkt-field{
+    width: 300px;
 }
 .lkt-page-editor-block-buttons .drag-indicator[data-v-d529b354] {
     width: 20px;
@@ -67,12 +78,12 @@
     outline: 0px solid transparent;
 }
 
-.lkt-item-editor-content[data-v-41437320] {
+.lkt-item-editor-content[data-v-769226f4] {
     background: #f1f1f1;
     padding: 15px;
     width: 100%;
 }
 
-.lkt-page-editor-add-menu[data-v-191b32ba] {
+.lkt-page-editor-add-menu[data-v-1cf78fba] {
     width: 150px;
 }

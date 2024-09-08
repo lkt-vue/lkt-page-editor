@@ -2,6 +2,7 @@
 import {computed, ref} from "vue";
 import {PageBlock} from "../instances/PageBlock";
 import EditionBlock from "./EditionBlock.vue";
+import {Settings} from "../settings/Settings";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock[]
@@ -19,6 +20,8 @@ const content = ref(props.modelValue);
 const computedColumnClass = computed(() => {
     return 'lkt-grid-' + props.columns;
 });
+
+const computedCustomItemTypes = computed(() => Settings.customItemTypes);
 </script>
 
 <template>
@@ -58,9 +61,10 @@ const computedColumnClass = computed(() => {
                     />
 
                     <lkt-button
+                        v-for="customItemType in computedCustomItemTypes"
                         class="tooltip-menu-button"
-                        text="Project"
-                        @click="() => {doClose(); content.push(PageBlock.createItemEditor('project'))}"
+                        :text="customItemType.text"
+                        @click="() => {doClose(); content.push(PageBlock.createItemEditor(customItemType.component))}"
                     />
                 </div>
             </template>

@@ -21,11 +21,22 @@
 
 .lkt-text-editor-content {
     width: 100%;
+    line-height: 1.425;
 }
 
 .lkt-page-editor .lkt-editor-toolbar.lkt-tooltip {
     background: #ffffff;
     border: 1px solid #dddddd;
     border-radius: 5px;
-    height: 40px;
+    min-height: 40px;
+}
+
+.lkt-page-editor-add-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lkt-page-editor .lkt-tooltip .lkt-field{
+    width: 300px;
 }
