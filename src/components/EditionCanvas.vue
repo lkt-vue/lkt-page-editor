@@ -24,6 +24,7 @@ const computedColumnClass = computed(() => {
 });
 
 const computedCustomItemTypes = computed(() => Settings.customItemTypes);
+const computedCustomBasicBlocks = computed(() => Settings.customBasicBlocks);
 </script>
 
 <template>
@@ -41,6 +42,7 @@ const computedCustomItemTypes = computed(() => Settings.customItemTypes);
         >
             <template #split="{doClose}">
                 <div class="lkt-page-editor-add-menu">
+                    <h2>Basic blocks</h2>
                     <lkt-button
                         class="tooltip-menu-button"
                         text="Text"
@@ -61,7 +63,14 @@ const computedCustomItemTypes = computed(() => Settings.customItemTypes);
                         text="Heading 3"
                         @click="() => {doClose(); content.push(PageBlock.createHeadingThreeEditor())}"
                     />
+                    <lkt-button
+                        v-for="customBlock in computedCustomBasicBlocks"
+                        class="tooltip-menu-button"
+                        :text="customBlock.text"
+                        @click="() => {doClose(); content.push(PageBlock.createBasicBlock(customBlock.component))}"
+                    />
 
+                    <h2>Containers</h2>
                     <lkt-button
                         v-if="canvasLevel === 0"
                         class="tooltip-menu-button"
@@ -83,6 +92,7 @@ const computedCustomItemTypes = computed(() => Settings.customItemTypes);
                         @click="() => {doClose(); content.push(PageBlock.createColumnEngine())}"
                     />
 
+                    <h2>Related</h2>
                     <lkt-button
                         v-for="customItemType in computedCustomItemTypes"
                         class="tooltip-menu-button"

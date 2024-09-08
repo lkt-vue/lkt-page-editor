@@ -59,7 +59,6 @@ const computedBlockTitle = computed(() => {
 
         <div
             class="lkt-container-editor-content"
-            ref="editor"
             @click="showToolbar = true">
 
             <i :class="computedIcon"/>

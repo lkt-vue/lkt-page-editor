@@ -50,8 +50,7 @@ const onSelectedOption = (opt) => {
 
         <div
             class="lkt-item-editor-content"
-            ref="editor"
-            @click="showToolbar = true">
+            @click="showToolbar = !showToolbar">
 
             <i :class="computedIcon"/>
             <template v-if="item.itemId <= 0">

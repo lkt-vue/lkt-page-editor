@@ -50,49 +50,49 @@
     background: linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
 }
 
-.lkt-text-editor[data-v-6c474beb] {
+.lkt-text-editor[data-v-59ee9eb4] {
 }
-.lkt-text-editor.is-h1[data-v-6c474beb] {
+.lkt-text-editor.is-h1[data-v-59ee9eb4] {
     font-size: 32px;
     font-weight: 700;
 }
-.lkt-text-editor.is-h2[data-v-6c474beb] {
+.lkt-text-editor.is-h2[data-v-59ee9eb4] {
     font-size: 28px;
     font-weight: 600;
 }
-.lkt-text-editor.is-h3[data-v-6c474beb] {
+.lkt-text-editor.is-h3[data-v-59ee9eb4] {
     font-size: 24px;
     font-weight: 600;
 }
-.lkt-text-editor.is-text[data-v-6c474beb] {
+.lkt-text-editor.is-text[data-v-59ee9eb4] {
     font-size: 16px;
 }
-[contenteditable][data-v-6c474beb]:empty:before {
+[contenteditable][data-v-59ee9eb4]:empty:before {
     content: attr(placeholder);
     color: #949494;
 }
-[contenteditable][data-v-6c474beb] {
+[contenteditable][data-v-59ee9eb4] {
     -webkit-tap-highlight-color: transparent;
 }
-[contenteditable][data-v-6c474beb]:focus {
+[contenteditable][data-v-59ee9eb4]:focus {
     outline: 0px solid transparent;
 }
 
-.lkt-item-editor-content[data-v-78c1c0a4] {
+.lkt-item-editor-content[data-v-2d8bda8a] {
     background: #f1f1f1;
     padding: 15px;
     width: 100%;
 }
 
-.lkt-container-editor-content[data-v-bd5383c9] {
+.lkt-container-editor-content[data-v-4537cab7] {
     background: #f1f1f1;
     padding: 15px;
     width: 100%;
 }
-.lkt-container-editor-canvas[data-v-bd5383c9] {
+.lkt-container-editor-canvas[data-v-4537cab7] {
     padding-left: 30px;
 }
 
-.lkt-page-editor-add-menu[data-v-885bd1bc] {
+.lkt-page-editor-add-menu[data-v-9539d9af] {
     width: 150px;
 }

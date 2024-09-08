@@ -19,6 +19,7 @@ const item = ref(props.modelValue);
 const computedRenderEditor = computed(() => {
         switch (item.value.component) {
             case 'text':
+            case 'basic-block':
             case 'h1':
             case 'h2':
             case 'h3':

@@ -42,6 +42,13 @@ export class PageBlock {
         }
     }
 
+    static createBasicBlock(itemType: string) {
+        return new PageBlock({
+            component: 'basic-block',
+            itemType,
+        })
+    }
+
     static createItemEditor(itemType: string) {
         return new PageBlock({
             component: 'item',

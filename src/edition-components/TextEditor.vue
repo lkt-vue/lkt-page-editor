@@ -3,6 +3,7 @@ import {PageBlock} from "../instances/PageBlock";
 import {getSelectionText} from "../functions/editor-functions";
 import {computed, onMounted, ref} from "vue";
 import BlockButtons from "../components/BlockButtons.vue";
+import {Settings} from "../settings/Settings";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -13,6 +14,7 @@ const props = withDefaults(defineProps<{
 });
 
 const editor = ref(null);
+const container = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
 
@@ -59,28 +61,67 @@ const computedClass = computed(() => {
 
             case 'text':
                 return 'Time to write something';
+
+            default:
+                return 'Time to write something';
         }
 
         return '';
-    })
+    });
+
+
+
+const customBasicBlock = computed(() => {
+    let found = Settings.customBasicBlocks.find(z => z.component === item.value.itemType);
+    if (found) return found;
+    return undefined;
+});
+
+const computedIcon = computed(() => {
+    if (typeof customBasicBlock.value === 'undefined') return 'icon-cog';
+    if (customBasicBlock.value.icon) return customBasicBlock.value.icon;
+    return 'icon-cog';
+})
+
+const computedBlockTitle = computed(() => {
+    return customBasicBlock.value?.text;
+})
+
+const computedDisplayContentEdition = computed(() => {
+    console.log('computedDisplayContentEdition: ', customBasicBlock.value);
+    if (typeof customBasicBlock.value === 'undefined') return true;
+    return customBasicBlock.value.contentEnabled;
+})
 </script>
 
 <template>
-    <div class="lkt-editor-block lkt-text-editor" :class="computedClass">
+    <div ref="container" class="lkt-editor-block lkt-text-editor" :class="computedClass">
 
         <block-buttons/>
 
-        <div
-            class="lkt-text-editor-content"
-            ref="editor"
-            :placeholder="computedPlaceholder"
-            :contenteditable="editMode"
-            v-html="item.content"/>
+        <div class="lkt-grid-1">
+            <div
+                v-if="customBasicBlock"
+                class="lkt-container-editor-content"
+                @click="showToolbar = !showToolbar">
+                <i :class="computedIcon"/>
+                {{computedBlockTitle}}
+            </div>
+
+
+            <div
+                v-show="computedDisplayContentEdition"
+                class="lkt-text-editor-content"
+                ref="editor"
+                :placeholder="computedPlaceholder"
+                :contenteditable="editMode"
+                v-html="item.content"/>
+        </div>
 
         <lkt-tooltip
             class="lkt-editor-toolbar"
             v-model="showToolbar"
-            :referrer="editor"
+            :referrer="container"
             location-y="top"
         >
             <template #default="{doClose}">
