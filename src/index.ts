@@ -1,5 +1,6 @@
 import {App, Plugin} from "vue";
 import "../style.css";
+import "../fontello/css/lktpageeditor.css";
 import {default as libComponent} from "./lib-components/LktPageEditor.vue";
 import {CustomItemType} from "./classes/CustomItemType";
 import {Settings} from "./settings/Settings";

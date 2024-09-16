@@ -4,6 +4,7 @@ import {BoxConfig} from "./config/BoxConfig";
 import {BannerBoxConfig} from "./config/BannerBoxConfig";
 import {ColumnsConfig} from "./config/ColumnsConfig";
 import {BlockConfig} from "../types/BlockConfig";
+import {BlockComponentType} from "../enums/BlockComponentType";
 
 export class PageBlock {
     id: number = 0;
@@ -89,7 +90,7 @@ export class PageBlock {
 
     static createColumnEngine() {
         return new PageBlock({
-            component: 'columns',
+            component: BlockComponentType.Columns,
             columns: 2,
             config: new ColumnsConfig()
         })
@@ -97,14 +98,14 @@ export class PageBlock {
 
     static createLktBox() {
         return new PageBlock({
-            component: 'lkt-box',
+            component: BlockComponentType.LktBox,
             config: new BoxConfig()
         })
     }
 
     static createLktAccordion() {
         return new PageBlock({
-            component: 'lkt-accordion',
+            component: BlockComponentType.LktAccordion,
             config: new AccordionConfig()
         })
     }

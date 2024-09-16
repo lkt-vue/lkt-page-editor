@@ -1,3 +1,7 @@
 :root {
-
+    --lkt-pagetor--block-header--bg: #f1f1f1;
+    --lkt-pagetor--block-header--border-color: #dddddd;
+    --lkt-pagetor--block-header--border-width: 1px;
+    --lkt-pagetor--block-header--border-style: solid;
+    --lkt-pagetor--block-header--padding: 15px;
 }

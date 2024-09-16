@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
 import {getSelectionText} from "../functions/editor-functions";
-import {computed, onMounted, ref} from "vue";
-import BlockButtons from "../components/BlockButtons.vue";
+import {computed, nextTick, onMounted, ref} from "vue";
 import {Settings} from "../settings/Settings";
+import BlockHeader from "../components/BlockHeader.vue";
+import {trim} from "lkt-string-tools";
+
+const emit = defineEmits(['drop']);
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -15,13 +18,18 @@ const props = withDefaults(defineProps<{
 
 const editor = ref(null);
 const container = ref(null);
+const blockHeader = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
+const showCustomToolbar = ref(false);
+const latestTextLengthOnBackspace = ref(-1);
 
 const onSelectedText = () => {
     if (!props.editMode) return;
-    let text = getSelectionText();
-    showToolbar.value = text.length > 0;
+    let text = trim(getSelectionText());
+    nextTick(() => {
+        showToolbar.value = text.length > 0;
+    })
 }
 
 const convertToTag = (tag: string = 'p') => {
@@ -65,8 +73,6 @@ const computedClass = computed(() => {
             default:
                 return 'Time to write something';
         }
-
-        return '';
     });
 
 
@@ -88,26 +94,47 @@ const computedBlockTitle = computed(() => {
 })
 
 const computedDisplayContentEdition = computed(() => {
-    console.log('computedDisplayContentEdition: ', customBasicBlock.value);
     if (typeof customBasicBlock.value === 'undefined') return true;
     return customBasicBlock.value.contentEnabled;
 })
+
+const onEditorKeyUp = (event: KeyboardEvent) => {
+    item.value.content = editor.value.innerHTML;
+
+    if (event.key === 'Backspace') {
+        let text = trim(item.value.content);
+        let l = text.length;
+
+        if (latestTextLengthOnBackspace.value === 0 && l === 0) {
+            emit('drop');
+        } else {
+            latestTextLengthOnBackspace.value = l;
+        }
+    }
+}
 </script>
 
 <template>
     <div ref="container" class="lkt-editor-block lkt-text-editor" :class="computedClass">
 
-        <block-buttons/>
-
         <div class="lkt-grid-1">
             <div
-                v-if="customBasicBlock"
-                class="lkt-container-editor-content"
-                @click="showToolbar = !showToolbar">
-                <i :class="computedIcon"/>
-                {{computedBlockTitle}}
+                v-show="customBasicBlock"
+                ref="blockHeader"
+                class="lkt-page-editor-block-header-container"
+                @click="showCustomToolbar = !showCustomToolbar">
+                <block-header v-if="item.itemId <= 0">
+                    <i :class="computedIcon"/>
+                    {{computedBlockTitle}}
+                </block-header>
+                <block-header v-else-if="customBasicBlock?.slot">
+                    <component :is="customBasicBlock.slot" :item="item.item"/>
+                </block-header>
+                <block-header v-else>
+                    <i :class="computedIcon"/>
+                    {{computedBlockTitle}}
+                </block-header>
             </div>
-
 
             <div
                 v-show="computedDisplayContentEdition"
@@ -115,7 +142,10 @@ const computedDisplayContentEdition = computed(() => {
                 ref="editor"
                 :placeholder="computedPlaceholder"
                 :contenteditable="editMode"
-                v-html="item.content"/>
+                v-html="item.content"
+                v-once
+                @keyup="onEditorKeyUp"
+            />
         </div>
 
         <lkt-tooltip
@@ -123,13 +153,28 @@ const computedDisplayContentEdition = computed(() => {
             v-model="showToolbar"
             :referrer="container"
             location-y="top"
+            referrer-margin="5"
+        >
+            <template #default="{doClose}">
+                <div class="toolbar-actions">
+                    <lkt-button class="text-format-button" icon="pagetor-icon-bold" @click="() => execDefaultAction('bold')"/>
+                    <lkt-button class="text-format-button" icon="pagetor-icon-italic" @click="() => execDefaultAction('italic')"/>
+                    <lkt-button class="text-format-button" icon="pagetor-icon-underline" @click="() => execDefaultAction('underline')"/>
+                    <lkt-button class="text-format-button" icon="pagetor-icon-strike" @click="() => execDefaultAction('strikeThrough')"/>
+                </div>
+            </template>
+        </lkt-tooltip>
+
+        <lkt-tooltip
+            v-if="false"
+            class="lkt-editor-toolbar"
+            v-model="showCustomToolbar"
+            :referrer="blockHeader"
+            location-y="bottom"
         >
             <template #default="{doClose}">
                 <div class="">
-                    <lkt-button text="bold" @click="() => execDefaultAction('bold')"/>
-                    <lkt-button text="italic" @click="() => execDefaultAction('italic')"/>
-                    <lkt-button text="underline" @click="() => execDefaultAction('underline')"/>
-                    <lkt-button text="strike-through" @click="() => execDefaultAction('strikeThrough')"/>
+                    TODO: Custom options
                 </div>
             </template>
         </lkt-tooltip>

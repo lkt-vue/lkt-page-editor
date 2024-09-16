@@ -3,6 +3,7 @@ import {PageBlock} from "../instances/PageBlock";
 import {computed, ref} from "vue";
 import BlockButtons from "../components/BlockButtons.vue";
 import {Settings} from "../settings/Settings";
+import BlockHeader from "../components/BlockHeader.vue";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -13,6 +14,8 @@ const props = withDefaults(defineProps<{
 });
 
 const editor = ref(null);
+const container = ref(null);
+const blockHeader = ref(null);
 const itemPicker = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
@@ -44,36 +47,35 @@ const onSelectedOption = (opt) => {
 </script>
 
 <template>
-    <div class="lkt-editor-block lkt-item-editor" :class="computedClass">
-
-        <block-buttons/>
+    <div ref="container" class="lkt-editor-block lkt-item-editor" :class="computedClass">
 
         <div
-            class="lkt-item-editor-content"
+            ref="blockHeader"
+            class="lkt-page-editor-block-header-container"
             @click="showToolbar = !showToolbar">
-
-            <i :class="computedIcon"/>
-            <template v-if="item.itemId <= 0">
+            <block-header v-if="item.itemId <= 0">
+                <i :class="computedIcon"/>
                 Pick an item
-            </template>
-            <template v-else-if="customItemType?.slot">
+            </block-header>
+            <block-header v-else-if="customItemType?.slot">
                 <component :is="customItemType.slot" :item="item.item"/>
-            </template>
-            <template v-else>
+            </block-header>
+            <block-header v-else>
+                <i :class="computedIcon"/>
                 {{item.item.label}}
-            </template>
-
+            </block-header>
         </div>
 
 
         <lkt-tooltip
             class="lkt-editor-toolbar"
             v-model="showToolbar"
-            :referrer="editor"
+            :referrer="blockHeader"
             location-y="bottom"
+            referrer-width
         >
             <template #default="{doClose}">
-                <div class="">
+                <div class="lkt-editor-block-grid">
                     <lkt-field-select
                         ref="itemPicker"
                         v-model="item.itemId"
@@ -88,11 +90,3 @@ const onSelectedOption = (opt) => {
         </lkt-tooltip>
     </div>
 </template>
-
-<style scoped>
-.lkt-item-editor-content {
-    background: #f1f1f1;
-    padding: 15px;
-    width: 100%;
-}
-</style>

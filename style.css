@@ -31,12 +31,73 @@
     min-height: 40px;
 }
 
+.lkt-page-editor .toolbar-actions {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.lkt-page-editor-menu-tooltip {
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, .4);
+}
+
 .lkt-page-editor-add-menu {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 0;
 }
 
-.lkt-page-editor .lkt-tooltip .lkt-field{
-    width: 300px;
+.lkt-page-editor-block-header-container {
+    width: 100%;
+}
+
+.lkt-page-editor-block-header {
+    background: var(--lkt-pagetor--block-header--bg);
+    padding: var(--lkt-pagetor--block-header--padding);
+    border-width: var(--lkt-pagetor--block-header--border-color);
+    border-style: var(--lkt-pagetor--block-header--border-style);
+    border-color: var(--lkt-pagetor--block-header--border-color);
+    width: 100%;
+}
+
+.lkt-page-editor-block {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    width: 100%;
+}
+
+.lkt-page-editor-block-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.lkt-page-editor-add-menu-title {
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.lkt-page-editor-add-menu-title:not(:first-child) {
+    margin-top: 15px;
+}
+
+.lkt-page-editor .lkt-tooltip-content {
+    width: 100%;
+}
+
+.lkt-editor-block-grid {
+    grid-gap: 15px;
+    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 15px;
+}
+
+@media (min-width: 768px) {
+    .lkt-editor-block-grid {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+    }
 }

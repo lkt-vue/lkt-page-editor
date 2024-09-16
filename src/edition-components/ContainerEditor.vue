@@ -4,6 +4,8 @@ import {computed, ref} from "vue";
 import BlockButtons from "../components/BlockButtons.vue";
 import {Settings} from "../settings/Settings";
 import EditionCanvas from "../components/EditionCanvas.vue";
+import BlockHeader from "../components/BlockHeader.vue";
+import {BlockComponentType} from "../enums/BlockComponentType";
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -14,7 +16,9 @@ const props = withDefaults(defineProps<{
     editMode: false,
 });
 
+const container = ref(null);
 const editor = ref(null);
+const blockHeader = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
 
@@ -31,7 +35,22 @@ const customItemType = computed(() => {
 });
 
 const computedIcon = computed(() => {
-    if (typeof customItemType.value === 'undefined') return 'icon-cog';
+
+    if (typeof customItemType.value === 'undefined') {
+        switch (item.value.component) {
+            case BlockComponentType.LktAccordion:
+                return 'pagetor-icon-layers';
+
+            case BlockComponentType.LktBox:
+                return 'pagetor-icon-box';
+
+            case BlockComponentType.Columns:
+                return 'pagetor-icon-columns';
+
+            default:
+                return 'icon-cog';
+        }
+    }
     if (customItemType.value.icon) return customItemType.value.icon;
     return 'icon-cog';
 });
@@ -53,27 +72,27 @@ const computedBlockTitle = computed(() => {
 </script>
 
 <template>
-    <div class="lkt-editor-block lkt-container-editor" :class="computedClass">
-
-        <block-buttons/>
-
+    <div ref="container" class="lkt-editor-block lkt-container-editor" :class="computedClass">
         <div
-            class="lkt-container-editor-content"
-            @click="showToolbar = true">
-
-            <i :class="computedIcon"/>
-            {{computedBlockTitle}}
+            ref="blockHeader"
+            class="lkt-page-editor-block-header-container"
+            @click="showToolbar = !showToolbar">
+            <block-header>
+                <i :class="computedIcon"/>
+                {{computedBlockTitle}}
+            </block-header>
         </div>
 
 
         <lkt-tooltip
             class="lkt-editor-toolbar"
             v-model="showToolbar"
-            :referrer="editor"
+            :referrer="blockHeader"
             location-y="bottom"
+            referrer-width
         >
             <template #default="{doClose}">
-                <div class="">
+                <div class="lkt-editor-block-grid">
                     <lkt-field-text
                         v-model="item.title"
                         label="Title"

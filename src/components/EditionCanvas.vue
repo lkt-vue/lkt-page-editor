@@ -25,12 +25,16 @@ const computedColumnClass = computed(() => {
 
 const computedCustomItemTypes = computed(() => Settings.customItemTypes);
 const computedCustomBasicBlocks = computed(() => Settings.customBasicBlocks);
+
+const onDropBlock = (index: number) => {
+    content.value.splice(index, 1);
+}
 </script>
 
 <template>
 <div class="lkt-page-editor-canvas lkt-grid-1">
-    <div :class="computedColumnClass">
-        <edition-block v-for="(_, i) in content" v-model="content[i]" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+    <div :class="computedColumnClass" v-if="content.length > 0">
+        <edition-block v-for="(_, i) in content" v-model="content[i]" :edit-mode="editMode" :canvas-level="canvasLevel" :index="i" @drop="onDropBlock"/>
     </div>
 
     <div class="lkt-page-editor-canvas-nav">
@@ -39,63 +43,79 @@ const computedCustomBasicBlocks = computed(() => Settings.customBasicBlocks);
             tooltip-window-margin="30"
             tooltip-referrer-margin="7"
             split
+            split-class="lkt-page-editor-menu-tooltip"
         >
             <template #split="{doClose}">
                 <div class="lkt-page-editor-add-menu">
-                    <h2>Basic blocks</h2>
+                    <div class="lkt-page-editor-add-menu-title">Basic blocks</div>
                     <lkt-button
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        icon="pagetor-icon-fontsize"
                         text="Text"
                         @click="() => {doClose(); content.push(PageBlock.createTextEditor())}"
                     />
                     <lkt-button
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        icon="pagetor-icon-header"
                         text="Heading 1"
                         @click="() => {doClose(); content.push(PageBlock.createHeadingOneEditor())}"
                     />
                     <lkt-button
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        icon="pagetor-icon-header"
                         text="Heading 2"
                         @click="() => {doClose(); content.push(PageBlock.createHeadingTwoEditor())}"
                     />
                     <lkt-button
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        icon="pagetor-icon-header"
                         text="Heading 3"
                         @click="() => {doClose(); content.push(PageBlock.createHeadingThreeEditor())}"
                     />
                     <lkt-button
                         v-for="customBlock in computedCustomBasicBlocks"
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        :icon="customBlock.icon"
                         :text="customBlock.text"
                         @click="() => {doClose(); content.push(PageBlock.createBasicBlock(customBlock.component))}"
                     />
 
-                    <h2>Containers</h2>
+
+
+
+                    <div v-if="canvasLevel === 0" class="lkt-page-editor-add-menu-title">Containers</div>
                     <lkt-button
                         v-if="canvasLevel === 0"
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        icon="pagetor-icon-layers"
                         text="Accordion"
                         @click="() => {doClose(); content.push(PageBlock.createLktAccordion())}"
                     />
 
                     <lkt-button
                         v-if="canvasLevel === 0"
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        icon="pagetor-icon-box"
                         text="Box"
                         @click="() => {doClose(); content.push(PageBlock.createLktBox())}"
                     />
 
                     <lkt-button
                         v-if="canvasLevel === 0"
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        icon="pagetor-icon-columns"
                         text="Columns"
                         @click="() => {doClose(); content.push(PageBlock.createColumnEngine())}"
                     />
 
-                    <h2>Related</h2>
+
+
+
+                    <div v-if="computedCustomItemTypes.length > 0" class="lkt-page-editor-add-menu-title">Item Reference</div>
                     <lkt-button
                         v-for="customItemType in computedCustomItemTypes"
-                        class="tooltip-menu-button"
+                        class="lkt-page-editor-add-menu-button"
+                        :icon="customItemType.icon"
                         :text="customItemType.text"
                         @click="() => {doClose(); content.push(PageBlock.createItemEditor(customItemType.component))}"
                     />
