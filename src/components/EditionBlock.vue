@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import TextEditor from "../edition-components/TextEditor.vue";
 import ItemEditor from "../edition-components/ItemEditor.vue";
 import ContainerEditor from "../edition-components/ContainerEditor.vue";
 import BlockButtons from "./BlockButtons.vue";
 
-const emit = defineEmits(['drop']);
+const emit = defineEmits(['drop', 'update:modelValue']);
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -38,19 +38,22 @@ const computedRenderEditor = computed(() => {
             case 'columns':
                 return 2;
         }
+
+        if (item.value.component.startsWith('item:')) return 1;
     });
 
 const onDropEditor = () => {
     emit('drop', props.index);
 }
 
-
+watch(() => props.modelValue, v => item.value = v, {deep: true});
+watch(item, v => emit('update:modelValue', v), {deep: true});
 </script>
 
 <template>
     <div class="lkt-page-editor-block">
 
-        <block-buttons/>
+        <block-buttons v-show="editMode"/>
 
         <div class="lkt-page-editor-block-content">
             <text-editor v-if="computedRenderEditor === 0" v-model="item" :edit-mode="editMode" @drop="onDropEditor"/>

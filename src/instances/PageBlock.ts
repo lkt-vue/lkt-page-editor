@@ -52,8 +52,7 @@ export class PageBlock {
 
     static createItemEditor(itemType: string) {
         return new PageBlock({
-            component: 'item',
-            itemType,
+            component: 'item:' + itemType,
         })
     }
 

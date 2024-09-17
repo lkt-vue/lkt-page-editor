@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
 import {getSelectionText} from "../functions/editor-functions";
-import {computed, nextTick, onMounted, ref} from "vue";
+import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {Settings} from "../settings/Settings";
 import BlockHeader from "../components/BlockHeader.vue";
 import {trim} from "lkt-string-tools";
 
-const emit = defineEmits(['drop']);
+
+const emit = defineEmits(['drop', 'update:modelValue']);
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -76,7 +77,6 @@ const computedClass = computed(() => {
     });
 
 
-
 const customBasicBlock = computed(() => {
     let found = Settings.customBasicBlocks.find(z => z.component === item.value.itemType);
     if (found) return found;
@@ -112,6 +112,21 @@ const onEditorKeyUp = (event: KeyboardEvent) => {
         }
     }
 }
+
+function pasteEvent(e) {
+    e.preventDefault();
+
+    let text = (e.originalEvent || e).clipboardData.getData('text/plain');
+    document.execCommand('insertHTML', false, text);
+}
+
+onMounted(() => {
+    // add paste event
+    editor.value.addEventListener('paste', pasteEvent);
+})
+
+watch(() => props.modelValue, v => item.value = v, {deep: true});
+watch(item, v => emit('update:modelValue', v), {deep: true});
 </script>
 
 <template>
@@ -125,14 +140,14 @@ const onEditorKeyUp = (event: KeyboardEvent) => {
                 @click="showCustomToolbar = !showCustomToolbar">
                 <block-header v-if="item.itemId <= 0">
                     <i :class="computedIcon"/>
-                    {{computedBlockTitle}}
+                    {{ computedBlockTitle }}
                 </block-header>
                 <block-header v-else-if="customBasicBlock?.slot">
                     <component :is="customBasicBlock.slot" :item="item.item"/>
                 </block-header>
                 <block-header v-else>
                     <i :class="computedIcon"/>
-                    {{computedBlockTitle}}
+                    {{ computedBlockTitle }}
                 </block-header>
             </div>
 
@@ -157,10 +172,14 @@ const onEditorKeyUp = (event: KeyboardEvent) => {
         >
             <template #default="{doClose}">
                 <div class="toolbar-actions">
-                    <lkt-button class="text-format-button" icon="pagetor-icon-bold" @click="() => execDefaultAction('bold')"/>
-                    <lkt-button class="text-format-button" icon="pagetor-icon-italic" @click="() => execDefaultAction('italic')"/>
-                    <lkt-button class="text-format-button" icon="pagetor-icon-underline" @click="() => execDefaultAction('underline')"/>
-                    <lkt-button class="text-format-button" icon="pagetor-icon-strike" @click="() => execDefaultAction('strikeThrough')"/>
+                    <lkt-button class="text-format-button" icon="pagetor-icon-bold"
+                                @click="() => execDefaultAction('bold')"/>
+                    <lkt-button class="text-format-button" icon="pagetor-icon-italic"
+                                @click="() => execDefaultAction('italic')"/>
+                    <lkt-button class="text-format-button" icon="pagetor-icon-underline"
+                                @click="() => execDefaultAction('underline')"/>
+                    <lkt-button class="text-format-button" icon="pagetor-icon-strike"
+                                @click="() => execDefaultAction('strikeThrough')"/>
                 </div>
             </template>
         </lkt-tooltip>

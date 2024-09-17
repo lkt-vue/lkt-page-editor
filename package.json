@@ -29,6 +29,7 @@
     "@babel/types": "^7.23.6",
     "@types/node": "^20.11.19",
     "@types/rollup": "^0.54.0",
+    "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.0.4",
     "rollup": "^4.9.6",
     "typescript": "^5.3.3",
@@ -41,12 +42,14 @@
   },
   "dependencies": {
     "lkt-button": "^1.1.21",
+    "lkt-date-tools": "^1.0.4",
     "lkt-i18n": "^1.0.4",
     "lkt-modal": "^1.1.7",
     "lkt-string-tools": "^1.0.6",
     "lkt-ts-interfaces": "^1.0.5",
     "process": "^0.11.10",
     "sass": "^1.57.1",
+    "sortablejs": "^1.15.3",
     "vue": "^3.2.37"
   }
 }

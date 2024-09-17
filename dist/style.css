@@ -179,40 +179,40 @@
 .pagetor-icon-header:before { content: '\f1dc'; } /* '' */
 .pagetor-icon-object-group:before { content: '\f247'; } /* '' */
 
-.lkt-text-editor[data-v-9d6e1b2a] {
+.lkt-text-editor[data-v-74c25a1f] {
 }
-.lkt-text-editor.is-h1[data-v-9d6e1b2a] {
+.lkt-text-editor.is-h1[data-v-74c25a1f] {
     font-size: 32px;
     font-weight: 700;
 }
-.lkt-text-editor.is-h2[data-v-9d6e1b2a] {
+.lkt-text-editor.is-h2[data-v-74c25a1f] {
     font-size: 28px;
     font-weight: 600;
 }
-.lkt-text-editor.is-h3[data-v-9d6e1b2a] {
+.lkt-text-editor.is-h3[data-v-74c25a1f] {
     font-size: 24px;
     font-weight: 600;
 }
-.lkt-text-editor.is-text[data-v-9d6e1b2a] {
+.lkt-text-editor.is-text[data-v-74c25a1f] {
     font-size: 16px;
 }
-[contenteditable][data-v-9d6e1b2a]:empty:before {
+[contenteditable][data-v-74c25a1f]:empty:before {
     content: attr(placeholder);
     color: #949494;
 }
-[contenteditable][data-v-9d6e1b2a] {
+[contenteditable][data-v-74c25a1f] {
     -webkit-tap-highlight-color: transparent;
 }
-[contenteditable][data-v-9d6e1b2a]:focus {
+[contenteditable][data-v-74c25a1f]:focus {
     outline: 0px solid transparent;
 }
 
-.lkt-container-editor-content[data-v-16203f55] {
+.lkt-container-editor-content[data-v-9c959cf1] {
     background: #f1f1f1;
     padding: 15px;
     width: 100%;
 }
-.lkt-container-editor-canvas[data-v-16203f55] {
+.lkt-container-editor-canvas[data-v-9c959cf1] {
     padding-left: 30px;
 }
 
@@ -239,6 +239,6 @@
     --dot-bg: #dadada;
 }
 
-.lkt-page-editor-add-menu[data-v-007ad92e] {
+.lkt-page-editor-add-menu[data-v-82872f58] {
     width: 150px;
 }

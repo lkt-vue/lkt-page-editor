@@ -26,10 +26,12 @@ export default {
         minify: false,
         rollupOptions: {
             external: [
+                'sortablejs',
                 'vue',
                 'vue-router',
                 'lkt-fields',
                 'lkt-button',
+                'lkt-date-tools',
                 'lkt-string-tools',
                 'lkt-http',
                 'lkt-http-client',

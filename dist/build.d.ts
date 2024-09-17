@@ -15,6 +15,7 @@ export class CustomItemType {
     icon: string;
     slot: string;
     resourceData: {};
+    type: string;
 }
 export function addBasicBlockToEditor(config: any): void;
 export function addItemTypeToEditor(config: any): void;

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import BlockButtons from "../components/BlockButtons.vue";
 import {Settings} from "../settings/Settings";
 import EditionCanvas from "../components/EditionCanvas.vue";
 import BlockHeader from "../components/BlockHeader.vue";
 import {BlockComponentType} from "../enums/BlockComponentType";
+
+const emit = defineEmits(['update:modelValue']);
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -69,6 +71,9 @@ const computedBlockTitle = computed(() => {
 })
 
 
+watch(() => props.modelValue, v => item.value = v, {deep: true});
+watch(item, v => emit('update:modelValue', v), {deep: true});
+
 </script>
 
 <template>
@@ -111,7 +116,11 @@ const computedBlockTitle = computed(() => {
     </div>
 
     <div class="lkt-container-editor-canvas">
-        <edition-canvas v-model="item.blocks" :edit-mode="editMode" :canvas-level="computedCanvasLevel" :columns="item.columns"/>
+        <edition-canvas
+            v-model="item.blocks"
+            :edit-mode="editMode"
+            :canvas-level="computedCanvasLevel"
+            :columns="item.columns"/>
     </div>
 </template>
 

@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {PageBlock} from "../instances/PageBlock";
 import EditionCanvas from "../components/EditionCanvas.vue";
+
+const emit = defineEmits(['update:modelValue']);
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock[]
 }>(), {
     modelValue: [],
 });
-const content = ref([]);
+const content = ref(props.modelValue);
 
 const editMode = ref(true);
+
+watch(() => props.modelValue, v => content.value = v);
+watch(content, v => emit('update:modelValue', v));
 </script>
 
 <template>

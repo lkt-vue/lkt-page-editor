@@ -8,6 +8,7 @@ export class CustomItemType {
     icon: string = '';
     slot: string|Component = '';
     resourceData: LktObject = {};
+    type: 'item'|'items'|'auto' = 'item';
 
     constructor(data: LktObject = {}) {
         for (let k in data) {

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
-import {computed, ref} from "vue";
-import BlockButtons from "../components/BlockButtons.vue";
+import {computed, ref, watch} from "vue";
 import {Settings} from "../settings/Settings";
 import BlockHeader from "../components/BlockHeader.vue";
+
+
+const emit = defineEmits(['update:modelValue']);
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -27,7 +29,8 @@ const computedClass = computed(() => {
     });
 
 const customItemType = computed(() => {
-    let found = Settings.customItemTypes.find(z => z.component === item.value.itemType);
+    let searchType = item.value.component.split(':')[1];
+    let found = Settings.customItemTypes.find(z => z.component === searchType);
     if (found) return found;
     return undefined;
 });
@@ -43,6 +46,9 @@ const onSelectedOption = (opt) => {
     showToolbar.value = false;
 }
 
+watch(() => props.modelValue, v => item.value = v, {deep: true});
+watch(item, v => emit('update:modelValue', v), {deep: true});
+
 
 </script>
 
@@ -53,21 +59,46 @@ const onSelectedOption = (opt) => {
             ref="blockHeader"
             class="lkt-page-editor-block-header-container"
             @click="showToolbar = !showToolbar">
-            <block-header v-if="item.itemId <= 0">
-                <i :class="computedIcon"/>
-                Pick an item
+            <block-header v-if="customItemType?.type === 'item'">
+                <template v-if="item.itemId <= 0">
+                    <i :class="computedIcon"/>
+                    Pick an item
+                </template>
+                <template v-else-if="customItemType?.slot">
+                    <component :is="customItemType.slot" :item="item.item"/>
+                </template>
+                <template v-else>
+                    <i :class="computedIcon"/>
+                    {{item.item.label}}
+                </template>
             </block-header>
-            <block-header v-else-if="customItemType?.slot">
-                <component :is="customItemType.slot" :item="item.item"/>
+
+            <block-header v-else-if="customItemType?.type === 'items'">
+                <template v-if="item.itemsIds.length === 0">
+                    <i :class="computedIcon"/>
+                    Pick some items
+                </template>
+                <template v-else-if="customItemType?.slot">
+                    <component
+                        v-for="pickedItem in item.items"
+                        :is="customItemType.slot"
+                        :item="pickedItem"/>
+                </template>
+                <template v-else>
+                    <i :class="computedIcon"/>
+                    {{item.itemsIds.length}} items picked
+                </template>
             </block-header>
-            <block-header v-else>
+
+            <block-header v-else-if="customItemType?.type === 'auto'">
                 <i :class="computedIcon"/>
-                {{item.item.label}}
+                {{customItemType.text}}
             </block-header>
         </div>
 
 
         <lkt-tooltip
+            v-if="customItemType?.type !== 'auto'"
             class="lkt-editor-toolbar"
             v-model="showToolbar"
             :referrer="blockHeader"
@@ -77,10 +108,23 @@ const onSelectedOption = (opt) => {
             <template #default="{doClose}">
                 <div class="lkt-editor-block-grid">
                     <lkt-field-select
+                        v-if="customItemType?.type === 'item'"
                         ref="itemPicker"
                         v-model="item.itemId"
                         label="Select item"
                         searchable
+                        :resource="customItemType?.resource"
+                        :resource-data="customItemType?.resourceData"
+                        @selected-option="onSelectedOption"
+                    />
+                    <lkt-field-select
+                        v-else-if="customItemType?.type === 'items'"
+                        ref="itemPicker"
+                        v-model="item.itemsIds"
+                        :options="item.items"
+                        label="Select item"
+                        searchable
+                        multiple
                         :resource="customItemType?.resource"
                         :resource-data="customItemType?.resourceData"
                         @selected-option="onSelectedOption"
