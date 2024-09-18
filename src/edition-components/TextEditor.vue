@@ -5,6 +5,7 @@ import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {Settings} from "../settings/Settings";
 import BlockHeader from "../components/BlockHeader.vue";
 import {trim} from "lkt-string-tools";
+import {BlockComponentType} from "../enums/BlockComponentType";
 
 
 const emit = defineEmits(['drop', 'update:modelValue']);
@@ -59,16 +60,16 @@ const computedClass = computed(() => {
     }),
     computedPlaceholder = computed(() => {
         switch (item.value.component) {
-            case 'h1':
+            case BlockComponentType.Header1:
                 return 'Heading 1';
 
-            case 'h2':
+            case BlockComponentType.Header2:
                 return 'Heading 2';
 
-            case 'h3':
+            case BlockComponentType.Header3:
                 return 'Heading 3';
 
-            case 'text':
+            case BlockComponentType.Text:
                 return 'Time to write something';
 
             default:
@@ -78,7 +79,8 @@ const computedClass = computed(() => {
 
 
 const customBasicBlock = computed(() => {
-    let found = Settings.customBasicBlocks.find(z => z.component === item.value.itemType);
+    let searchType = item.value.component.split(':')[1];
+    let found = Settings.customBasicBlocks.find(z => z.component === searchType);
     if (found) return found;
     return undefined;
 });

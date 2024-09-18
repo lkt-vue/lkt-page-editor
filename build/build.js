@@ -634,6 +634,12 @@ class PageBlock {
         this[k] = data[k];
       }
     }
+    if (Array.isArray(data.item) && data.item.length === 0) {
+      this.item = {};
+    }
+    if (Array.isArray(data.config) && data.config.length === 0) {
+      this.config = {};
+    }
   }
   static createBasicBlock(itemType) {
     return new PageBlock({

@@ -41,12 +41,21 @@ export class PageBlock {
                 this[k] = data[k];
             }
         }
+
+        if (Array.isArray(data.item) && data.item.length === 0) {
+            this.item = {};
+        }
+
+        if (Array.isArray(data.config) && data.config.length === 0) {
+            this.config = {};
+        }
     }
 
     static createBasicBlock(itemType: string) {
         return new PageBlock({
-            component: 'basic-block',
-            itemType,
+            component: 'basic:' + itemType,
+            // component: 'basic-block',
+            // itemType,
         })
     }
 
@@ -58,25 +67,25 @@ export class PageBlock {
 
     static createTextEditor() {
         return new PageBlock({
-            component: 'text',
+            component: BlockComponentType.Text,
         })
     }
 
     static createHeadingOneEditor() {
         return new PageBlock({
-            component: 'h1',
+            component: BlockComponentType.Header1,
         })
     }
 
     static createHeadingTwoEditor() {
         return new PageBlock({
-            component: 'h2',
+            component: BlockComponentType.Header2,
         })
     }
 
     static createHeadingThreeEditor() {
         return new PageBlock({
-            component: 'h3',
+            component: BlockComponentType.Header3,
         })
     }
 

@@ -5,6 +5,7 @@ import TextEditor from "../edition-components/TextEditor.vue";
 import ItemEditor from "../edition-components/ItemEditor.vue";
 import ContainerEditor from "../edition-components/ContainerEditor.vue";
 import BlockButtons from "./BlockButtons.vue";
+import {BlockComponentType} from "../enums/BlockComponentType";
 
 const emit = defineEmits(['drop', 'update:modelValue']);
 
@@ -23,23 +24,23 @@ const item = ref(props.modelValue);
 
 const computedRenderEditor = computed(() => {
         switch (item.value.component) {
-            case 'text':
-            case 'basic-block':
-            case 'h1':
-            case 'h2':
-            case 'h3':
+            case BlockComponentType.Text:
+            case BlockComponentType.Header1:
+            case BlockComponentType.Header2:
+            case BlockComponentType.Header3:
                 return 0;
 
-            case 'item':
+            case BlockComponentType.Item:
                 return 1;
 
-            case 'lkt-accordion':
-            case 'lkt-box':
-            case 'columns':
+            case BlockComponentType.LktAccordion:
+            case BlockComponentType.LktBox:
+            case BlockComponentType.Columns:
                 return 2;
         }
 
         if (item.value.component.startsWith('item:')) return 1;
+        if (item.value.component.startsWith('basic:')) return 0;
     });
 
 const onDropEditor = () => {
