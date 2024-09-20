@@ -15,8 +15,22 @@
 
 .lkt-editor-block  {
     display: flex;
-    gap: 15px;
+    /*gap: 15px;*/
     width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+.lkt-editor-block.is-li {
+    flex-direction: row;
+    gap: 15px;
+}
+.lkt-editor-block.is-li:before {
+    content: '';
+    display: inline-flex;
+    background: #000000;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
 }
 
 .lkt-text-editor-content {
@@ -60,6 +74,17 @@
     width: 100%;
 }
 
+.lkt-page-editor-block-header-container + .lkt-container-editor-canvas {
+    border-style: var(--lkt-pagetor--block-header--border-style);
+    border-color: var(--lkt-pagetor--block-header--border-color);
+    border-bottom-width: var(--lkt-pagetor--block-header--border-color);
+    border-left-width: var(--lkt-pagetor--block-header--border-color);
+    border-right-width: var(--lkt-pagetor--block-header--border-color);
+    border-top-width: 0;
+    padding: 15px;
+    width: 100%;
+}
+
 .lkt-page-editor-block {
     display: flex;
     flex-direction: row;
@@ -94,6 +119,38 @@
     display: grid;
     grid-template-columns: 1fr;
     padding: 15px;
+}
+
+.lkt-text-editor.is-h1 {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.lkt-text-editor.is-h2 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.lkt-text-editor.is-h3 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.lkt-text-editor.is-text {
+    font-size: 16px;
+}
+
+[contenteditable]:empty:before {
+    content: attr(placeholder);
+    color: #949494;
+}
+
+[contenteditable] {
+    -webkit-tap-highlight-color: transparent;
+}
+
+[contenteditable]:focus {
+    outline: 0px solid transparent;
 }
 
 @media (min-width: 768px) {
@@ -179,52 +236,21 @@
 .pagetor-icon-header:before { content: '\f1dc'; } /* '' */
 .pagetor-icon-object-group:before { content: '\f247'; } /* '' */
 
-.lkt-text-editor[data-v-74c25a1f] {
+.lkt-page-editor-block-buttons[data-v-a6b4fde4] {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
 }
-.lkt-text-editor.is-h1[data-v-74c25a1f] {
-    font-size: 32px;
-    font-weight: 700;
-}
-.lkt-text-editor.is-h2[data-v-74c25a1f] {
-    font-size: 28px;
-    font-weight: 600;
-}
-.lkt-text-editor.is-h3[data-v-74c25a1f] {
-    font-size: 24px;
-    font-weight: 600;
-}
-.lkt-text-editor.is-text[data-v-74c25a1f] {
-    font-size: 16px;
-}
-[contenteditable][data-v-74c25a1f]:empty:before {
-    content: attr(placeholder);
-    color: #949494;
-}
-[contenteditable][data-v-74c25a1f] {
-    -webkit-tap-highlight-color: transparent;
-}
-[contenteditable][data-v-74c25a1f]:focus {
-    outline: 0px solid transparent;
-}
-
-.lkt-container-editor-content[data-v-9c959cf1] {
-    background: #f1f1f1;
-    padding: 15px;
-    width: 100%;
-}
-.lkt-container-editor-canvas[data-v-9c959cf1] {
-    padding-left: 30px;
-}
-
-.lkt-page-editor-block-buttons .drag-indicator[data-v-8d669fad] {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-a6b4fde4] {
     padding: 3px 2px 2px 4px;
     transition: all linear 200ms;
     border-radius: 4px;
 }
-.lkt-page-editor-block-buttons .drag-indicator[data-v-8d669fad]:hover {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-a6b4fde4]:hover {
     background: #dadada;
 }
-.lkt-page-editor-block-buttons .drag-indicator[data-v-8d669fad]:before {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-a6b4fde4]:before {
     content: '';
     display: block;
     width: 10px;
@@ -235,10 +261,10 @@
     --dot-space: 5px;
     background: linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
 }
-.lkt-page-editor-block-buttons .drag-indicator[data-v-8d669fad]:hover:before {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-a6b4fde4]:hover:before {
     --dot-bg: #dadada;
 }
 
-.lkt-page-editor-add-menu[data-v-82872f58] {
+.lkt-page-editor-add-menu[data-v-4e06a296] {
     width: 150px;
 }

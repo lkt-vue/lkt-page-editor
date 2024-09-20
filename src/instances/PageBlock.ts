@@ -117,4 +117,17 @@ export class PageBlock {
             config: new AccordionConfig()
         })
     }
+
+    static createBulletList() {
+        return new PageBlock({
+            component: BlockComponentType.BulletList,
+            blocks: [PageBlock.createListItem()],
+        })
+    }
+
+    static createListItem() {
+        return new PageBlock({
+            component: BlockComponentType.ListItem,
+        })
+    }
 }

@@ -6,6 +6,7 @@ import ItemEditor from "../edition-components/ItemEditor.vue";
 import ContainerEditor from "../edition-components/ContainerEditor.vue";
 import BlockButtons from "./BlockButtons.vue";
 import {BlockComponentType} from "../enums/BlockComponentType";
+import ListEditor from "../edition-components/ListEditor.vue";
 
 const emit = defineEmits(['drop', 'update:modelValue']);
 
@@ -28,6 +29,7 @@ const computedRenderEditor = computed(() => {
             case BlockComponentType.Header1:
             case BlockComponentType.Header2:
             case BlockComponentType.Header3:
+            case BlockComponentType.ListItem:
                 return 0;
 
             case BlockComponentType.Item:
@@ -37,6 +39,9 @@ const computedRenderEditor = computed(() => {
             case BlockComponentType.LktBox:
             case BlockComponentType.Columns:
                 return 2;
+
+            case BlockComponentType.BulletList:
+                return 3;
         }
 
         if (item.value.component.startsWith('item:')) return 1;
@@ -60,10 +65,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
             <text-editor v-if="computedRenderEditor === 0" v-model="item" :edit-mode="editMode" @drop="onDropEditor"/>
             <item-editor v-if="computedRenderEditor === 1" v-model="item" :edit-mode="editMode"/>
             <container-editor v-if="computedRenderEditor === 2" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+            <list-editor v-if="computedRenderEditor === 3" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
         </div>
     </div>
 </template>
-
-<style scoped>
-
-</style>

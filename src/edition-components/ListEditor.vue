@@ -26,9 +26,7 @@ const showToolbar = ref(false);
 
 const computedClass = computed(() => {
         let r = [];
-        if (item.value.component === BlockComponentType.LktAccordion) r.push('is-accordion');
-        if (item.value.component === BlockComponentType.LktBox) r.push('is-box');
-        if (item.value.component === BlockComponentType.Columns) r.push('is-columns');
+        if (item.value.component === 'ul') r.push('is-ul');
         return r.join(' ');
     });
 
@@ -42,14 +40,8 @@ const computedIcon = computed(() => {
 
     if (typeof customItemType.value === 'undefined') {
         switch (item.value.component) {
-            case BlockComponentType.LktAccordion:
-                return 'pagetor-icon-layers';
-
-            case BlockComponentType.LktBox:
-                return 'pagetor-icon-box';
-
-            case BlockComponentType.Columns:
-                return 'pagetor-icon-columns';
+            case BlockComponentType.BulletList:
+                return 'pagetor-icon-list-bullet';
 
             default:
                 return 'icon-cog';
@@ -59,14 +51,9 @@ const computedIcon = computed(() => {
     return 'icon-cog';
 });
 
-const computedCanvasLevel = computed(() => {
-    if (item.value.component === 'columns') return 0;
-    return props.canvasLevel + 1;
-})
-
 const computedBlockTitle = computed(() => {
-    if (item.value.component === BlockComponentType.Columns) {
-        return 'Column engine (' + item.value.columns + ' columns)'
+    if (item.value.component === BlockComponentType.BulletList) {
+        return 'Bullet list';
     }
 
     return item.value.component;
@@ -79,7 +66,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 </script>
 
 <template>
-    <div ref="container" class="lkt-editor-block lkt-container-editor" :class="computedClass">
+    <div ref="container" class="lkt-editor-block lkt-list-editor" :class="computedClass">
         <div
             ref="blockHeader"
             class="lkt-page-editor-block-header-container"
@@ -94,12 +81,13 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
             <edition-canvas
                 v-model="item.blocks"
                 :edit-mode="editMode"
-                :canvas-level="computedCanvasLevel"
+                :canvas-level="-2"
                 :columns="item.columns"/>
         </div>
 
 
         <lkt-tooltip
+            v-if="false"
             class="lkt-editor-toolbar"
             v-model="showToolbar"
             :referrer="blockHeader"
@@ -108,18 +96,6 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
         >
             <template #default="{doClose}">
                 <div class="lkt-editor-block-grid">
-                    <lkt-field-text
-                        v-model="item.title"
-                        label="Title"
-                    />
-
-                    <lkt-field-text
-                        v-model="item.columns"
-                        label="Columns"
-                        is-number
-                        :min="1"
-                        :max="10"
-                    />
                 </div>
             </template>
         </lkt-tooltip>

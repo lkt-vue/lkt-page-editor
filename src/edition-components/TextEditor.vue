@@ -51,10 +51,11 @@ onMounted(() => {
 
 const computedClass = computed(() => {
         let r = [];
-        if (item.value.component === 'text') r.push('is-text');
-        if (item.value.component === 'h1') r.push('is-h1');
-        if (item.value.component === 'h2') r.push('is-h2');
-        if (item.value.component === 'h3') r.push('is-h3');
+        if (item.value.component === BlockComponentType.Text) r.push('is-text');
+        if (item.value.component === BlockComponentType.Header1) r.push('is-h1');
+        if (item.value.component === BlockComponentType.Header2) r.push('is-h2');
+        if (item.value.component === BlockComponentType.Header3) r.push('is-h3');
+        if (item.value.component === BlockComponentType.ListItem) r.push('is-li');
 
         return r.join(' ');
     }),
@@ -201,41 +202,3 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
         </lkt-tooltip>
     </div>
 </template>
-
-<style scoped>
-.lkt-text-editor {
-
-}
-
-.lkt-text-editor.is-h1 {
-    font-size: 32px;
-    font-weight: 700;
-}
-
-.lkt-text-editor.is-h2 {
-    font-size: 28px;
-    font-weight: 600;
-}
-
-.lkt-text-editor.is-h3 {
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.lkt-text-editor.is-text {
-    font-size: 16px;
-}
-
-[contenteditable]:empty:before {
-    content: attr(placeholder);
-    color: #949494;
-}
-
-[contenteditable] {
-    -webkit-tap-highlight-color: transparent;
-}
-
-[contenteditable]:focus {
-    outline: 0px solid transparent;
-}
-</style>

@@ -30,6 +30,7 @@ const updateTimeStamp = ref(0);
 const uniqueId = generateRandomString(12);
 
 const computedColumnClass = computed(() => {
+    return 'lkt-grid-1';
     return 'lkt-grid-' + props.columns;
 });
 
