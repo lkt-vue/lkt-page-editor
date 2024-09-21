@@ -1,4 +1,10 @@
 <script setup lang="ts">
+
+const emit = defineEmits(['drop']);
+
+const onClickDrop = () => {
+    emit('drop');
+}
 </script>
 
 <template>
@@ -47,13 +53,13 @@
                 </lkt-button>
                 <lkt-button
                     class="lkt-page-editor-add-menu-button"
-                    icon="pagetor-icon-fontsize"
+                    icon="pagetor-icon-language"
                     text="I18n mode"
                     @click="() => {doClose();}"
                 />
                 <lkt-button
                     class="lkt-page-editor-add-menu-button"
-                    icon="pagetor-icon-fontsize"
+                    icon="pagetor-icon-language"
                     text="Translate"
                     @click="() => {doClose();}"
                 />
@@ -61,7 +67,7 @@
                     class="lkt-page-editor-add-menu-button"
                     icon="pagetor-icon-erase"
                     text="Remove"
-                    @click="() => {doClose();}"
+                    @click="() => {doClose(); onClickDrop();}"
                 />
             </div>
         </template>

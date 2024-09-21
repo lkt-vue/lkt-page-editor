@@ -72,6 +72,10 @@
     border-style: var(--lkt-pagetor--block-header--border-style);
     border-color: var(--lkt-pagetor--block-header--border-color);
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
 }
 
 .lkt-page-editor-block-header-container + .lkt-container-editor-canvas {

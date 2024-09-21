@@ -137,6 +137,18 @@
       "css": "resize-horizontal",
       "code": 59402,
       "src": "iconic"
+    },
+    {
+      "uid": "ddecf5ad7935e3fb1b70dac6ed00d06a",
+      "css": "language",
+      "code": 59403,
+      "src": "entypo"
+    },
+    {
+      "uid": "186dec7a13156bbe2550790c158fb85d",
+      "css": "crown",
+      "code": 59460,
+      "src": "fontelico"
     }
   ]
 }

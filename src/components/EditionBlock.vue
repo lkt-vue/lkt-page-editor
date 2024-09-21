@@ -30,6 +30,7 @@ const computedRenderEditor = computed(() => {
             case BlockComponentType.Header2:
             case BlockComponentType.Header3:
             case BlockComponentType.ListItem:
+            case BlockComponentType.LktIcon:
                 return 0;
 
             case BlockComponentType.Item:
@@ -59,7 +60,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 <template>
     <div class="lkt-page-editor-block">
 
-        <block-buttons v-show="editMode"/>
+        <block-buttons v-show="editMode" @drop="onDropEditor"/>
 
         <div class="lkt-page-editor-block-content">
             <text-editor v-if="computedRenderEditor === 0" v-model="item" :edit-mode="editMode" @drop="onDropEditor"/>

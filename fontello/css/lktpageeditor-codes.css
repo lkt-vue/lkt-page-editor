@@ -10,6 +10,8 @@
 .pagetor-icon-picture:before { content: '\e808'; } /* '' */
 .pagetor-icon-fontsize:before { content: '\e809'; } /* '' */
 .pagetor-icon-resize-horizontal:before { content: '\e80a'; } /* '' */
+.pagetor-icon-language:before { content: '\e80b'; } /* '' */
+.pagetor-icon-crown:before { content: '\e844'; } /* '' */
 .pagetor-icon-marquee:before { content: '\e847'; } /* '' */
 .pagetor-icon-list-bullet:before { content: '\f0ca'; } /* '' */
 .pagetor-icon-list-numbered:before { content: '\f0cb'; } /* '' */

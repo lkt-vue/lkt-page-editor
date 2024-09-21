@@ -26,6 +26,7 @@ export class PageBlock {
 
     // Content organization
     title: string = '';
+    icon: string = '';
     blocks: PageBlock[] = [];
     columns: number = 1;
 
@@ -115,6 +116,12 @@ export class PageBlock {
         return new PageBlock({
             component: BlockComponentType.LktAccordion,
             config: new AccordionConfig()
+        })
+    }
+
+    static createLktIcon() {
+        return new PageBlock({
+            component: BlockComponentType.LktIcon,
         })
     }
 

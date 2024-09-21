@@ -1,6 +1,7 @@
 export enum BlockComponentType {
     LktBox = 'lkt-box',
     LktAccordion = 'lkt-accordion',
+    LktIcon = 'lkt-icon',
     Columns = 'columns',
     Header1 = 'h1',
     Header2 = 'h2',

@@ -1,4 +1,4 @@
-import { openBlock, createElementBlock, renderSlot, defineComponent, ref, onMounted, computed, watch, resolveComponent, normalizeClass, createElementVNode, withDirectives, createBlock, withCtx, createTextVNode, toDisplayString, resolveDynamicComponent, vShow, setBlockTracking, createVNode, createCommentVNode, nextTick, Fragment, renderList, unref } from "vue";
+import { openBlock, createElementBlock, renderSlot, defineComponent, ref, onMounted, computed, watch, resolveComponent, normalizeClass, createElementVNode, withDirectives, createBlock, withCtx, createTextVNode, toDisplayString, resolveDynamicComponent, vShow, setBlockTracking, createVNode, nextTick, Fragment, renderList, createCommentVNode, unref } from "vue";
 import { trim, generateRandomString } from "lkt-string-tools";
 import Sortable from "sortablejs";
 import { time } from "lkt-date-tools";
@@ -28,15 +28,16 @@ const _export_sfc = (sfc, props) => {
 };
 const _sfc_main$9 = {};
 const _hoisted_1$9 = { class: "lkt-page-editor-block-header" };
-function _sfc_render$1(_ctx, _cache) {
+function _sfc_render(_ctx, _cache) {
   return openBlock(), createElementBlock("div", _hoisted_1$9, [
     renderSlot(_ctx.$slots, "default")
   ]);
 }
-const BlockHeader = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$1]]);
+const BlockHeader = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render]]);
 var BlockComponentType = /* @__PURE__ */ ((BlockComponentType2) => {
   BlockComponentType2["LktBox"] = "lkt-box";
   BlockComponentType2["LktAccordion"] = "lkt-accordion";
+  BlockComponentType2["LktIcon"] = "lkt-icon";
   BlockComponentType2["Columns"] = "columns";
   BlockComponentType2["Header1"] = "h1";
   BlockComponentType2["Header2"] = "h2";
@@ -50,6 +51,7 @@ var BlockComponentType = /* @__PURE__ */ ((BlockComponentType2) => {
 })(BlockComponentType || {});
 const _hoisted_1$8 = { class: "lkt-grid-1" };
 const _hoisted_2$6 = { class: "toolbar-actions" };
+const _hoisted_3$2 = { class: "lkt-editor-block-grid" };
 const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   __name: "TextEditor",
   props: {
@@ -90,6 +92,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       if (item.value.component === BlockComponentType.Header2) r.push("is-h2");
       if (item.value.component === BlockComponentType.Header3) r.push("is-h3");
       if (item.value.component === BlockComponentType.ListItem) r.push("is-li");
+      if (item.value.component === BlockComponentType.LktIcon) r.push("is-lkt-icon");
       return r.join(" ");
     }), computedPlaceholder = computed(() => {
       switch (item.value.component) {
@@ -112,17 +115,24 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       return void 0;
     });
     const computedIcon = computed(() => {
+      if (item.value.component === BlockComponentType.LktIcon) return "pagetor-icon-crown";
       if (typeof customBasicBlock.value === "undefined") return "icon-cog";
       if (customBasicBlock.value.icon) return customBasicBlock.value.icon;
       return "icon-cog";
     });
     const computedBlockTitle = computed(() => {
       var _a;
+      if (item.value.component === BlockComponentType.LktIcon) return "LKT Icon";
       return (_a = customBasicBlock.value) == null ? void 0 : _a.text;
     });
     const computedDisplayContentEdition = computed(() => {
+      if (item.value.component === BlockComponentType.LktIcon) return false;
       if (typeof customBasicBlock.value === "undefined") return true;
       return customBasicBlock.value.contentEnabled;
+    });
+    const computedDisplayBlockHeader = computed(() => {
+      if (item.value.component === BlockComponentType.LktIcon) return true;
+      return customBasicBlock.value;
     });
     const onEditorKeyUp = (event) => {
       item.value.content = editor.value.innerHTML;
@@ -150,6 +160,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       var _a;
       const _component_lkt_button = resolveComponent("lkt-button");
       const _component_lkt_tooltip = resolveComponent("lkt-tooltip");
+      const _component_lkt_field_text = resolveComponent("lkt-field-text");
       return openBlock(), createElementBlock("div", {
         ref_key: "container",
         ref: container,
@@ -187,7 +198,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
               _: 1
             }))
           ], 512), [
-            [vShow, customBasicBlock.value]
+            [vShow, computedDisplayBlockHeader.value]
           ]),
           _cache[1] || (setBlockTracking(-1), (_cache[1] = withDirectives(createElementVNode("div", {
             class: "lkt-text-editor-content",
@@ -235,7 +246,30 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
           ]),
           _: 1
         }, 8, ["modelValue", "referrer"]),
-        createCommentVNode("", true)
+        createVNode(_component_lkt_tooltip, {
+          class: "lkt-editor-toolbar",
+          modelValue: showCustomToolbar.value,
+          "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => showCustomToolbar.value = $event),
+          referrer: blockHeader.value,
+          "location-y": "bottom",
+          "referrer-width": ""
+        }, {
+          default: withCtx(({ doClose }) => [
+            createElementVNode("div", _hoisted_3$2, [
+              createVNode(_component_lkt_field_text, {
+                modelValue: item.value.title,
+                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => item.value.title = $event),
+                label: "Title"
+              }, null, 8, ["modelValue"]),
+              createVNode(_component_lkt_field_text, {
+                modelValue: item.value.icon,
+                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => item.value.icon = $event),
+                label: "Icon"
+              }, null, 8, ["modelValue"])
+            ])
+          ]),
+          _: 1
+        }, 8, ["modelValue", "referrer"])
       ], 2);
     };
   }
@@ -514,94 +548,104 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const _sfc_main$5 = {};
 const _hoisted_1$5 = { class: "lkt-page-editor-block-buttons" };
 const _hoisted_2$4 = { class: "lkt-page-editor-add-menu" };
 const _hoisted_3$1 = { class: "lkt-page-editor-add-menu" };
-function _sfc_render(_ctx, _cache) {
-  const _component_lkt_button = resolveComponent("lkt-button");
-  return openBlock(), createElementBlock("div", _hoisted_1$5, [
-    _cache[2] || (_cache[2] = createElementVNode("div", { class: "drag-indicator" }, null, -1)),
-    createVNode(_component_lkt_button, {
-      icon: "icon-cog",
-      tooltip: "",
-      "tooltip-class": "lkt-page-editor-menu-tooltip"
-    }, {
-      tooltip: withCtx(({ doClose }) => [
-        createElementVNode("div", _hoisted_2$4, [
-          _cache[1] || (_cache[1] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Block Options", -1)),
-          createVNode(_component_lkt_button, {
-            class: "lkt-page-editor-add-menu-button",
-            icon: "pagetor-icon-fontsize",
-            text: "Convert To",
-            onClick: () => {
-              doClose();
-            },
-            tooltip: "",
-            "tooltip-class": "lkt-page-editor-menu-tooltip"
-          }, {
-            tooltip: withCtx(({ doClose: doClose2 }) => [
-              createElementVNode("div", _hoisted_3$1, [
-                _cache[0] || (_cache[0] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Basic blocks", -1)),
-                createVNode(_component_lkt_button, {
-                  class: "lkt-page-editor-add-menu-button",
-                  icon: "pagetor-icon-fontsize",
-                  text: "Text",
-                  onClick: () => {
-                    doClose2();
-                  }
-                }, null, 8, ["onClick"]),
-                createVNode(_component_lkt_button, {
-                  class: "lkt-page-editor-add-menu-button",
-                  icon: "pagetor-icon-fontsize",
-                  text: "Header 1",
-                  onClick: () => {
-                    doClose2();
-                  }
-                }, null, 8, ["onClick"]),
-                createVNode(_component_lkt_button, {
-                  class: "lkt-page-editor-add-menu-button",
-                  icon: "pagetor-icon-fontsize",
-                  text: "Header 2",
-                  onClick: () => {
-                    doClose2();
-                  }
-                }, null, 8, ["onClick"])
-              ])
-            ]),
-            _: 2
-          }, 1032, ["onClick"]),
-          createVNode(_component_lkt_button, {
-            class: "lkt-page-editor-add-menu-button",
-            icon: "pagetor-icon-fontsize",
-            text: "I18n mode",
-            onClick: () => {
-              doClose();
-            }
-          }, null, 8, ["onClick"]),
-          createVNode(_component_lkt_button, {
-            class: "lkt-page-editor-add-menu-button",
-            icon: "pagetor-icon-fontsize",
-            text: "Translate",
-            onClick: () => {
-              doClose();
-            }
-          }, null, 8, ["onClick"]),
-          createVNode(_component_lkt_button, {
-            class: "lkt-page-editor-add-menu-button",
-            icon: "pagetor-icon-erase",
-            text: "Remove",
-            onClick: () => {
-              doClose();
-            }
-          }, null, 8, ["onClick"])
-        ])
-      ]),
-      _: 1
-    })
-  ]);
-}
-const BlockButtons = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render], ["__scopeId", "data-v-a6b4fde4"]]);
+const _sfc_main$5 = /* @__PURE__ */ defineComponent({
+  __name: "BlockButtons",
+  emits: ["drop"],
+  setup(__props, { emit: __emit }) {
+    const emit = __emit;
+    const onClickDrop = () => {
+      emit("drop");
+    };
+    return (_ctx, _cache) => {
+      const _component_lkt_button = resolveComponent("lkt-button");
+      return openBlock(), createElementBlock("div", _hoisted_1$5, [
+        _cache[2] || (_cache[2] = createElementVNode("div", { class: "drag-indicator" }, null, -1)),
+        createVNode(_component_lkt_button, {
+          icon: "icon-cog",
+          tooltip: "",
+          "tooltip-class": "lkt-page-editor-menu-tooltip"
+        }, {
+          tooltip: withCtx(({ doClose }) => [
+            createElementVNode("div", _hoisted_2$4, [
+              _cache[1] || (_cache[1] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Block Options", -1)),
+              createVNode(_component_lkt_button, {
+                class: "lkt-page-editor-add-menu-button",
+                icon: "pagetor-icon-fontsize",
+                text: "Convert To",
+                onClick: () => {
+                  doClose();
+                },
+                tooltip: "",
+                "tooltip-class": "lkt-page-editor-menu-tooltip"
+              }, {
+                tooltip: withCtx(({ doClose: doClose2 }) => [
+                  createElementVNode("div", _hoisted_3$1, [
+                    _cache[0] || (_cache[0] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Basic blocks", -1)),
+                    createVNode(_component_lkt_button, {
+                      class: "lkt-page-editor-add-menu-button",
+                      icon: "pagetor-icon-fontsize",
+                      text: "Text",
+                      onClick: () => {
+                        doClose2();
+                      }
+                    }, null, 8, ["onClick"]),
+                    createVNode(_component_lkt_button, {
+                      class: "lkt-page-editor-add-menu-button",
+                      icon: "pagetor-icon-fontsize",
+                      text: "Header 1",
+                      onClick: () => {
+                        doClose2();
+                      }
+                    }, null, 8, ["onClick"]),
+                    createVNode(_component_lkt_button, {
+                      class: "lkt-page-editor-add-menu-button",
+                      icon: "pagetor-icon-fontsize",
+                      text: "Header 2",
+                      onClick: () => {
+                        doClose2();
+                      }
+                    }, null, 8, ["onClick"])
+                  ])
+                ]),
+                _: 2
+              }, 1032, ["onClick"]),
+              createVNode(_component_lkt_button, {
+                class: "lkt-page-editor-add-menu-button",
+                icon: "pagetor-icon-language",
+                text: "I18n mode",
+                onClick: () => {
+                  doClose();
+                }
+              }, null, 8, ["onClick"]),
+              createVNode(_component_lkt_button, {
+                class: "lkt-page-editor-add-menu-button",
+                icon: "pagetor-icon-language",
+                text: "Translate",
+                onClick: () => {
+                  doClose();
+                }
+              }, null, 8, ["onClick"]),
+              createVNode(_component_lkt_button, {
+                class: "lkt-page-editor-add-menu-button",
+                icon: "pagetor-icon-erase",
+                text: "Remove",
+                onClick: () => {
+                  doClose();
+                  onClickDrop();
+                }
+              }, null, 8, ["onClick"])
+            ])
+          ]),
+          _: 1
+        })
+      ]);
+    };
+  }
+});
+const BlockButtons = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["__scopeId", "data-v-6f1c27bd"]]);
 const _hoisted_1$4 = { class: "lkt-container-editor-canvas" };
 const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   __name: "ListEditor",
@@ -708,6 +752,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
         case BlockComponentType.Header2:
         case BlockComponentType.Header3:
         case BlockComponentType.ListItem:
+        case BlockComponentType.LktIcon:
           return 0;
         case BlockComponentType.Item:
           return 1;
@@ -728,7 +773,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     watch(item, (v) => emit("update:modelValue", v), { deep: true });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1$3, [
-        withDirectives(createVNode(BlockButtons, null, null, 512), [
+        withDirectives(createVNode(BlockButtons, { onDrop: onDropEditor }, null, 512), [
           [vShow, _ctx.editMode]
         ]),
         createElementVNode("div", _hoisted_2$3, [
@@ -807,6 +852,7 @@ class PageBlock {
     this.itemsIds = [];
     this.content = "";
     this.title = "";
+    this.icon = "";
     this.blocks = [];
     this.columns = 1;
     this.className = "";
@@ -880,6 +926,11 @@ class PageBlock {
       config: new AccordionConfig()
     });
   }
+  static createLktIcon() {
+    return new PageBlock({
+      component: BlockComponentType.LktIcon
+    });
+  }
   static createBulletList() {
     return new PageBlock({
       component: BlockComponentType.BulletList,
@@ -898,11 +949,11 @@ const _hoisted_2$2 = {
   class: "lkt-page-editor-add-menu-title"
 };
 const _hoisted_3 = {
-  key: 8,
+  key: 9,
   class: "lkt-page-editor-add-menu-title"
 };
 const _hoisted_4 = {
-  key: 12,
+  key: 13,
   class: "lkt-page-editor-add-menu-title"
 };
 const _sfc_main$2 = /* @__PURE__ */ defineComponent({
@@ -965,7 +1016,17 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             content.value.push(unref(PageBlock).createHeadingThreeEditor());
           })
         })) : createCommentVNode("", true),
-        _ctx.canvasLevel !== -2 ? (openBlock(true), createElementBlock(Fragment, { key: 5 }, renderList(computedCustomBasicBlocks.value, (customBlock) => {
+        _ctx.canvasLevel !== -2 ? (openBlock(), createBlock(_component_lkt_button, {
+          key: 5,
+          class: "lkt-page-editor-add-menu-button",
+          icon: "pagetor-icon-fontsize",
+          text: "LKT Icon",
+          onClick: _cache[4] || (_cache[4] = () => {
+            _ctx.doClose();
+            content.value.push(unref(PageBlock).createLktIcon());
+          })
+        })) : createCommentVNode("", true),
+        _ctx.canvasLevel !== -2 ? (openBlock(true), createElementBlock(Fragment, { key: 6 }, renderList(computedCustomBasicBlocks.value, (customBlock) => {
           return openBlock(), createBlock(_component_lkt_button, {
             class: "lkt-page-editor-add-menu-button",
             icon: customBlock.icon,
@@ -976,60 +1037,60 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
             }
           }, null, 8, ["icon", "text", "onClick"]);
         }), 256)) : createCommentVNode("", true),
-        _cache[9] || (_cache[9] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Lists", -1)),
+        _cache[10] || (_cache[10] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Lists", -1)),
         _ctx.canvasLevel !== -2 ? (openBlock(), createBlock(_component_lkt_button, {
-          key: 6,
+          key: 7,
           class: "lkt-page-editor-add-menu-button",
           icon: "pagetor-icon-list-bullet",
           text: "Bullet list",
-          onClick: _cache[4] || (_cache[4] = () => {
+          onClick: _cache[5] || (_cache[5] = () => {
             _ctx.doClose();
             content.value.push(unref(PageBlock).createBulletList());
           })
         })) : createCommentVNode("", true),
         _ctx.canvasLevel === -2 ? (openBlock(), createBlock(_component_lkt_button, {
-          key: 7,
+          key: 8,
           class: "lkt-page-editor-add-menu-button",
           icon: "pagetor-icon-fontsize",
           text: "List Item",
-          onClick: _cache[5] || (_cache[5] = () => {
+          onClick: _cache[6] || (_cache[6] = () => {
             _ctx.doClose();
             content.value.push(unref(PageBlock).createListItem());
           })
         })) : createCommentVNode("", true),
         _ctx.canvasLevel === 0 ? (openBlock(), createElementBlock("div", _hoisted_3, "Containers")) : createCommentVNode("", true),
         _ctx.canvasLevel === 0 ? (openBlock(), createBlock(_component_lkt_button, {
-          key: 9,
+          key: 10,
           class: "lkt-page-editor-add-menu-button",
           icon: "pagetor-icon-layers",
           text: "Accordion",
-          onClick: _cache[6] || (_cache[6] = () => {
+          onClick: _cache[7] || (_cache[7] = () => {
             _ctx.doClose();
             content.value.push(unref(PageBlock).createLktAccordion());
           })
         })) : createCommentVNode("", true),
         _ctx.canvasLevel === 0 ? (openBlock(), createBlock(_component_lkt_button, {
-          key: 10,
+          key: 11,
           class: "lkt-page-editor-add-menu-button",
           icon: "pagetor-icon-box",
           text: "Box",
-          onClick: _cache[7] || (_cache[7] = () => {
+          onClick: _cache[8] || (_cache[8] = () => {
             _ctx.doClose();
             content.value.push(unref(PageBlock).createLktBox());
           })
         })) : createCommentVNode("", true),
         _ctx.canvasLevel === 0 ? (openBlock(), createBlock(_component_lkt_button, {
-          key: 11,
+          key: 12,
           class: "lkt-page-editor-add-menu-button",
           icon: "pagetor-icon-columns",
           text: "Columns",
-          onClick: _cache[8] || (_cache[8] = () => {
+          onClick: _cache[9] || (_cache[9] = () => {
             _ctx.doClose();
             content.value.push(unref(PageBlock).createColumnEngine());
           })
         })) : createCommentVNode("", true),
         _ctx.canvasLevel !== -2 && computedCustomItemTypes.value.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_4, "Item Reference")) : createCommentVNode("", true),
-        _ctx.canvasLevel !== -2 ? (openBlock(true), createElementBlock(Fragment, { key: 13 }, renderList(computedCustomItemTypes.value, (customItemType) => {
+        _ctx.canvasLevel !== -2 ? (openBlock(true), createElementBlock(Fragment, { key: 14 }, renderList(computedCustomItemTypes.value, (customItemType) => {
           return openBlock(), createBlock(_component_lkt_button, {
             class: "lkt-page-editor-add-menu-button",
             icon: customItemType.icon,
@@ -1044,7 +1105,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const AddBlockMenu = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-4e06a296"]]);
+const AddBlockMenu = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-b68d7e73"]]);
 const _hoisted_1$1 = { class: "lkt-page-editor-canvas lkt-grid-1" };
 const _hoisted_2$1 = { class: "lkt-page-editor-canvas-nav" };
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
@@ -1069,6 +1130,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     });
     const onDropBlock = (index) => {
       content.value.splice(index, 1);
+      updateTimeStamp.value = time();
     };
     const getBlockKey = (index) => {
       let r = [updateTimeStamp.value, uniqueId, "row", index];
@@ -1077,7 +1139,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     onMounted(() => {
       nextTick(() => {
         sortable.value = new Sortable(dragArea.value, {
-          group: "nested",
+          group: "group-" + time(),
           handle: ".drag-indicator",
           animation: 150,
           fallbackOnBody: true,

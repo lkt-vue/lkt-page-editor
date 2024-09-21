@@ -36,6 +36,7 @@ const computedColumnClass = computed(() => {
 
 const onDropBlock = (index: number) => {
     content.value.splice(index, 1);
+    updateTimeStamp.value = time();
 }
 
 const getBlockKey = (index: number) => {
@@ -47,7 +48,7 @@ const getBlockKey = (index: number) => {
 onMounted(() => {
     nextTick(() => {
         sortable.value = new Sortable(dragArea.value, {
-            group: 'nested',
+            group: 'group-' + time(),
             handle: '.drag-indicator',
             animation: 150,
             fallbackOnBody: true,

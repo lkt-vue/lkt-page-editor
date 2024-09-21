@@ -57,6 +57,13 @@ const computedCustomBasicBlocks = computed(() => Settings.customBasicBlocks);
         />
         <lkt-button
             v-if="canvasLevel !== -2"
+            class="lkt-page-editor-add-menu-button"
+            icon="pagetor-icon-fontsize"
+            text="LKT Icon"
+            @click="() => {doClose(); content.push(PageBlock.createLktIcon())}"
+        />
+        <lkt-button
+            v-if="canvasLevel !== -2"
             v-for="customBlock in computedCustomBasicBlocks"
             class="lkt-page-editor-add-menu-button"
             :icon="customBlock.icon"
