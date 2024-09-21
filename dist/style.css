@@ -242,21 +242,21 @@
 .pagetor-icon-header:before { content: '\f1dc'; } /* '' */
 .pagetor-icon-object-group:before { content: '\f247'; } /* '' */
 
-.lkt-page-editor-block-buttons[data-v-6f1c27bd] {
+.lkt-page-editor-block-buttons[data-v-42cf4c46] {
     display: inline-flex;
     flex-direction: row;
     align-items: flex-start;
     gap: 8px;
 }
-.lkt-page-editor-block-buttons .drag-indicator[data-v-6f1c27bd] {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-42cf4c46] {
     padding: 3px 2px 2px 4px;
     transition: all linear 200ms;
     border-radius: 4px;
 }
-.lkt-page-editor-block-buttons .drag-indicator[data-v-6f1c27bd]:hover {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-42cf4c46]:hover {
     background: #dadada;
 }
-.lkt-page-editor-block-buttons .drag-indicator[data-v-6f1c27bd]:before {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-42cf4c46]:before {
     content: '';
     display: block;
     width: 10px;
@@ -267,7 +267,7 @@
     --dot-space: 5px;
     background: linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
 }
-.lkt-page-editor-block-buttons .drag-indicator[data-v-6f1c27bd]:hover:before {
+.lkt-page-editor-block-buttons .drag-indicator[data-v-42cf4c46]:hover:before {
     --dot-bg: #dadada;
 }
 

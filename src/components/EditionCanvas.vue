@@ -6,6 +6,8 @@ import Sortable from 'sortablejs';
 import {time} from "lkt-date-tools";
 import {generateRandomString} from "lkt-string-tools";
 import AddBlockMenu from "./AddBlockMenu.vue";
+import TextEditor from "../edition-components/TextEditor.vue";
+import {BlockComponentType} from "../enums/BlockComponentType";
 
 const emit = defineEmits(['update:modelValue']);
 
@@ -36,6 +38,12 @@ const computedColumnClass = computed(() => {
 
 const onDropBlock = (index: number) => {
     content.value.splice(index, 1);
+    updateTimeStamp.value = time();
+}
+
+const onAppend = (index: number, component: string) => {
+    let block = component === BlockComponentType.ListItem ? PageBlock.createListItem() : PageBlock.createTextEditor();
+    content.value.splice(index + 1, 0, block);
     updateTimeStamp.value = time();
 }
 
@@ -81,7 +89,8 @@ watch(content, v => emit('update:modelValue', v), {deep: true});
             :edit-mode="editMode"
             :canvas-level="canvasLevel"
             :index="i"
-            @drop="onDropBlock"/>
+            @drop="onDropBlock"
+            @append="onAppend"/>
     </div>
 
     <div class="lkt-page-editor-canvas-nav">

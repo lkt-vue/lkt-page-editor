@@ -52,6 +52,11 @@ export class PageBlock {
         }
     }
 
+    static convertBlock(block: PageBlock, component: string) {
+        block.component = component;
+        return block;
+    }
+
     static createBasicBlock(itemType: string) {
         return new PageBlock({
             component: 'basic:' + itemType,

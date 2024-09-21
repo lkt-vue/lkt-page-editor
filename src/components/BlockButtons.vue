@@ -1,10 +1,31 @@
 <script setup lang="ts">
 
+import {PageBlock} from "../instances/PageBlock";
+import {computed, ref} from "vue";
+import {BlockComponentType} from "../enums/BlockComponentType";
+
 const emit = defineEmits(['drop']);
+
+const props = withDefaults(defineProps<{
+    modelValue: PageBlock
+}>(), {
+    modelValue: [],
+});
+
+const item = ref(props.modelValue);
 
 const onClickDrop = () => {
     emit('drop');
 }
+
+const computedDisplaySwitchBetweenBasicBlocks = computed(() => {
+    return [
+        BlockComponentType.Text,
+        BlockComponentType.Header1,
+        BlockComponentType.Header2,
+        BlockComponentType.Header3,
+    ].includes(item.value.component);
+})
 </script>
 
 <template>
@@ -29,24 +50,33 @@ const onClickDrop = () => {
                 >
                     <template #tooltip="{doClose}">
                         <div class="lkt-page-editor-add-menu">
-                            <div class="lkt-page-editor-add-menu-title">Basic blocks</div>
                             <lkt-button
+                                v-if="computedDisplaySwitchBetweenBasicBlocks"
                                 class="lkt-page-editor-add-menu-button"
                                 icon="pagetor-icon-fontsize"
                                 text="Text"
-                                @click="() => {doClose();}"
+                                @click="() => {doClose(); PageBlock.convertBlock(item, BlockComponentType.Text)}"
                             />
                             <lkt-button
+                                v-if="computedDisplaySwitchBetweenBasicBlocks"
                                 class="lkt-page-editor-add-menu-button"
                                 icon="pagetor-icon-fontsize"
                                 text="Header 1"
-                                @click="() => {doClose();}"
+                                @click="() => {doClose(); PageBlock.convertBlock(item, BlockComponentType.Header1)}"
                             />
                             <lkt-button
+                                v-if="computedDisplaySwitchBetweenBasicBlocks"
                                 class="lkt-page-editor-add-menu-button"
                                 icon="pagetor-icon-fontsize"
                                 text="Header 2"
-                                @click="() => {doClose();}"
+                                @click="() => {doClose(); PageBlock.convertBlock(item, BlockComponentType.Header2)}"
+                            />
+                            <lkt-button
+                                v-if="computedDisplaySwitchBetweenBasicBlocks"
+                                class="lkt-page-editor-add-menu-button"
+                                icon="pagetor-icon-fontsize"
+                                text="Header 3"
+                                @click="() => {doClose(); PageBlock.convertBlock(item, BlockComponentType.Header3)}"
                             />
                         </div>
                     </template>

@@ -53,6 +53,10 @@ const onDropEditor = () => {
     emit('drop', props.index);
 }
 
+const onAppend = (component) => {
+    emit('append', props.index, component);
+}
+
 watch(() => props.modelValue, v => item.value = v, {deep: true});
 watch(item, v => emit('update:modelValue', v), {deep: true});
 </script>
@@ -60,10 +64,10 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 <template>
     <div class="lkt-page-editor-block">
 
-        <block-buttons v-show="editMode" @drop="onDropEditor"/>
+        <block-buttons v-show="editMode" v-model="item" @drop="onDropEditor"/>
 
         <div class="lkt-page-editor-block-content">
-            <text-editor v-if="computedRenderEditor === 0" v-model="item" :edit-mode="editMode" @drop="onDropEditor"/>
+            <text-editor v-if="computedRenderEditor === 0" v-model="item" :edit-mode="editMode" @drop="onDropEditor" @append="onAppend"/>
             <item-editor v-if="computedRenderEditor === 1" v-model="item" :edit-mode="editMode"/>
             <container-editor v-if="computedRenderEditor === 2" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
             <list-editor v-if="computedRenderEditor === 3" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>

@@ -8,7 +8,7 @@ import {trim} from "lkt-string-tools";
 import {BlockComponentType} from "../enums/BlockComponentType";
 
 
-const emit = defineEmits(['drop', 'update:modelValue']);
+const emit = defineEmits(['drop', 'append', 'update:modelValue']);
 
 const props = withDefaults(defineProps<{
     modelValue: PageBlock
@@ -111,7 +111,9 @@ const computedDisplayBlockHeader = computed(() => {
 })
 
 const onEditorKeyUp = (event: KeyboardEvent) => {
-    item.value.content = editor.value.innerHTML;
+    if (event.key !== 'Enter') {
+        item.value.content = editor.value.innerHTML;
+    }
 
     if (event.key === 'Backspace') {
         let text = trim(item.value.content);
@@ -122,6 +124,21 @@ const onEditorKeyUp = (event: KeyboardEvent) => {
         } else {
             latestTextLengthOnBackspace.value = l;
         }
+
+    } else if (event.key === 'Enter') {
+
+        const clearLineBreakEvent = new KeyboardEvent('keydown', {
+            key: 'Backspace'
+        });
+
+        emit(
+            'append',
+            item.value.component === BlockComponentType.ListItem
+                ? item.value.component === BlockComponentType.ListItem
+                : item.value.component === BlockComponentType.Text
+        )
+
+        editor.value.dispatchEvent(clearLineBreakEvent);
     }
 }
 
