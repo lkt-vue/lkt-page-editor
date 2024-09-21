@@ -70,6 +70,12 @@ const computedBlockTitle = computed(() => {
     }
 
     return item.value.component;
+});
+
+const computedComponent = computed(() => {
+    if ([BlockComponentType.LktAccordion, BlockComponentType.LktBox].includes(item.value.component)) return item.value.component;
+
+    return 'div';
 })
 
 
@@ -80,7 +86,21 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 
 <template>
     <div ref="container" class="lkt-editor-block lkt-container-editor" :class="computedClass">
+        <component
+            :is="computedComponent"
+            :title="item.title"
+            style="display: flex; width: 100%;">
+            <div class="lkt-container-editor-canvas">
+                <edition-canvas
+                    v-model="item.blocks"
+                    :edit-mode="editMode"
+                    :canvas-level="computedCanvasLevel"
+                    :columns="item.columns"/>
+            </div>
+        </component>
+
         <div
+            v-if="false"
             ref="blockHeader"
             class="lkt-page-editor-block-header-container"
             @click="showToolbar = !showToolbar">
@@ -90,7 +110,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
             </block-header>
         </div>
 
-        <div class="lkt-container-editor-canvas">
+        <div v-if="false" class="lkt-container-editor-canvas">
             <edition-canvas
                 v-model="item.blocks"
                 :edit-mode="editMode"
@@ -100,6 +120,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 
 
         <lkt-tooltip
+            v-if="false"
             class="lkt-editor-toolbar"
             v-model="showToolbar"
             :referrer="blockHeader"

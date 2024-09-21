@@ -68,6 +68,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 <template>
     <div ref="container" class="lkt-editor-block lkt-list-editor" :class="computedClass">
         <div
+            v-if="false"
             ref="blockHeader"
             class="lkt-page-editor-block-header-container"
             @click="showToolbar = !showToolbar">

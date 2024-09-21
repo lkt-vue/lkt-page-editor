@@ -32,7 +32,7 @@ const updateTimeStamp = ref(0);
 const uniqueId = generateRandomString(12);
 
 const computedColumnClass = computed(() => {
-    return 'lkt-grid-1';
+    // return 'lkt-grid-1';
     return 'lkt-grid-' + props.columns;
 });
 
@@ -58,6 +58,7 @@ onMounted(() => {
         sortable.value = new Sortable(dragArea.value, {
             group: 'group-' + time(),
             handle: '.drag-indicator',
+            delay: 150,
             animation: 150,
             fallbackOnBody: true,
             swapThreshold: 0.65,

@@ -92,8 +92,8 @@
 .lkt-page-editor-block {
     display: flex;
     flex-direction: row;
-    gap: 15px;
-    width: 100%;
+    /*gap: 15px;*/
+    /*width: 100%;*/
 }
 
 .lkt-page-editor-block-content {
@@ -155,6 +155,54 @@
 
 [contenteditable]:focus {
     outline: 0px solid transparent;
+}
+
+.lkt-container-editor-canvas {
+    width: 100%;
+}
+
+.lkt-page-editor-canvas {
+    width: 100%;
+    overflow: auto;
+}
+
+.drag-indicator {
+    --lkt-btn-bg: transparent;
+    --lkt-btn-bg-hover: #dadada;
+    --lkt-btn-border-color: transparent;
+    --lkt-btn-border-color-hover: #dadada;
+    --lkt-btn-font-size: 12px;
+    --lkt-btn-font-weight: 400;
+    --lkt-btn-line-height: 1;
+}
+
+.lkt-page-editor-block-buttons {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+}
+.lkt-page-editor-block-buttons .icon-drag-indicator {
+    padding: 3px 2px 2px 4px;
+    transition: all linear 200ms;
+    border-radius: 4px;
+}
+.lkt-page-editor-block-buttons .drag-indicator:hover .icon-drag-indicator {
+    background: #dadada;
+}
+.lkt-page-editor-block-buttons .icon-drag-indicator:before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 20px;
+    --dot-bg: #ffffff;
+    --dot-color: #000;
+    --dot-size: 2px;
+    --dot-space: 5px;
+    background: linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
+}
+.lkt-page-editor-block-buttons .drag-indicator:hover .icon-drag-indicator:before {
+    --dot-bg: #dadada;
 }
 
 @media (min-width: 768px) {
