@@ -6,6 +6,7 @@ import {Settings} from "../settings/Settings";
 import EditionCanvas from "../components/EditionCanvas.vue";
 import BlockHeader from "../components/BlockHeader.vue";
 import {BlockComponentType} from "../enums/BlockComponentType";
+import {__} from "lkt-i18n";
 
 const emit = defineEmits(['update:modelValue']);
 
@@ -72,6 +73,11 @@ const computedBlockTitle = computed(() => {
     return item.value.component;
 });
 
+const computedTitle = computed(() => {
+    if (item.value.i18nMode) return __(item.value.i18nTitle);
+    return item.value.title;
+})
+
 const computedComponent = computed(() => {
     if ([BlockComponentType.LktAccordion, BlockComponentType.LktBox].includes(item.value.component)) return item.value.component;
 
@@ -88,7 +94,8 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
     <div ref="container" class="lkt-editor-block lkt-container-editor" :class="computedClass">
         <component
             :is="computedComponent"
-            :title="item.title"
+            :title="computedTitle"
+            :icon="item.icon"
             style="display: flex; width: 100%;">
             <div class="lkt-container-editor-canvas">
                 <edition-canvas
@@ -98,51 +105,5 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
                     :columns="item.columns"/>
             </div>
         </component>
-
-        <div
-            v-if="false"
-            ref="blockHeader"
-            class="lkt-page-editor-block-header-container"
-            @click="showToolbar = !showToolbar">
-            <block-header>
-                <i :class="computedIcon"/>
-                {{computedBlockTitle}}
-            </block-header>
-        </div>
-
-        <div v-if="false" class="lkt-container-editor-canvas">
-            <edition-canvas
-                v-model="item.blocks"
-                :edit-mode="editMode"
-                :canvas-level="computedCanvasLevel"
-                :columns="item.columns"/>
-        </div>
-
-
-        <lkt-tooltip
-            v-if="false"
-            class="lkt-editor-toolbar"
-            v-model="showToolbar"
-            :referrer="blockHeader"
-            location-y="bottom"
-            referrer-width
-        >
-            <template #default="{doClose}">
-                <div class="lkt-editor-block-grid">
-                    <lkt-field-text
-                        v-model="item.title"
-                        label="Title"
-                    />
-
-                    <lkt-field-text
-                        v-model="item.columns"
-                        label="Columns"
-                        is-number
-                        :min="1"
-                        :max="10"
-                    />
-                </div>
-            </template>
-        </lkt-tooltip>
     </div>
 </template>

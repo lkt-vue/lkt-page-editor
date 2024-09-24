@@ -10,6 +10,7 @@ export class CustomBasicBlock {
 export class CustomItemType {
     constructor(data?: {});
     component: string;
+    itemType: string;
     text: string;
     resource: string;
     icon: string;

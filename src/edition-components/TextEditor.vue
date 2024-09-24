@@ -3,9 +3,9 @@ import {PageBlock} from "../instances/PageBlock";
 import {getSelectionText} from "../functions/editor-functions";
 import {computed, nextTick, onMounted, ref, watch} from "vue";
 import {Settings} from "../settings/Settings";
-import BlockHeader from "../components/BlockHeader.vue";
 import {trim} from "lkt-string-tools";
 import {BlockComponentType} from "../enums/BlockComponentType";
+import {__} from "lkt-i18n";
 
 
 const emit = defineEmits(['drop', 'append', 'update:modelValue']);
@@ -58,6 +58,8 @@ const computedClass = computed(() => {
         if (item.value.component === BlockComponentType.ListItem) r.push('is-li');
         if (item.value.component === BlockComponentType.LktIcon) r.push('is-lkt-icon');
 
+        if (item.value.i18nMode) r.push('is-i18n-mode');
+
         return r.join(' ');
     }),
     computedPlaceholder = computed(() => {
@@ -105,9 +107,8 @@ const computedDisplayContentEdition = computed(() => {
     return customBasicBlock.value.contentEnabled;
 })
 
-const computedDisplayBlockHeader = computed(() => {
-    if (item.value.component === BlockComponentType.LktIcon) return true;
-    return customBasicBlock.value;
+const isLktIcon = computed(() => {
+    return item.value.component === BlockComponentType.LktIcon;
 })
 
 const onEditorKeyUp = (event: KeyboardEvent) => {
@@ -156,39 +157,45 @@ onMounted(() => {
 
 watch(() => props.modelValue, v => item.value = v, {deep: true});
 watch(item, v => emit('update:modelValue', v), {deep: true});
+
+
+
+const computedTitle = computed(() => {
+    if (item.value.i18nMode) return __(item.value.i18nTitle);
+    return item.value.title;
+});
+const computedContent = computed(() => {
+    return __(item.value.i18nTitle);
+})
 </script>
 
 <template>
     <div ref="container" class="lkt-editor-block lkt-text-editor" :class="computedClass">
 
         <div class="lkt-grid-1">
-            <div
-                v-show="computedDisplayBlockHeader"
-                ref="blockHeader"
-                class="lkt-page-editor-block-header-container"
-                @click="showCustomToolbar = !showCustomToolbar">
-                <block-header v-if="item.itemId <= 0">
-                    <i :class="computedIcon"/>
-                    {{ computedBlockTitle }}
-                </block-header>
-                <block-header v-else-if="customBasicBlock?.slot">
-                    <component :is="customBasicBlock.slot" :item="item.item"/>
-                </block-header>
-                <block-header v-else>
-                    <i :class="computedIcon"/>
-                    {{ computedBlockTitle }}
-                </block-header>
+
+            <div v-if="isLktIcon">
+                <lkt-icon
+                    :icon="item.icon"
+                    :text="computedTitle"
+                />
             </div>
 
             <div
-                v-show="computedDisplayContentEdition"
-                class="lkt-text-editor-content"
+                v-show="computedDisplayContentEdition && !item.i18nMode"
+                class="lkt-text-editor-content text-editor-field"
                 ref="editor"
                 :placeholder="computedPlaceholder"
-                :contenteditable="editMode"
+                :contenteditable="editMode && !item.i18nMode"
                 v-html="item.content"
                 v-once
                 @keyup="onEditorKeyUp"
+            />
+
+            <div
+                v-if="computedDisplayContentEdition && item.i18nMode"
+                class="lkt-text-editor-content"
+                v-html="computedContent"
             />
         </div>
 
@@ -209,27 +216,6 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
                                 @click="() => execDefaultAction('underline')"/>
                     <lkt-button class="text-format-button" icon="pagetor-icon-strike"
                                 @click="() => execDefaultAction('strikeThrough')"/>
-                </div>
-            </template>
-        </lkt-tooltip>
-
-        <lkt-tooltip
-            class="lkt-editor-toolbar"
-            v-model="showCustomToolbar"
-            :referrer="blockHeader"
-            location-y="bottom"
-            referrer-width
-        >
-            <template #default="{doClose}">
-                <div class="lkt-editor-block-grid">
-                    <lkt-field-text
-                        v-model="item.title"
-                        label="Title"
-                    />
-                    <lkt-field-text
-                        v-model="item.icon"
-                        label="Icon"
-                    />
                 </div>
             </template>
         </lkt-tooltip>

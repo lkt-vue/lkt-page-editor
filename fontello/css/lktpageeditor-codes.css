@@ -20,6 +20,8 @@
 .pagetor-icon-table:before { content: '\f0ce'; } /* '' */
 .pagetor-icon-columns:before { content: '\f0db'; } /* '' */
 .pagetor-icon-folder-empty:before { content: '\f114'; } /* '' */
+.pagetor-icon-ellipsis:before { content: '\f141'; } /* '' */
+.pagetor-icon-ellipsis-vert:before { content: '\f142'; } /* '' */
 .pagetor-icon-box:before { content: '\f187'; } /* '' */
 .pagetor-icon-header:before { content: '\f1dc'; } /* '' */
 .pagetor-icon-object-group:before { content: '\f247'; } /* '' */

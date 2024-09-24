@@ -55,6 +55,11 @@
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .4);
 }
 
+.lkt-page-editor-block-menu-tooltip {
+    --lkt-tooltip-width: 500px;
+    --lkt-tooltip-text-align: left;
+}
+
 .lkt-page-editor-add-menu {
     display: flex;
     flex-direction: column;
@@ -124,6 +129,10 @@
     grid-template-columns: 1fr;
     padding: 15px;
 }
+.lkt-editor-block-grid.no-padding {
+    padding: 0;
+}
+
 
 .lkt-text-editor.is-h1 {
     font-size: 32px;
@@ -182,27 +191,28 @@
     align-items: flex-start;
     gap: 8px;
 }
-.lkt-page-editor-block-buttons .icon-drag-indicator {
-    padding: 3px 2px 2px 4px;
-    transition: all linear 200ms;
-    border-radius: 4px;
+
+.lkt-page-editor .block-menu-actions {
+    border-right: 1px solid #dadada;
+    padding-right: 15px;
+    min-width: 130px;
 }
-.lkt-page-editor-block-buttons .drag-indicator:hover .icon-drag-indicator {
-    background: #dadada;
+
+.lkt-page-editor .pagetor-icon-ellipsis-vert {
+    font-size: 1.3em;
 }
-.lkt-page-editor-block-buttons .icon-drag-indicator:before {
-    content: '';
-    display: block;
-    width: 10px;
-    height: 20px;
-    --dot-bg: #ffffff;
-    --dot-color: #000;
-    --dot-size: 2px;
-    --dot-space: 5px;
-    background: linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space), var(--dot-color);
+
+.lkt-page-editor-add-menu-button .lkt-field-switch {
+    --lkt-field-input-height: auto;
+    margin-left: auto;
 }
-.lkt-page-editor-block-buttons .drag-indicator:hover .icon-drag-indicator:before {
-    --dot-bg: #dadada;
+
+.lkt-page-editor-add-menu-button .lkt-field-switch label {
+    padding-left: 30px;
+}
+
+.is-i18n-mode .text-editor-field {
+    display: none !important;
 }
 
 @media (min-width: 768px) {

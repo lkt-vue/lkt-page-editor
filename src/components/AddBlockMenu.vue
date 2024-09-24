@@ -125,7 +125,7 @@ const computedCustomBasicBlocks = computed(() => Settings.customBasicBlocks);
             class="lkt-page-editor-add-menu-button"
             :icon="customItemType.icon"
             :text="customItemType.text"
-            @click="() => {doClose(); content.push(PageBlock.createItemEditor(customItemType.component))}"
+            @click="() => {doClose(); content.push(PageBlock.createItemEditor(customItemType.component, customItemType.itemType))}"
         />
     </div>
 </template>

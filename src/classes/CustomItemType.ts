@@ -3,6 +3,7 @@ import {Component} from "vue";
 
 export class CustomItemType {
     component: string = '';
+    itemType: string = '';
     text: string = '';
     resource: string = '';
     icon: string = '';

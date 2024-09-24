@@ -18,15 +18,17 @@ const props = withDefaults(defineProps<{
 const editor = ref(null);
 const container = ref(null);
 const blockHeader = ref(null);
-const itemPicker = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
 
 const computedClass = computed(() => {
-        let r = [];
-        if (item.value.component === 'item') r.push('is-item');
-        return r.join(' ');
-    });
+    return 'is-item';
+});
+
+const isMultipleItemPicker = computed(() => {
+    let type = item.value.component.split(':')[0];
+    return type === 'items';
+})
 
 const customItemType = computed(() => {
     let searchType = item.value.component.split(':')[1];
@@ -41,15 +43,8 @@ const computedIcon = computed(() => {
     return 'icon-cog';
 })
 
-const onSelectedOption = (opt) => {
-    item.value.item = opt;
-    showToolbar.value = false;
-}
-
 watch(() => props.modelValue, v => item.value = v, {deep: true});
 watch(item, v => emit('update:modelValue', v), {deep: true});
-
-
 </script>
 
 <template>
@@ -59,7 +54,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
             ref="blockHeader"
             class="lkt-page-editor-block-header-container"
             @click="showToolbar = !showToolbar">
-            <block-header v-if="customItemType?.type === 'item'">
+            <block-header v-if="!isMultipleItemPicker">
                 <template v-if="item.itemId <= 0">
                     <i :class="computedIcon"/>
                     Pick an item
@@ -69,11 +64,11 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
                 </template>
                 <template v-else>
                     <i :class="computedIcon"/>
-                    {{item.item.label}}
+                    {{ item.item.label }}
                 </template>
             </block-header>
 
-            <block-header v-else-if="customItemType?.type === 'items'">
+            <block-header v-else-if="isMultipleItemPicker">
                 <template v-if="item.itemsIds.length === 0">
                     <i :class="computedIcon"/>
                     Pick some items
@@ -86,51 +81,14 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
                 </template>
                 <template v-else>
                     <i :class="computedIcon"/>
-                    {{item.itemsIds.length}} items picked
+                    {{ item.itemsIds.length }} items picked
                 </template>
             </block-header>
 
             <block-header v-else-if="customItemType?.type === 'auto'">
                 <i :class="computedIcon"/>
-                {{customItemType.text}}
+                {{ customItemType.text }}
             </block-header>
         </div>
-
-
-        <lkt-tooltip
-            v-if="customItemType?.type !== 'auto'"
-            class="lkt-editor-toolbar"
-            v-model="showToolbar"
-            :referrer="blockHeader"
-            location-y="bottom"
-            referrer-width
-        >
-            <template #default="{doClose}">
-                <div class="lkt-editor-block-grid">
-                    <lkt-field-select
-                        v-if="customItemType?.type === 'item'"
-                        ref="itemPicker"
-                        v-model="item.itemId"
-                        label="Select item"
-                        searchable
-                        :resource="customItemType?.resource"
-                        :resource-data="customItemType?.resourceData"
-                        @selected-option="onSelectedOption"
-                    />
-                    <lkt-field-select
-                        v-else-if="customItemType?.type === 'items'"
-                        ref="itemPicker"
-                        v-model="item.itemsIds"
-                        :options="item.items"
-                        label="Select item"
-                        searchable
-                        multiple
-                        :resource="customItemType?.resource"
-                        :resource-data="customItemType?.resourceData"
-                        @selected-option="onSelectedOption"
-                    />
-                </div>
-            </template>
-        </lkt-tooltip>
     </div>
 </template>

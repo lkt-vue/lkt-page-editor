@@ -1,8 +1,5 @@
 import {LktObject} from "lkt-ts-interfaces";
-import {AccordionConfig} from "./config/AccordionConfig";
-import {BoxConfig} from "./config/BoxConfig";
 import {BannerBoxConfig} from "./config/BannerBoxConfig";
-import {ColumnsConfig} from "./config/ColumnsConfig";
 import {BlockConfig} from "../types/BlockConfig";
 import {BlockComponentType} from "../enums/BlockComponentType";
 
@@ -26,12 +23,15 @@ export class PageBlock {
 
     // Content organization
     title: string = '';
+    i18nTitle: string = '';
     icon: string = '';
     blocks: PageBlock[] = [];
     columns: number = 1;
 
     // Class name config
     className: string = '';
+
+    i18nMode: boolean = false;
 
     config: BlockConfig = {}
 
@@ -65,9 +65,10 @@ export class PageBlock {
         })
     }
 
-    static createItemEditor(itemType: string) {
+    static createItemEditor(component: string, itemType: string) {
         return new PageBlock({
-            component: 'item:' + itemType,
+            component: 'item:' + component,
+            itemType,
         })
     }
 
@@ -106,21 +107,18 @@ export class PageBlock {
         return new PageBlock({
             component: BlockComponentType.Columns,
             columns: 2,
-            config: new ColumnsConfig()
         })
     }
 
     static createLktBox() {
         return new PageBlock({
             component: BlockComponentType.LktBox,
-            config: new BoxConfig()
         })
     }
 
     static createLktAccordion() {
         return new PageBlock({
             component: BlockComponentType.LktAccordion,
-            config: new AccordionConfig()
         })
     }
 
