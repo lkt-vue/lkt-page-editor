@@ -694,7 +694,6 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     });
     return (_ctx, _cache) => {
       const _component_lkt_button = resolveComponent("lkt-button");
-      const _component_lkt_field_switch = resolveComponent("lkt-field-switch");
       const _component_lkt_field_select = resolveComponent("lkt-field-select");
       const _component_lkt_field_text = resolveComponent("lkt-field-text");
       return openBlock(), createElementBlock("div", _hoisted_1$5, [
@@ -709,13 +708,12 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
             return [
               createElementVNode("div", _hoisted_2$4, [
                 createElementVNode("div", _hoisted_3$1, [
-                  _cache[9] || (_cache[9] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Actions", -1)),
+                  _cache[8] || (_cache[8] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Actions", -1)),
                   createVNode(_component_lkt_button, {
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-fontsize",
                     text: "Convert To",
                     onClick: () => {
-                      doClose();
                     },
                     tooltip: "",
                     "tooltip-class": "lkt-page-editor-menu-tooltip"
@@ -795,24 +793,16 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                       ])
                     ]),
                     _: 2
-                  }, 1032, ["onClick"]),
+                  }, 1024),
                   computedCanEditI18nMode.value ? (openBlock(), createBlock(_component_lkt_button, {
                     key: 0,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-language",
                     text: "I18n mode",
-                    onClick: _cache[1] || (_cache[1] = () => {
-                      item.value.i18nMode = !item.value.i18nMode;
-                    })
-                  }, {
-                    default: withCtx(() => [
-                      createVNode(_component_lkt_field_switch, {
-                        modelValue: item.value.i18nMode,
-                        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => item.value.i18nMode = $event)
-                      }, null, 8, ["modelValue"])
-                    ]),
-                    _: 1
-                  })) : createCommentVNode("", true),
+                    "show-switch": "",
+                    checked: item.value.i18nMode,
+                    "onUpdate:checked": _cache[0] || (_cache[0] = ($event) => item.value.i18nMode = $event)
+                  }, null, 8, ["checked"])) : createCommentVNode("", true),
                   !item.value.i18nMode ? (openBlock(), createBlock(_component_lkt_button, {
                     key: 1,
                     class: "lkt-page-editor-add-menu-button",
@@ -842,13 +832,13 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                   }, null, 8, ["onClick"])
                 ]),
                 createElementVNode("div", _hoisted_5, [
-                  _cache[10] || (_cache[10] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Config", -1)),
+                  _cache[9] || (_cache[9] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Config", -1)),
                   createElementVNode("div", _hoisted_6, [
                     isItemPicker.value && !isMultipleItemPicker.value ? (openBlock(), createBlock(_component_lkt_field_select, {
                       key: 0,
                       ref: "itemPicker",
                       modelValue: item.value.itemId,
-                      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => item.value.itemId = $event),
+                      "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => item.value.itemId = $event),
                       label: "Select item",
                       searchable: "",
                       resource: (_a = computedCustomItemType.value) == null ? void 0 : _a.resource,
@@ -858,7 +848,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                       key: 1,
                       ref: "itemPicker",
                       modelValue: item.value.itemsIds,
-                      "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => item.value.itemsIds = $event),
+                      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => item.value.itemsIds = $event),
                       options: item.value.items,
                       label: "Select item",
                       searchable: "",
@@ -870,13 +860,13 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                     computedCanEditTitle.value && !item.value.i18nMode ? (openBlock(), createBlock(_component_lkt_field_text, {
                       key: 2,
                       modelValue: item.value.title,
-                      "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => item.value.title = $event),
+                      "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => item.value.title = $event),
                       label: "Title"
                     }, null, 8, ["modelValue"])) : computedCanEditTitle.value && item.value.i18nMode ? (openBlock(), createBlock(_component_lkt_field_select, {
                       key: 3,
                       ref: "itemPicker",
                       modelValue: item.value.i18nTitle,
-                      "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => item.value.i18nTitle = $event),
+                      "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => item.value.i18nTitle = $event),
                       label: "Select item",
                       searchable: "",
                       options: computedI18nOptions.value
@@ -884,7 +874,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                     computedCanEditColumns.value ? (openBlock(), createBlock(_component_lkt_field_text, {
                       key: 4,
                       modelValue: item.value.columns,
-                      "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => item.value.columns = $event),
+                      "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => item.value.columns = $event),
                       label: "Columns",
                       "is-number": "",
                       min: 1,
@@ -892,13 +882,13 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
                     }, null, 8, ["modelValue"])) : createCommentVNode("", true),
                     createVNode(_component_lkt_field_text, {
                       modelValue: item.value.className,
-                      "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => item.value.className = $event),
+                      "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => item.value.className = $event),
                       label: "CSS Class"
                     }, null, 8, ["modelValue"]),
                     computedCanEditIcon.value ? (openBlock(), createBlock(_component_lkt_field_text, {
                       key: 5,
                       modelValue: item.value.icon,
-                      "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => item.value.icon = $event),
+                      "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => item.value.icon = $event),
                       label: "Icon"
                     }, null, 8, ["modelValue"])) : createCommentVNode("", true)
                   ])

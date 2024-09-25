@@ -163,7 +163,7 @@ const computedI18nOptions = computed(() => {
                             class="lkt-page-editor-add-menu-button"
                             icon="pagetor-icon-fontsize"
                             text="Convert To"
-                            @click="() => {doClose();}"
+                            @click="() => {}"
                             tooltip
                             tooltip-class="lkt-page-editor-menu-tooltip"
                         >
@@ -226,10 +226,9 @@ const computedI18nOptions = computed(() => {
                             class="lkt-page-editor-add-menu-button"
                             icon="pagetor-icon-language"
                             text="I18n mode"
-                            @click="() => {item.i18nMode = !item.i18nMode}"
-                        >
-                            <lkt-field-switch v-model="item.i18nMode"/>
-                        </lkt-button>
+                            show-switch
+                            v-model:checked="item.i18nMode"
+                        />
                         <lkt-button
                             v-if="!item.i18nMode"
                             class="lkt-page-editor-add-menu-button"
