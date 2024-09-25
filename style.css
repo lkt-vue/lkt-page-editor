@@ -202,15 +202,6 @@
     font-size: 1.3em;
 }
 
-.lkt-page-editor-add-menu-button .lkt-field-switch {
-    --lkt-field-input-height: auto;
-    margin-left: auto;
-}
-
-.lkt-page-editor-add-menu-button .lkt-field-switch label {
-    padding-left: 30px;
-}
-
 .is-i18n-mode .text-editor-field {
     display: none !important;
 }

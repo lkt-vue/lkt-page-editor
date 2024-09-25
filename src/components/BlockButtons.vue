@@ -53,12 +53,27 @@ const isItemPicker = computed(() => {
     return type.startsWith('item');
 })
 
+const isMultimediaPicker = computed(() => {
+    let type = item.value.component.split(':')[0];
+    return type.startsWith('lmm-multimedia');
+})
+
+const computedMultimediaPickerResourceData = computed(() => {
+    return {
+        _lmm_type: 'multimedia',
+        _lmm_filters: JSON.stringify({
+            type: 'image',
+        })
+    };
+})
+
 const isMultipleItemPicker = computed(() => {
     let type = item.value.component.split(':')[0];
     return type === 'items';
 })
 
 const computedCanEditTitle = computed(() => {
+    if (computedCanEditCustomTitleMode.value && item.value.customTitle) return true;
     if ([
         BlockComponentType.LktAccordion,
         BlockComponentType.LktBox,
@@ -74,7 +89,18 @@ const computedCanEditTitle = computed(() => {
     return false;
 })
 
+const computedCanEditTranslate = computed(() => {
+    if (!item.value.i18nMode && [
+        BlockComponentType.Text,
+        BlockComponentType.Header1,
+        BlockComponentType.Header2,
+        BlockComponentType.Header3,
+    ].includes(item.value.component)) return true;
+    return false;
+})
+
 const computedCanEditI18nMode = computed(() => {
+    if (computedCanEditCustomTitleMode.value && item.value.customTitle) return true;
     if ([
         BlockComponentType.Text,
         BlockComponentType.Header1,
@@ -83,6 +109,20 @@ const computedCanEditI18nMode = computed(() => {
         BlockComponentType.LktAccordion,
         BlockComponentType.LktBox,
         BlockComponentType.LktIcon,
+    ].includes(item.value.component)) return true;
+    return false;
+})
+
+const computedCanEditCustomTitleMode = computed(() => {
+    if ([
+        BlockComponentType.LmmMultimediaImage,
+    ].includes(item.value.component)) return true;
+    return false;
+})
+
+const computedCanEditCustomSize = computed(() => {
+    if ([
+        BlockComponentType.LmmMultimediaImage,
     ].includes(item.value.component)) return true;
     return false;
 })
@@ -109,7 +149,7 @@ const computedIsContainerBlock = computed(() => {
     if ([
         BlockComponentType.LktAccordion,
         BlockComponentType.LktBox,
-        BlockComponentType.LktIcon,
+        BlockComponentType.Columns,
     ].includes(item.value.component)) return true;
     return false;
 })
@@ -160,12 +200,15 @@ const computedI18nOptions = computed(() => {
                     <div class="lkt-page-editor-add-menu block-menu-actions">
                         <div class="lkt-page-editor-add-menu-title">Actions</div>
                         <lkt-button
+                            v-if="computedDisplaySwitchBetweenBasicBlocks || computedDisplaySwitchBetweenContainerBlocks"
                             class="lkt-page-editor-add-menu-button"
                             icon="pagetor-icon-fontsize"
+                            icon-end="icon-right"
                             text="Convert To"
-                            @click="() => {}"
                             tooltip
                             tooltip-class="lkt-page-editor-menu-tooltip"
+                            tooltip-location-y="center"
+                            tooltip-location-X="right"
                         >
                             <template #tooltip="{doClose}">
                                 <div class="lkt-page-editor-add-menu">
@@ -222,6 +265,14 @@ const computedI18nOptions = computed(() => {
                             </template>
                         </lkt-button>
                         <lkt-button
+                            v-if="computedCanEditCustomTitleMode"
+                            class="lkt-page-editor-add-menu-button"
+                            icon="pagetor-icon-language"
+                            text="Custom title"
+                            show-switch
+                            v-model:checked="item.customTitle"
+                        />
+                        <lkt-button
                             v-if="computedCanEditI18nMode"
                             class="lkt-page-editor-add-menu-button"
                             icon="pagetor-icon-language"
@@ -230,7 +281,7 @@ const computedI18nOptions = computed(() => {
                             v-model:checked="item.i18nMode"
                         />
                         <lkt-button
-                            v-if="!item.i18nMode"
+                            v-if="!item.i18nMode && computedCanEditTranslate"
                             class="lkt-page-editor-add-menu-button"
                             icon="pagetor-icon-language"
                             text="Translate"
@@ -243,6 +294,116 @@ const computedI18nOptions = computed(() => {
                             text="Breakpoints"
                             @click="() => {doClose();}"
                         />
+                        <lkt-button
+                            v-if="computedCanEditCustomSize"
+                            class="lkt-page-editor-add-menu-button"
+                            icon="pagetor-icon-fontsize"
+                            icon-end="icon-right"
+                            text="Container Size"
+                            tooltip
+                            tooltip-class="lkt-page-editor-menu-tooltip"
+                            tooltip-location-y="center"
+                            tooltip-location-X="right"
+                        >
+                            <template #tooltip="{doClose}">
+                                <div class="lkt-grid-1">
+                                    <lkt-accordion
+                                        title="Fixed Size">
+                                        <div class="lkt-grid-2">
+                                            <lkt-field-text
+                                                v-model="item.config.width"
+                                                label="Width"
+                                            />
+                                            <lkt-field-text
+                                                v-model="item.config.height"
+                                                label="Height"
+                                            />
+                                        </div>
+                                    </lkt-accordion>
+                                    <lkt-accordion
+                                        title="Min Size">
+                                        <div class="lkt-grid-2">
+                                            <lkt-field-text
+                                                v-model="item.config.minWidth"
+                                                label="Min Width"
+                                            />
+                                            <lkt-field-text
+                                                v-model="item.config.minHeight"
+                                                label="Min Height"
+                                            />
+                                        </div>
+                                    </lkt-accordion>
+                                    <lkt-accordion
+                                        title="Max Size">
+                                        <div class="lkt-grid-2">
+                                            <lkt-field-text
+                                                v-model="item.config.maxWidth"
+                                                label="Max Width"
+                                            />
+                                            <lkt-field-text
+                                                v-model="item.config.maxHeight"
+                                                label="Max Height"
+                                            />
+                                        </div>
+                                    </lkt-accordion>
+                                </div>
+                            </template>
+                        </lkt-button>
+                        <lkt-button
+                            v-if="computedCanEditCustomSize"
+                            class="lkt-page-editor-add-menu-button"
+                            icon="pagetor-icon-fontsize"
+                            icon-end="icon-right"
+                            text="Content Size"
+                            tooltip
+                            tooltip-class="lkt-page-editor-menu-tooltip"
+                            tooltip-location-y="center"
+                            tooltip-location-X="right"
+                        >
+                            <template #tooltip="{doClose}">
+                                <div class="lkt-grid-1">
+                                    <lkt-accordion
+                                        title="Fixed Size">
+                                        <div class="lkt-grid-2">
+                                            <lkt-field-text
+                                                v-model="item.config.contentWidth"
+                                                label="Width"
+                                            />
+                                            <lkt-field-text
+                                                v-model="item.config.contentHeight"
+                                                label="Height"
+                                            />
+                                        </div>
+                                    </lkt-accordion>
+                                    <lkt-accordion
+                                        title="Min Size">
+                                        <div class="lkt-grid-2">
+                                            <lkt-field-text
+                                                v-model="item.config.contentMinWidth"
+                                                label="Min Width"
+                                            />
+                                            <lkt-field-text
+                                                v-model="item.config.contentMinHeight"
+                                                label="Min Height"
+                                            />
+                                        </div>
+                                    </lkt-accordion>
+                                    <lkt-accordion
+                                        title="Max Size">
+                                        <div class="lkt-grid-2">
+                                            <lkt-field-text
+                                                v-model="item.config.contentMaxWidth"
+                                                label="Max Width"
+                                            />
+                                            <lkt-field-text
+                                                v-model="item.config.contentMaxHeight"
+                                                label="Max Height"
+                                            />
+                                        </div>
+                                    </lkt-accordion>
+                                </div>
+                            </template>
+                        </lkt-button>
                         <lkt-button
                             class="lkt-page-editor-add-menu-button"
                             icon="pagetor-icon-erase"
@@ -274,6 +435,17 @@ const computedI18nOptions = computed(() => {
                                 multiple
                                 :resource="computedCustomItemType?.resource"
                                 :resource-data="computedCustomItemType?.resourceData"
+                                @selected-option="onSelectedOption"
+                            />
+
+                            <lkt-field-select
+                                v-if="isMultimediaPicker"
+                                ref="itemPicker"
+                                v-model="item.itemId"
+                                label="Select item"
+                                searchable
+                                resource="opt-items"
+                                :resource-data="computedMultimediaPickerResourceData"
                                 @selected-option="onSelectedOption"
                             />
 

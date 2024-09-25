@@ -2,6 +2,7 @@ import {LktObject} from "lkt-ts-interfaces";
 import {BannerBoxConfig} from "./config/BannerBoxConfig";
 import {BlockConfig} from "../types/BlockConfig";
 import {BlockComponentType} from "../enums/BlockComponentType";
+import {AbstractConfig} from "./config/AbstractConfig";
 
 export class PageBlock {
     id: number = 0;
@@ -32,6 +33,7 @@ export class PageBlock {
     className: string = '';
 
     i18nMode: boolean = false;
+    customTitle: boolean = false;
 
     config: BlockConfig = {}
 
@@ -50,6 +52,10 @@ export class PageBlock {
         if (Array.isArray(data.config) && data.config.length === 0) {
             this.config = {};
         }
+
+        this.config = new AbstractConfig(this.config);
+
+        this.blocks = this.blocks.map(item => new PageBlock(item));
     }
 
     static convertBlock(block: PageBlock, component: string) {
@@ -128,6 +134,12 @@ export class PageBlock {
         })
     }
 
+    static createLktColor() {
+        return new PageBlock({
+            component: BlockComponentType.LktColor,
+        })
+    }
+
     static createBulletList() {
         return new PageBlock({
             component: BlockComponentType.BulletList,
@@ -138,6 +150,14 @@ export class PageBlock {
     static createListItem() {
         return new PageBlock({
             component: BlockComponentType.ListItem,
+        })
+    }
+
+    static createLmmMultimediaImage() {
+        return new PageBlock({
+            component: BlockComponentType.LmmMultimediaImage,
+            itemType: 'lmm-multimedia',
+            config: new AbstractConfig(),
         })
     }
 }

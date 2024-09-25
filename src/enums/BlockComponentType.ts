@@ -2,7 +2,9 @@ export enum BlockComponentType {
     LktBox = 'lkt-box',
     LktAccordion = 'lkt-accordion',
     LktIcon = 'lkt-icon',
+    LktColor = 'lkt-color',
     Columns = 'columns',
+    Colors = 'colors',
     Header1 = 'h1',
     Header2 = 'h2',
     Header3 = 'h3',
@@ -11,4 +13,5 @@ export enum BlockComponentType {
     ListItem = 'li',
     Item = 'item',
     Basic = 'basic',
+    LmmMultimediaImage = 'lmm-multimedia:image',
 }

@@ -64,6 +64,13 @@ const computedCustomBasicBlocks = computed(() => Settings.customBasicBlocks);
         />
         <lkt-button
             v-if="canvasLevel !== -2"
+            class="lkt-page-editor-add-menu-button"
+            icon="pagetor-icon-fontsize"
+            text="LKT Color"
+            @click="() => {doClose(); content.push(PageBlock.createLktColor())}"
+        />
+        <lkt-button
+            v-if="canvasLevel !== -2"
             v-for="customBlock in computedCustomBasicBlocks"
             class="lkt-page-editor-add-menu-button"
             :icon="customBlock.icon"
@@ -126,6 +133,15 @@ const computedCustomBasicBlocks = computed(() => Settings.customBasicBlocks);
             :icon="customItemType.icon"
             :text="customItemType.text"
             @click="() => {doClose(); content.push(PageBlock.createItemEditor(customItemType.component, customItemType.itemType))}"
+        />
+
+        <div class="lkt-page-editor-add-menu-title" v-if="canvasLevel !== -2">Multimedia</div>
+        <lkt-button
+            v-if="canvasLevel !== -2"
+            class="lkt-page-editor-add-menu-button"
+            icon="pagetor-icon-picture"
+            text="Image"
+            @click="() => {doClose(); content.push(PageBlock.createLmmMultimediaImage())}"
         />
     </div>
 </template>

@@ -3,6 +3,7 @@ import {PageBlock} from "../instances/PageBlock";
 import {computed, ref, watch} from "vue";
 import {Settings} from "../settings/Settings";
 import BlockHeader from "../components/BlockHeader.vue";
+import ItemPreview from "../components/ItemPreview.vue";
 
 
 const emit = defineEmits(['update:modelValue']);
@@ -49,8 +50,19 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 
 <template>
     <div ref="container" class="lkt-editor-block lkt-item-editor" :class="computedClass">
+        <template v-if="!isMultipleItemPicker && item.itemId > 0">
+            <template v-if="customItemType?.slot">
+                <component :is="customItemType.slot" :item="item.item"/>
+            </template>
+            <template v-else>
+                <item-preview
+                    v-model="item.item"
+                    :icon="customItemType?.icon"
+                />
+            </template>
+        </template>
 
-        <div
+        <div v-else
             ref="blockHeader"
             class="lkt-page-editor-block-header-container"
             @click="showToolbar = !showToolbar">
@@ -58,13 +70,6 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
                 <template v-if="item.itemId <= 0">
                     <i :class="computedIcon"/>
                     Pick an item
-                </template>
-                <template v-else-if="customItemType?.slot">
-                    <component :is="customItemType.slot" :item="item.item"/>
-                </template>
-                <template v-else>
-                    <i :class="computedIcon"/>
-                    {{ item.item.label }}
                 </template>
             </block-header>
 

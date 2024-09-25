@@ -3,6 +3,7 @@ import "../style.css";
 import "../fontello/css/lktpageeditor.css";
 import {default as libComponent} from "./lib-components/LktPageEditor.vue";
 import {CustomItemType} from "./classes/CustomItemType";
+import {PageBlock} from "./instances/PageBlock";
 import {Settings} from "./settings/Settings";
 import {CustomBasicBlock} from "./classes/CustomBasicBlock";
 
@@ -26,5 +27,6 @@ export const addBasicBlockToEditor = (config: CustomBasicBlock) => {
 
 export {
     CustomItemType,
-    CustomBasicBlock
+    CustomBasicBlock,
+    PageBlock
 };

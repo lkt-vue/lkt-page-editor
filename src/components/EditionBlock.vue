@@ -7,6 +7,8 @@ import ContainerEditor from "../edition-components/ContainerEditor.vue";
 import BlockButtons from "./BlockButtons.vue";
 import {BlockComponentType} from "../enums/BlockComponentType";
 import ListEditor from "../edition-components/ListEditor.vue";
+import MultimediaEditor from "../edition-components/MultimediaEditor.vue";
+import ColorEditor from "../edition-components/ColorEditor.vue";
 
 const emit = defineEmits(['drop', 'update:modelValue']);
 
@@ -43,6 +45,12 @@ const computedRenderEditor = computed(() => {
 
             case BlockComponentType.BulletList:
                 return 3;
+
+            case BlockComponentType.LmmMultimediaImage:
+                return 4;
+
+            case BlockComponentType.LktColor:
+                return 5;
         }
 
         if (item.value.component.startsWith('item:')) return 1;
@@ -71,6 +79,8 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
             <item-editor v-if="computedRenderEditor === 1" v-model="item" :edit-mode="editMode"/>
             <container-editor v-if="computedRenderEditor === 2" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
             <list-editor v-if="computedRenderEditor === 3" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+            <multimedia-editor v-if="computedRenderEditor === 4" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+            <color-editor v-if="computedRenderEditor === 5" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
         </div>
     </div>
 </template>
