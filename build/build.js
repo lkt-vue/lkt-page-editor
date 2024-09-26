@@ -1,6 +1,7 @@
 import { defineComponent, ref, onMounted, computed, watch, resolveComponent, openBlock, createElementBlock, normalizeClass, createElementVNode, createVNode, createCommentVNode, setBlockTracking, withDirectives, vShow, withCtx, nextTick, renderSlot, createBlock, Fragment, createTextVNode, toDisplayString, unref, renderList, resolveDynamicComponent, normalizeStyle } from "vue";
 import { trim, generateRandomString } from "lkt-string-tools";
 import { __, i18n } from "lkt-i18n";
+import { openModal } from "lkt-modal";
 import Sortable from "sortablejs";
 import { time } from "lkt-date-tools";
 class AbstractConfig {
@@ -67,6 +68,7 @@ class PageBlock {
     this.className = "";
     this.i18nMode = false;
     this.customTitle = false;
+    this.hiddenTitle = false;
     this.config = {};
     for (let k in data) {
       if (this.hasOwnProperty(k)) {
@@ -741,7 +743,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       let type = item.value.component.split(":")[0];
       return type.startsWith("lmm-multimedia");
     });
-    const computedMultimediaPickerResourceData = computed(() => {
+    computed(() => {
       return {
         _lmm_type: "multimedia",
         _lmm_filters: JSON.stringify({
@@ -791,6 +793,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       return false;
     });
     const computedCanEditCustomTitleMode = computed(() => {
+      if ([
+        BlockComponentType.LmmMultimediaImage
+      ].includes(item.value.component)) return true;
+      return false;
+    });
+    const computedCanEditHiddenTitleMode = computed(() => {
       if ([
         BlockComponentType.LmmMultimediaImage
       ].includes(item.value.component)) return true;
@@ -851,6 +859,22 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       };
       return i18nToOptions(i18n, ["lmm"]);
     });
+    const onClickOpenMultimediaManager = () => {
+      openModal("multimedia-manager", item.value.itemId, {
+        onSelected: (value, data) => {
+          console.log("item: ", item.value);
+          console.log("data: ", data);
+          item.value.itemId = value;
+          item.value.item = data;
+          console.log("item: ", item.value);
+        },
+        multiple: false,
+        allowEmpty: true,
+        fieldName: ""
+      });
+    };
+    watch(() => props.modelValue, (v) => item.value = v, { deep: true });
+    watch(item, (v) => emit("update:modelValue", v), { deep: true });
     return (_ctx, _cache) => {
       const _component_lkt_button = resolveComponent("lkt-button");
       const _component_lkt_field_text = resolveComponent("lkt-field-text");
@@ -869,8 +893,15 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
               createElementVNode("div", _hoisted_2$4, [
                 createElementVNode("div", _hoisted_3$1, [
                   _cache[22] || (_cache[22] = createElementVNode("div", { class: "lkt-page-editor-add-menu-title" }, "Actions", -1)),
-                  computedDisplaySwitchBetweenBasicBlocks.value || computedDisplaySwitchBetweenContainerBlocks.value ? (openBlock(), createBlock(_component_lkt_button, {
+                  isMultimediaPicker.value ? (openBlock(), createBlock(_component_lkt_button, {
                     key: 0,
+                    class: "lkt-page-editor-add-menu-button",
+                    icon: "pagetor-icon-picture",
+                    text: "Pick image",
+                    onClick: onClickOpenMultimediaManager
+                  })) : createCommentVNode("", true),
+                  computedDisplaySwitchBetweenBasicBlocks.value || computedDisplaySwitchBetweenContainerBlocks.value ? (openBlock(), createBlock(_component_lkt_button, {
+                    key: 1,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-fontsize",
                     "icon-end": "icon-right",
@@ -956,26 +987,35 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                     ]),
                     _: 2
                   }, 1024)) : createCommentVNode("", true),
+                  computedCanEditHiddenTitleMode.value ? (openBlock(), createBlock(_component_lkt_button, {
+                    key: 2,
+                    class: "lkt-page-editor-add-menu-button",
+                    icon: "pagetor-icon-language",
+                    text: "Hidden title",
+                    "show-switch": "",
+                    checked: item.value.hiddenTitle,
+                    "onUpdate:checked": _cache[0] || (_cache[0] = ($event) => item.value.hiddenTitle = $event)
+                  }, null, 8, ["checked"])) : createCommentVNode("", true),
                   computedCanEditCustomTitleMode.value ? (openBlock(), createBlock(_component_lkt_button, {
-                    key: 1,
+                    key: 3,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-language",
                     text: "Custom title",
                     "show-switch": "",
                     checked: item.value.customTitle,
-                    "onUpdate:checked": _cache[0] || (_cache[0] = ($event) => item.value.customTitle = $event)
+                    "onUpdate:checked": _cache[1] || (_cache[1] = ($event) => item.value.customTitle = $event)
                   }, null, 8, ["checked"])) : createCommentVNode("", true),
                   computedCanEditI18nMode.value ? (openBlock(), createBlock(_component_lkt_button, {
-                    key: 2,
+                    key: 4,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-language",
                     text: "I18n mode",
                     "show-switch": "",
                     checked: item.value.i18nMode,
-                    "onUpdate:checked": _cache[1] || (_cache[1] = ($event) => item.value.i18nMode = $event)
+                    "onUpdate:checked": _cache[2] || (_cache[2] = ($event) => item.value.i18nMode = $event)
                   }, null, 8, ["checked"])) : createCommentVNode("", true),
                   !item.value.i18nMode && computedCanEditTranslate.value ? (openBlock(), createBlock(_component_lkt_button, {
-                    key: 3,
+                    key: 5,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-language",
                     text: "Translate",
@@ -984,7 +1024,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                     }
                   }, null, 8, ["onClick"])) : createCommentVNode("", true),
                   computedIsContainerBlock.value ? (openBlock(), createBlock(_component_lkt_button, {
-                    key: 4,
+                    key: 6,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-language",
                     text: "Breakpoints",
@@ -993,7 +1033,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                     }
                   }, null, 8, ["onClick"])) : createCommentVNode("", true),
                   computedCanEditCustomSize.value ? (openBlock(), createBlock(_component_lkt_button, {
-                    key: 5,
+                    key: 7,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-fontsize",
                     "icon-end": "icon-right",
@@ -1010,12 +1050,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                             createElementVNode("div", _hoisted_6, [
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.width,
-                                "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => item.value.config.width = $event),
+                                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => item.value.config.width = $event),
                                 label: "Width"
                               }, null, 8, ["modelValue"]),
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.height,
-                                "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => item.value.config.height = $event),
+                                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => item.value.config.height = $event),
                                 label: "Height"
                               }, null, 8, ["modelValue"])
                             ])
@@ -1027,12 +1067,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                             createElementVNode("div", _hoisted_7, [
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.minWidth,
-                                "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => item.value.config.minWidth = $event),
+                                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => item.value.config.minWidth = $event),
                                 label: "Min Width"
                               }, null, 8, ["modelValue"]),
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.minHeight,
-                                "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => item.value.config.minHeight = $event),
+                                "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => item.value.config.minHeight = $event),
                                 label: "Min Height"
                               }, null, 8, ["modelValue"])
                             ])
@@ -1044,12 +1084,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                             createElementVNode("div", _hoisted_8, [
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.maxWidth,
-                                "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => item.value.config.maxWidth = $event),
+                                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => item.value.config.maxWidth = $event),
                                 label: "Max Width"
                               }, null, 8, ["modelValue"]),
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.maxHeight,
-                                "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => item.value.config.maxHeight = $event),
+                                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => item.value.config.maxHeight = $event),
                                 label: "Max Height"
                               }, null, 8, ["modelValue"])
                             ])
@@ -1061,7 +1101,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                     _: 2
                   }, 1024)) : createCommentVNode("", true),
                   computedCanEditCustomSize.value ? (openBlock(), createBlock(_component_lkt_button, {
-                    key: 6,
+                    key: 8,
                     class: "lkt-page-editor-add-menu-button",
                     icon: "pagetor-icon-fontsize",
                     "icon-end": "icon-right",
@@ -1069,7 +1109,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                     tooltip: "",
                     "tooltip-class": "lkt-page-editor-menu-tooltip",
                     "tooltip-location-y": "center",
-                    "tooltip-location-X": "right"
+                    "tooltip-location-x": "right"
                   }, {
                     tooltip: withCtx(({ doClose: doClose2 }) => [
                       createElementVNode("div", _hoisted_9, [
@@ -1078,12 +1118,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                             createElementVNode("div", _hoisted_10, [
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.contentWidth,
-                                "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => item.value.config.contentWidth = $event),
+                                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => item.value.config.contentWidth = $event),
                                 label: "Width"
                               }, null, 8, ["modelValue"]),
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.contentHeight,
-                                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => item.value.config.contentHeight = $event),
+                                "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => item.value.config.contentHeight = $event),
                                 label: "Height"
                               }, null, 8, ["modelValue"])
                             ])
@@ -1095,12 +1135,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                             createElementVNode("div", _hoisted_11, [
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.contentMinWidth,
-                                "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => item.value.config.contentMinWidth = $event),
+                                "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => item.value.config.contentMinWidth = $event),
                                 label: "Min Width"
                               }, null, 8, ["modelValue"]),
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.contentMinHeight,
-                                "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => item.value.config.contentMinHeight = $event),
+                                "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => item.value.config.contentMinHeight = $event),
                                 label: "Min Height"
                               }, null, 8, ["modelValue"])
                             ])
@@ -1112,12 +1152,12 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                             createElementVNode("div", _hoisted_12, [
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.contentMaxWidth,
-                                "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => item.value.config.contentMaxWidth = $event),
+                                "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => item.value.config.contentMaxWidth = $event),
                                 label: "Max Width"
                               }, null, 8, ["modelValue"]),
                               createVNode(_component_lkt_field_text, {
                                 modelValue: item.value.config.contentMaxHeight,
-                                "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => item.value.config.contentMaxHeight = $event),
+                                "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => item.value.config.contentMaxHeight = $event),
                                 label: "Max Height"
                               }, null, 8, ["modelValue"])
                             ])
@@ -1145,7 +1185,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                       key: 0,
                       ref: "itemPicker",
                       modelValue: item.value.itemId,
-                      "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => item.value.itemId = $event),
+                      "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => item.value.itemId = $event),
                       label: "Select item",
                       searchable: "",
                       resource: (_a = computedCustomItemType.value) == null ? void 0 : _a.resource,
@@ -1155,7 +1195,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                       key: 1,
                       ref: "itemPicker",
                       modelValue: item.value.itemsIds,
-                      "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => item.value.itemsIds = $event),
+                      "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => item.value.itemsIds = $event),
                       options: item.value.items,
                       label: "Select item",
                       searchable: "",
@@ -1164,24 +1204,13 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                       "resource-data": (_d = computedCustomItemType.value) == null ? void 0 : _d.resourceData,
                       onSelectedOption
                     }, null, 8, ["modelValue", "options", "resource", "resource-data"])) : createCommentVNode("", true),
-                    isMultimediaPicker.value ? (openBlock(), createBlock(_component_lkt_field_select, {
-                      key: 2,
-                      ref: "itemPicker",
-                      modelValue: item.value.itemId,
-                      "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => item.value.itemId = $event),
-                      label: "Select item",
-                      searchable: "",
-                      resource: "opt-items",
-                      "resource-data": computedMultimediaPickerResourceData.value,
-                      onSelectedOption
-                    }, null, 8, ["modelValue", "resource-data"])) : createCommentVNode("", true),
                     computedCanEditTitle.value && !item.value.i18nMode ? (openBlock(), createBlock(_component_lkt_field_text, {
-                      key: 3,
+                      key: 2,
                       modelValue: item.value.title,
                       "onUpdate:modelValue": _cache[17] || (_cache[17] = ($event) => item.value.title = $event),
                       label: "Title"
                     }, null, 8, ["modelValue"])) : computedCanEditTitle.value && item.value.i18nMode ? (openBlock(), createBlock(_component_lkt_field_select, {
-                      key: 4,
+                      key: 3,
                       ref: "itemPicker",
                       modelValue: item.value.i18nTitle,
                       "onUpdate:modelValue": _cache[18] || (_cache[18] = ($event) => item.value.i18nTitle = $event),
@@ -1190,7 +1219,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                       options: computedI18nOptions.value
                     }, null, 8, ["modelValue", "options"])) : createCommentVNode("", true),
                     computedCanEditColumns.value ? (openBlock(), createBlock(_component_lkt_field_text, {
-                      key: 5,
+                      key: 4,
                       modelValue: item.value.columns,
                       "onUpdate:modelValue": _cache[19] || (_cache[19] = ($event) => item.value.columns = $event),
                       label: "Columns",
@@ -1204,7 +1233,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                       label: "CSS Class"
                     }, null, 8, ["modelValue"]),
                     computedCanEditIcon.value ? (openBlock(), createBlock(_component_lkt_field_text, {
-                      key: 6,
+                      key: 5,
                       modelValue: item.value.icon,
                       "onUpdate:modelValue": _cache[21] || (_cache[21] = ($event) => item.value.icon = $event),
                       label: "Icon"
@@ -1302,16 +1331,17 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     ref(null);
     const container = ref(null);
     const item = ref(props.modelValue);
-    ref(false);
     const computedClass = computed(() => {
       return "is-item";
     });
     const computedTitle = computed(() => {
+      var _a;
+      if (item.value.hiddenTitle) return "";
       if (item.value.customTitle) {
         if (item.value.i18nMode) return __(item.value.i18nTitle);
         return item.value.title;
       }
-      return item.value.item.label;
+      return (_a = item.value.item) == null ? void 0 : _a.label;
     });
     const getStyleValue = (val) => {
       return val;
@@ -1342,6 +1372,10 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
       if (item.value.config.contentMaxHeight) r.maxHeight = getStyleValue(item.value.config.contentMaxHeight);
       return r;
     });
+    const computedSrc = computed(() => {
+      if (item.value.item && item.value.item.src) return item.value.item.src;
+      return "";
+    });
     watch(() => props.modelValue, (v) => item.value = v, { deep: true });
     watch(item, (v) => emit("update:modelValue", v), { deep: true });
     return (_ctx, _cache) => {
@@ -1353,7 +1387,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
       }, [
         item.value.component === unref(BlockComponentType).LmmMultimediaImage ? (openBlock(), createBlock(_component_lkt_image, {
           key: 0,
-          src: item.value.item.src,
+          src: computedSrc.value,
           text: computedTitle.value,
           style: normalizeStyle(computedStyle.value),
           "image-style": computedImageStyle.value
@@ -1375,45 +1409,8 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     ref(null);
     const container = ref(null);
     const item = ref(props.modelValue);
-    ref(false);
     const computedClass = computed(() => {
       return "is-item";
-    });
-    computed(() => {
-      if (item.value.customTitle) {
-        if (item.value.i18nMode) return __(item.value.i18nTitle);
-        return item.value.title;
-      }
-      return item.value.item.label;
-    });
-    const getStyleValue = (val) => {
-      return val;
-    };
-    computed(() => {
-      let r = {};
-      if (!item.value.config) {
-        return r;
-      }
-      if (item.value.config.width) r.width = getStyleValue(item.value.config.width);
-      if (item.value.config.height) r.height = getStyleValue(item.value.config.height);
-      if (item.value.config.minWidth) r.minWidth = getStyleValue(item.value.config.minWidth);
-      if (item.value.config.minHeight) r.minHeight = getStyleValue(item.value.config.minHeight);
-      if (item.value.config.maxWidth) r.maxWidth = getStyleValue(item.value.config.maxWidth);
-      if (item.value.config.maxHeight) r.maxHeight = getStyleValue(item.value.config.maxHeight);
-      return r;
-    });
-    computed(() => {
-      let r = {};
-      if (!item.value.config) {
-        return r;
-      }
-      if (item.value.config.contentWidth) r.width = getStyleValue(item.value.config.contentWidth);
-      if (item.value.config.contentHeight) r.height = getStyleValue(item.value.config.contentHeight);
-      if (item.value.config.contentMinWidth) r.minWidth = getStyleValue(item.value.config.contentMinWidth);
-      if (item.value.config.contentMinHeight) r.minHeight = getStyleValue(item.value.config.contentMinHeight);
-      if (item.value.config.contentMaxWidth) r.maxWidth = getStyleValue(item.value.config.contentMaxWidth);
-      if (item.value.config.contentMaxHeight) r.maxHeight = getStyleValue(item.value.config.contentMaxHeight);
-      return r;
     });
     watch(() => props.modelValue, (v) => item.value = v, { deep: true });
     watch(item, (v) => emit("update:modelValue", v), { deep: true });
@@ -1424,7 +1421,11 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
         ref: container,
         class: normalizeClass(["lkt-editor-block lkt-item-editor", computedClass.value])
       }, [
-        createVNode(_component_lkt_field_text, { "is-color": "" })
+        createVNode(_component_lkt_field_text, {
+          modelValue: item.value.content,
+          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => item.value.content = $event),
+          "is-color": ""
+        }, null, 8, ["modelValue"])
       ], 2);
     };
   }

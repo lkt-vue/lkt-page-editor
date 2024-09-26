@@ -18,18 +18,18 @@ const props = withDefaults(defineProps<{
 const editor = ref(null);
 const container = ref(null);
 const item = ref(props.modelValue);
-const showToolbar = ref(false);
 
 const computedClass = computed(() => {
     return 'is-item';
 });
 
 const computedTitle = computed(() => {
+    if (item.value.hiddenTitle) return '';
     if (item.value.customTitle) {
         if (item.value.i18nMode) return __(item.value.i18nTitle);
         return item.value.title;
     }
-    return item.value.item.label
+    return item.value.item?.label
 })
 
 const getStyleValue = (val) => {
@@ -70,6 +70,11 @@ const computedImageStyle = computed(() => {
     return r;
 })
 
+const computedSrc = computed(() => {
+    if (item.value.item && item.value.item.src) return item.value.item.src;
+    return '';
+})
+
 watch(() => props.modelValue, v => item.value = v, {deep: true});
 watch(item, v => emit('update:modelValue', v), {deep: true});
 </script>
@@ -78,7 +83,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
     <div ref="container" class="lkt-editor-block lkt-item-editor" :class="computedClass">
         <lkt-image
             v-if="item.component === BlockComponentType.LmmMultimediaImage"
-            :src="item.item.src"
+            :src="computedSrc"
             :text="computedTitle"
             :style="computedStyle"
             :image-style="computedImageStyle"

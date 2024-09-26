@@ -34,6 +34,7 @@ export class PageBlock {
 
     i18nMode: boolean = false;
     customTitle: boolean = false;
+    hiddenTitle: boolean = false;
 
     config: BlockConfig = {}
 

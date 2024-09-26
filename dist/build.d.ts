@@ -52,6 +52,7 @@ export class PageBlock {
     className: string;
     i18nMode: boolean;
     customTitle: boolean;
+    hiddenTitle: boolean;
     config: AbstractConfig;
 }
 export function addBasicBlockToEditor(config: any): void;

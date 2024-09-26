@@ -1,10 +1,12 @@
 <script setup lang="ts">
 
 import {PageBlock} from "../instances/PageBlock";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {BlockComponentType} from "../enums/BlockComponentType";
 import {Settings} from "../settings/Settings";
 import {i18n} from "lkt-i18n";
+import {openModal} from "lkt-modal";
+import {LktObject} from "lkt-ts-interfaces";
 
 const emit = defineEmits(['drop']);
 
@@ -120,6 +122,13 @@ const computedCanEditCustomTitleMode = computed(() => {
     return false;
 })
 
+const computedCanEditHiddenTitleMode = computed(() => {
+    if ([
+        BlockComponentType.LmmMultimediaImage,
+    ].includes(item.value.component)) return true;
+    return false;
+})
+
 const computedCanEditCustomSize = computed(() => {
     if ([
         BlockComponentType.LmmMultimediaImage,
@@ -185,6 +194,25 @@ const computedI18nOptions = computed(() => {
 
     return i18nToOptions(i18n, ['lmm']);
 })
+
+const onClickOpenMultimediaManager = () => {
+    openModal('multimedia-manager', item.value.itemId, {
+        onSelected: (value: number|string, data: LktObject) => {
+            console.log('item: ', item.value);
+            console.log('data: ', data);
+
+            item.value.itemId = value;
+            item.value.item = data;
+            console.log('item: ', item.value);
+        },
+        multiple: false,
+        allowEmpty: true,
+        fieldName: ''
+    })
+}
+
+watch(() => props.modelValue, v => item.value = v, {deep: true});
+watch(item, v => emit('update:modelValue', v), {deep: true});
 </script>
 
 <template>
@@ -199,6 +227,17 @@ const computedI18nOptions = computed(() => {
                 <div class="lkt-grid-2">
                     <div class="lkt-page-editor-add-menu block-menu-actions">
                         <div class="lkt-page-editor-add-menu-title">Actions</div>
+
+
+                        <lkt-button
+                            v-if="isMultimediaPicker"
+                            class="lkt-page-editor-add-menu-button"
+                            icon="pagetor-icon-picture"
+                            text="Pick image"
+                            @click="onClickOpenMultimediaManager"
+                        />
+
+
                         <lkt-button
                             v-if="computedDisplaySwitchBetweenBasicBlocks || computedDisplaySwitchBetweenContainerBlocks"
                             class="lkt-page-editor-add-menu-button"
@@ -264,6 +303,14 @@ const computedI18nOptions = computed(() => {
                                 </div>
                             </template>
                         </lkt-button>
+                        <lkt-button
+                            v-if="computedCanEditHiddenTitleMode"
+                            class="lkt-page-editor-add-menu-button"
+                            icon="pagetor-icon-language"
+                            text="Hidden title"
+                            show-switch
+                            v-model:checked="item.hiddenTitle"
+                        />
                         <lkt-button
                             v-if="computedCanEditCustomTitleMode"
                             class="lkt-page-editor-add-menu-button"
@@ -358,7 +405,7 @@ const computedI18nOptions = computed(() => {
                             tooltip
                             tooltip-class="lkt-page-editor-menu-tooltip"
                             tooltip-location-y="center"
-                            tooltip-location-X="right"
+                            tooltip-location-x="right"
                         >
                             <template #tooltip="{doClose}">
                                 <div class="lkt-grid-1">
@@ -435,17 +482,6 @@ const computedI18nOptions = computed(() => {
                                 multiple
                                 :resource="computedCustomItemType?.resource"
                                 :resource-data="computedCustomItemType?.resourceData"
-                                @selected-option="onSelectedOption"
-                            />
-
-                            <lkt-field-select
-                                v-if="isMultimediaPicker"
-                                ref="itemPicker"
-                                v-model="item.itemId"
-                                label="Select item"
-                                searchable
-                                resource="opt-items"
-                                :resource-data="computedMultimediaPickerResourceData"
                                 @selected-option="onSelectedOption"
                             />
 
