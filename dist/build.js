@@ -862,11 +862,8 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     const onClickOpenMultimediaManager = () => {
       openModal("multimedia-manager", item.value.itemId, {
         onSelected: (value, data) => {
-          console.log("item: ", item.value);
-          console.log("data: ", data);
           item.value.itemId = value;
           item.value.item = data;
-          console.log("item: ", item.value);
         },
         multiple: false,
         allowEmpty: true,

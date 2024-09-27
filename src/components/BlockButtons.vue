@@ -198,12 +198,8 @@ const computedI18nOptions = computed(() => {
 const onClickOpenMultimediaManager = () => {
     openModal('multimedia-manager', item.value.itemId, {
         onSelected: (value: number|string, data: LktObject) => {
-            console.log('item: ', item.value);
-            console.log('data: ', data);
-
             item.value.itemId = value;
             item.value.item = data;
-            console.log('item: ', item.value);
         },
         multiple: false,
         allowEmpty: true,
