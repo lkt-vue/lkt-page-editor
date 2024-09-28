@@ -20,10 +20,8 @@ const props = withDefaults(defineProps<{
 
 const editor = ref(null);
 const container = ref(null);
-const blockHeader = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
-const showCustomToolbar = ref(false);
 const latestTextLengthOnBackspace = ref(-1);
 
 const onSelectedText = () => {
@@ -135,8 +133,8 @@ const onEditorKeyUp = (event: KeyboardEvent) => {
         emit(
             'append',
             item.value.component === BlockComponentType.ListItem
-                ? item.value.component === BlockComponentType.ListItem
-                : item.value.component === BlockComponentType.Text
+                ? BlockComponentType.ListItem
+                : BlockComponentType.Text
         )
 
         editor.value.dispatchEvent(clearLineBreakEvent);
@@ -153,6 +151,13 @@ function pasteEvent(e) {
 onMounted(() => {
     // add paste event
     editor.value.addEventListener('paste', pasteEvent);
+
+    nextTick(() => {
+        if (item.value.id === 0) {
+            console.log('auto focus new item')
+            editor.value.focus();
+        }
+    })
 })
 
 watch(() => props.modelValue, v => item.value = v, {deep: true});

@@ -206,6 +206,10 @@
     display: none !important;
 }
 
+.lkt-text-editor-content.text-editor-field b {
+    font-weight: 700;
+}
+
 @media (min-width: 768px) {
     .lkt-editor-block-grid {
         grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));

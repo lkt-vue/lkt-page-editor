@@ -504,6 +504,7 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
                                 is-number
                                 :min="1"
                                 :max="10"
+                                :step="1"
                             />
 
                             <lkt-field-text

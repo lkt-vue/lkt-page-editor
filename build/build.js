@@ -1,4 +1,4 @@
-import { defineComponent, ref, onMounted, computed, watch, resolveComponent, openBlock, createElementBlock, normalizeClass, createElementVNode, createVNode, createCommentVNode, setBlockTracking, withDirectives, vShow, withCtx, nextTick, renderSlot, createBlock, Fragment, createTextVNode, toDisplayString, unref, renderList, resolveDynamicComponent, normalizeStyle } from "vue";
+import { defineComponent, ref, onMounted, computed, nextTick, watch, resolveComponent, openBlock, createElementBlock, normalizeClass, createElementVNode, createVNode, createCommentVNode, setBlockTracking, withDirectives, vShow, withCtx, renderSlot, createBlock, Fragment, createTextVNode, toDisplayString, unref, renderList, resolveDynamicComponent, normalizeStyle } from "vue";
 import { trim, generateRandomString } from "lkt-string-tools";
 import { __, i18n } from "lkt-i18n";
 import { openModal } from "lkt-modal";
@@ -206,10 +206,8 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     const props = __props;
     const editor = ref(null);
     const container = ref(null);
-    ref(null);
     const item = ref(props.modelValue);
     const showToolbar = ref(false);
-    ref(false);
     const latestTextLengthOnBackspace = ref(-1);
     const onSelectedText = () => {
       if (!props.editMode) return;
@@ -294,7 +292,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
         });
         emit(
           "append",
-          item.value.component === BlockComponentType.ListItem ? item.value.component === BlockComponentType.ListItem : item.value.component === BlockComponentType.Text
+          item.value.component === BlockComponentType.ListItem ? BlockComponentType.ListItem : BlockComponentType.Text
         );
         editor.value.dispatchEvent(clearLineBreakEvent);
       }
@@ -306,6 +304,12 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     }
     onMounted(() => {
       editor.value.addEventListener("paste", pasteEvent);
+      nextTick(() => {
+        if (item.value.id === 0) {
+          console.log("auto focus new item");
+          editor.value.focus();
+        }
+      });
     });
     watch(() => props.modelValue, (v) => item.value = v, { deep: true });
     watch(item, (v) => emit("update:modelValue", v), { deep: true });
@@ -1222,7 +1226,8 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
                       label: "Columns",
                       "is-number": "",
                       min: 1,
-                      max: 10
+                      max: 10,
+                      step: 1
                     }, null, 8, ["modelValue"])) : createCommentVNode("", true),
                     createVNode(_component_lkt_field_text, {
                       modelValue: item.value.className,
@@ -1721,7 +1726,10 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
 });
 const AddBlockMenu = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-4beab174"]]);
 const _hoisted_1$1 = { class: "lkt-page-editor-canvas lkt-grid-1" };
-const _hoisted_2$1 = { class: "lkt-page-editor-canvas-nav" };
+const _hoisted_2$1 = {
+  key: 0,
+  class: "lkt-page-editor-canvas-nav"
+};
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "EditionCanvas",
   props: {
@@ -1798,7 +1806,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
         ], 2), [
           [vShow, content.value.length > 0]
         ]),
-        createElementVNode("div", _hoisted_2$1, [
+        _ctx.editMode ? (openBlock(), createElementBlock("div", _hoisted_2$1, [
           createVNode(_component_lkt_button, {
             text: "Add block",
             "tooltip-window-margin": "30",
@@ -1816,7 +1824,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
             ]),
             _: 1
           })
-        ])
+        ])) : createCommentVNode("", true)
       ]);
     };
   }

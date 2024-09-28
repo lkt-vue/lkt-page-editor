@@ -94,7 +94,7 @@ watch(content, v => emit('update:modelValue', v), {deep: true});
             @append="onAppend"/>
     </div>
 
-    <div class="lkt-page-editor-canvas-nav">
+    <div v-if="editMode" class="lkt-page-editor-canvas-nav">
         <lkt-button
             text="Add block"
             tooltip-window-margin="30"
