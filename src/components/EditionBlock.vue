@@ -76,11 +76,11 @@ watch(item, v => emit('update:modelValue', v), {deep: true});
 
         <div class="lkt-page-editor-block-content">
             <text-editor v-if="computedRenderEditor === 0" v-model="item" :edit-mode="editMode" @drop="onDropEditor" @append="onAppend"/>
-            <item-editor v-if="computedRenderEditor === 1" v-model="item" :edit-mode="editMode"/>
-            <container-editor v-if="computedRenderEditor === 2" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
-            <list-editor v-if="computedRenderEditor === 3" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
-            <multimedia-editor v-if="computedRenderEditor === 4" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
-            <color-editor v-if="computedRenderEditor === 5" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+            <item-editor v-else-if="computedRenderEditor === 1" v-model="item" :edit-mode="editMode"/>
+            <container-editor v-else-if="computedRenderEditor === 2" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+            <list-editor v-else-if="computedRenderEditor === 3" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+            <multimedia-editor v-else-if="computedRenderEditor === 4" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
+            <color-editor v-else-if="computedRenderEditor === 5" v-model="item" :edit-mode="editMode" :canvas-level="canvasLevel"/>
         </div>
     </div>
 </template>

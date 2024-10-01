@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import {PageBlock} from "../instances/PageBlock";
 import {computed, ref, watch} from "vue";
-import BlockButtons from "../components/BlockButtons.vue";
-import {Settings} from "../settings/Settings";
 import EditionCanvas from "../components/EditionCanvas.vue";
-import BlockHeader from "../components/BlockHeader.vue";
 import {BlockComponentType} from "../enums/BlockComponentType";
 import {__} from "lkt-i18n";
 
@@ -21,9 +18,7 @@ const props = withDefaults(defineProps<{
 
 const container = ref(null);
 const editor = ref(null);
-const blockHeader = ref(null);
 const item = ref(props.modelValue);
-const showToolbar = ref(false);
 
 const computedClass = computed(() => {
         let r = [];
@@ -33,45 +28,10 @@ const computedClass = computed(() => {
         return r.join(' ');
     });
 
-const customItemType = computed(() => {
-    let found = Settings.customItemTypes.find(z => z.component === item.value.itemType);
-    if (found) return found;
-    return undefined;
-});
-
-const computedIcon = computed(() => {
-
-    if (typeof customItemType.value === 'undefined') {
-        switch (item.value.component) {
-            case BlockComponentType.LktAccordion:
-                return 'pagetor-icon-layers';
-
-            case BlockComponentType.LktBox:
-                return 'pagetor-icon-box';
-
-            case BlockComponentType.Columns:
-                return 'pagetor-icon-columns';
-
-            default:
-                return 'icon-cog';
-        }
-    }
-    if (customItemType.value.icon) return customItemType.value.icon;
-    return 'icon-cog';
-});
-
 const computedCanvasLevel = computed(() => {
     if (item.value.component === 'columns') return 0;
     return props.canvasLevel + 1;
 })
-
-const computedBlockTitle = computed(() => {
-    if (item.value.component === BlockComponentType.Columns) {
-        return 'Column engine (' + item.value.columns + ' columns)'
-    }
-
-    return item.value.component;
-});
 
 const computedTitle = computed(() => {
     if (item.value.i18nMode) return __(item.value.i18nTitle);

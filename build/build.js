@@ -255,17 +255,6 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
       if (found) return found;
       return void 0;
     });
-    computed(() => {
-      if (item.value.component === BlockComponentType.LktIcon) return "pagetor-icon-crown";
-      if (typeof customBasicBlock.value === "undefined") return "icon-cog";
-      if (customBasicBlock.value.icon) return customBasicBlock.value.icon;
-      return "icon-cog";
-    });
-    computed(() => {
-      var _a;
-      if (item.value.component === BlockComponentType.LktIcon) return "LKT Icon";
-      return (_a = customBasicBlock.value) == null ? void 0 : _a.text;
-    });
     const computedDisplayContentEdition = computed(() => {
       if (item.value.component === BlockComponentType.LktIcon) return false;
       if (typeof customBasicBlock.value === "undefined") return true;
@@ -609,9 +598,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     const props = __props;
     const container = ref(null);
     ref(null);
-    ref(null);
     const item = ref(props.modelValue);
-    ref(false);
     const computedClass = computed(() => {
       let r = [];
       if (item.value.component === BlockComponentType.LktAccordion) r.push("is-accordion");
@@ -619,36 +606,9 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       if (item.value.component === BlockComponentType.Columns) r.push("is-columns");
       return r.join(" ");
     });
-    const customItemType = computed(() => {
-      let found = Settings.customItemTypes.find((z) => z.component === item.value.itemType);
-      if (found) return found;
-      return void 0;
-    });
-    computed(() => {
-      if (typeof customItemType.value === "undefined") {
-        switch (item.value.component) {
-          case BlockComponentType.LktAccordion:
-            return "pagetor-icon-layers";
-          case BlockComponentType.LktBox:
-            return "pagetor-icon-box";
-          case BlockComponentType.Columns:
-            return "pagetor-icon-columns";
-          default:
-            return "icon-cog";
-        }
-      }
-      if (customItemType.value.icon) return customItemType.value.icon;
-      return "icon-cog";
-    });
     const computedCanvasLevel = computed(() => {
       if (item.value.component === "columns") return 0;
       return props.canvasLevel + 1;
-    });
-    computed(() => {
-      if (item.value.component === BlockComponentType.Columns) {
-        return "Column engine (" + item.value.columns + " columns)";
-      }
-      return item.value.component;
     });
     const computedTitle = computed(() => {
       if (item.value.i18nMode) return __(item.value.i18nTitle);
@@ -1265,57 +1225,29 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     const props = __props;
     const container = ref(null);
     ref(null);
-    ref(null);
     const item = ref(props.modelValue);
-    ref(false);
     const computedClass = computed(() => {
       let r = [];
       if (item.value.component === "ul") r.push("is-ul");
       return r.join(" ");
     });
-    const customItemType = computed(() => {
-      let found = Settings.customItemTypes.find((z) => z.component === item.value.itemType);
-      if (found) return found;
-      return void 0;
-    });
-    computed(() => {
-      if (typeof customItemType.value === "undefined") {
-        switch (item.value.component) {
-          case BlockComponentType.BulletList:
-            return "pagetor-icon-list-bullet";
-          default:
-            return "icon-cog";
-        }
-      }
-      if (customItemType.value.icon) return customItemType.value.icon;
-      return "icon-cog";
-    });
-    computed(() => {
-      if (item.value.component === BlockComponentType.BulletList) {
-        return "Bullet list";
-      }
-      return item.value.component;
-    });
     watch(() => props.modelValue, (v) => item.value = v, { deep: true });
     watch(item, (v) => emit("update:modelValue", v), { deep: true });
     return (_ctx, _cache) => {
-      resolveComponent("lkt-tooltip");
       return openBlock(), createElementBlock("div", {
         ref_key: "container",
         ref: container,
         class: normalizeClass(["lkt-editor-block lkt-list-editor", computedClass.value])
       }, [
-        createCommentVNode("", true),
         createElementVNode("div", _hoisted_1$4, [
           createVNode(_sfc_main$1, {
             modelValue: item.value.blocks,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => item.value.blocks = $event),
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => item.value.blocks = $event),
             "edit-mode": _ctx.editMode,
             "canvas-level": -2,
             columns: item.value.columns
           }, null, 8, ["modelValue", "edit-mode", "columns"])
-        ]),
-        createCommentVNode("", true)
+        ])
       ], 2);
     };
   }
@@ -1497,35 +1429,30 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
             "edit-mode": _ctx.editMode,
             onDrop: onDropEditor,
             onAppend
-          }, null, 8, ["modelValue", "edit-mode"])) : createCommentVNode("", true),
-          computedRenderEditor.value === 1 ? (openBlock(), createBlock(_sfc_main$9, {
+          }, null, 8, ["modelValue", "edit-mode"])) : computedRenderEditor.value === 1 ? (openBlock(), createBlock(_sfc_main$9, {
             key: 1,
             modelValue: item.value,
             "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => item.value = $event),
             "edit-mode": _ctx.editMode
-          }, null, 8, ["modelValue", "edit-mode"])) : createCommentVNode("", true),
-          computedRenderEditor.value === 2 ? (openBlock(), createBlock(_sfc_main$8, {
+          }, null, 8, ["modelValue", "edit-mode"])) : computedRenderEditor.value === 2 ? (openBlock(), createBlock(_sfc_main$8, {
             key: 2,
             modelValue: item.value,
             "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => item.value = $event),
             "edit-mode": _ctx.editMode,
             "canvas-level": _ctx.canvasLevel
-          }, null, 8, ["modelValue", "edit-mode", "canvas-level"])) : createCommentVNode("", true),
-          computedRenderEditor.value === 3 ? (openBlock(), createBlock(_sfc_main$6, {
+          }, null, 8, ["modelValue", "edit-mode", "canvas-level"])) : computedRenderEditor.value === 3 ? (openBlock(), createBlock(_sfc_main$6, {
             key: 3,
             modelValue: item.value,
             "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => item.value = $event),
             "edit-mode": _ctx.editMode,
             "canvas-level": _ctx.canvasLevel
-          }, null, 8, ["modelValue", "edit-mode", "canvas-level"])) : createCommentVNode("", true),
-          computedRenderEditor.value === 4 ? (openBlock(), createBlock(_sfc_main$5, {
+          }, null, 8, ["modelValue", "edit-mode", "canvas-level"])) : computedRenderEditor.value === 4 ? (openBlock(), createBlock(_sfc_main$5, {
             key: 4,
             modelValue: item.value,
             "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => item.value = $event),
             "edit-mode": _ctx.editMode,
             "canvas-level": _ctx.canvasLevel
-          }, null, 8, ["modelValue", "edit-mode", "canvas-level"])) : createCommentVNode("", true),
-          computedRenderEditor.value === 5 ? (openBlock(), createBlock(_sfc_main$4, {
+          }, null, 8, ["modelValue", "edit-mode", "canvas-level"])) : computedRenderEditor.value === 5 ? (openBlock(), createBlock(_sfc_main$4, {
             key: 5,
             modelValue: item.value,
             "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => item.value = $event),
@@ -1843,7 +1770,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const content = ref(props.modelValue);
     const editMode = ref(true);
     watch(() => props.modelValue, (v) => content.value = v);
-    watch(content, (v) => emit("update:modelValue", v));
+    watch(content, (v) => {
+      console.log("page editor updated: ", v);
+      emit("update:modelValue", v);
+    });
     return (_ctx, _cache) => {
       const _component_lkt_field_switch = resolveComponent("lkt-field-switch");
       return openBlock(), createElementBlock("div", _hoisted_1, [

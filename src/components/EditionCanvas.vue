@@ -6,7 +6,6 @@ import Sortable from 'sortablejs';
 import {time} from "lkt-date-tools";
 import {generateRandomString} from "lkt-string-tools";
 import AddBlockMenu from "./AddBlockMenu.vue";
-import TextEditor from "../edition-components/TextEditor.vue";
 import {BlockComponentType} from "../enums/BlockComponentType";
 
 const emit = defineEmits(['update:modelValue']);
@@ -32,7 +31,6 @@ const updateTimeStamp = ref(0);
 const uniqueId = generateRandomString(12);
 
 const computedColumnClass = computed(() => {
-    // return 'lkt-grid-1';
     return 'lkt-grid-' + props.columns;
 });
 

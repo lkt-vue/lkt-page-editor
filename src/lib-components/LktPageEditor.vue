@@ -15,7 +15,10 @@ const content = ref(props.modelValue);
 const editMode = ref(true);
 
 watch(() => props.modelValue, v => content.value = v);
-watch(content, v => emit('update:modelValue', v));
+watch(content, v => {
+    console.log('page editor updated: ', v);
+    emit('update:modelValue', v)
+});
 </script>
 
 <template>

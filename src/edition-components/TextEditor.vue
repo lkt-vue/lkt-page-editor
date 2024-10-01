@@ -87,18 +87,6 @@ const customBasicBlock = computed(() => {
     return undefined;
 });
 
-const computedIcon = computed(() => {
-    if (item.value.component === BlockComponentType.LktIcon) return 'pagetor-icon-crown';
-    if (typeof customBasicBlock.value === 'undefined') return 'icon-cog';
-    if (customBasicBlock.value.icon) return customBasicBlock.value.icon;
-    return 'icon-cog';
-})
-
-const computedBlockTitle = computed(() => {
-    if (item.value.component === BlockComponentType.LktIcon) return 'LKT Icon';
-    return customBasicBlock.value?.text;
-})
-
 const computedDisplayContentEdition = computed(() => {
     if (item.value.component === BlockComponentType.LktIcon) return false;
     if (typeof customBasicBlock.value === 'undefined') return true;
