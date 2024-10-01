@@ -14,11 +14,11 @@ const content = ref(props.modelValue);
 
 const editMode = ref(true);
 
-watch(() => props.modelValue, v => content.value = v);
+watch(() => props.modelValue, v => content.value = v, {deep: true});
 watch(content, v => {
     console.log('page editor updated: ', v);
     emit('update:modelValue', v)
-});
+}, {deep: true});
 </script>
 
 <template>

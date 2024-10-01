@@ -209,6 +209,7 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     const item = ref(props.modelValue);
     const showToolbar = ref(false);
     const latestTextLengthOnBackspace = ref(-1);
+    const updateTimeout = ref(void 0);
     const onSelectedText = () => {
       if (!props.editMode) return;
       let text = trim(getSelectionText());
@@ -264,27 +265,32 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
       return item.value.component === BlockComponentType.LktIcon;
     });
     const onEditorKeyUp = (event) => {
-      if (event.key !== "Enter") {
-        item.value.content = editor.value.innerHTML;
+      if (typeof updateTimeout.value !== "undefined") {
+        clearTimeout(updateTimeout.value);
       }
-      if (event.key === "Backspace") {
-        let text = trim(item.value.content);
-        let l = text.length;
-        if (latestTextLengthOnBackspace.value === 0 && l === 0) {
-          emit("drop");
-        } else {
-          latestTextLengthOnBackspace.value = l;
+      updateTimeout.value = setTimeout(() => {
+        if (event.key !== "Enter") {
+          item.value.content = editor.value.innerHTML;
         }
-      } else if (event.key === "Enter") {
-        const clearLineBreakEvent = new KeyboardEvent("keydown", {
-          key: "Backspace"
-        });
-        emit(
-          "append",
-          item.value.component === BlockComponentType.ListItem ? BlockComponentType.ListItem : BlockComponentType.Text
-        );
-        editor.value.dispatchEvent(clearLineBreakEvent);
-      }
+        if (event.key === "Backspace") {
+          let text = trim(item.value.content);
+          let l = text.length;
+          if (latestTextLengthOnBackspace.value === 0 && l === 0) {
+            emit("drop");
+          } else {
+            latestTextLengthOnBackspace.value = l;
+          }
+        } else if (event.key === "Enter") {
+          const clearLineBreakEvent = new KeyboardEvent("keydown", {
+            key: "Backspace"
+          });
+          emit(
+            "append",
+            item.value.component === BlockComponentType.ListItem ? BlockComponentType.ListItem : BlockComponentType.Text
+          );
+          editor.value.dispatchEvent(clearLineBreakEvent);
+        }
+      }, 200);
     };
     function pasteEvent(e) {
       e.preventDefault();
@@ -295,7 +301,6 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
       editor.value.addEventListener("paste", pasteEvent);
       nextTick(() => {
         if (item.value.id === 0) {
-          console.log("auto focus new item");
           editor.value.focus();
         }
       });
@@ -1769,11 +1774,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const props = __props;
     const content = ref(props.modelValue);
     const editMode = ref(true);
-    watch(() => props.modelValue, (v) => content.value = v);
+    watch(() => props.modelValue, (v) => content.value = v, { deep: true });
     watch(content, (v) => {
       console.log("page editor updated: ", v);
       emit("update:modelValue", v);
-    });
+    }, { deep: true });
     return (_ctx, _cache) => {
       const _component_lkt_field_switch = resolveComponent("lkt-field-switch");
       return openBlock(), createElementBlock("div", _hoisted_1, [

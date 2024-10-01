@@ -23,6 +23,7 @@ const container = ref(null);
 const item = ref(props.modelValue);
 const showToolbar = ref(false);
 const latestTextLengthOnBackspace = ref(-1);
+const updateTimeout = ref(undefined);
 
 const onSelectedText = () => {
     if (!props.editMode) return;
@@ -98,35 +99,42 @@ const isLktIcon = computed(() => {
 })
 
 const onEditorKeyUp = (event: KeyboardEvent) => {
-    if (event.key !== 'Enter') {
-        item.value.content = editor.value.innerHTML;
+    if (typeof updateTimeout.value !== 'undefined') {
+        clearTimeout(updateTimeout.value);
     }
 
-    if (event.key === 'Backspace') {
-        let text = trim(item.value.content);
-        let l = text.length;
-
-        if (latestTextLengthOnBackspace.value === 0 && l === 0) {
-            emit('drop');
-        } else {
-            latestTextLengthOnBackspace.value = l;
+    updateTimeout.value = setTimeout(() => {
+        if (event.key !== 'Enter') {
+            item.value.content = editor.value.innerHTML;
         }
 
-    } else if (event.key === 'Enter') {
+        if (event.key === 'Backspace') {
+            let text = trim(item.value.content);
+            let l = text.length;
 
-        const clearLineBreakEvent = new KeyboardEvent('keydown', {
-            key: 'Backspace'
-        });
+            if (latestTextLengthOnBackspace.value === 0 && l === 0) {
+                emit('drop');
+            } else {
+                latestTextLengthOnBackspace.value = l;
+            }
 
-        emit(
-            'append',
-            item.value.component === BlockComponentType.ListItem
-                ? BlockComponentType.ListItem
-                : BlockComponentType.Text
-        )
+        } else if (event.key === 'Enter') {
 
-        editor.value.dispatchEvent(clearLineBreakEvent);
-    }
+            const clearLineBreakEvent = new KeyboardEvent('keydown', {
+                key: 'Backspace'
+            });
+
+            emit(
+                'append',
+                item.value.component === BlockComponentType.ListItem
+                    ? BlockComponentType.ListItem
+                    : BlockComponentType.Text
+            )
+
+            editor.value.dispatchEvent(clearLineBreakEvent);
+        }
+    }, 200);
+
 }
 
 function pasteEvent(e) {
@@ -142,7 +150,6 @@ onMounted(() => {
 
     nextTick(() => {
         if (item.value.id === 0) {
-            console.log('auto focus new item')
             editor.value.focus();
         }
     })
