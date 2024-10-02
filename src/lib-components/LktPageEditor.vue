@@ -13,10 +13,11 @@ const props = withDefaults(defineProps<{
 const content = ref(props.modelValue);
 
 const editMode = ref(true);
+const dragArea = ref(null);
 
 watch(() => props.modelValue, v => content.value = v, {deep: true});
 watch(content, v => {
-    console.log('page editor updated: ', v);
+    console.log('updated editor', v);
     emit('update:modelValue', v)
 }, {deep: true});
 </script>
@@ -25,7 +26,7 @@ watch(content, v => {
     <div class="lkt-page-editor-container">
         <div class="like-lkt-field-label">Page content</div>
         <lkt-field-switch label="edit mode" v-model="editMode"/>
-        <div class="lkt-page-editor">
+        <div class="lkt-page-editor" ref="dragArea">
             <edition-canvas v-model="content" :edit-mode="editMode" :canvas-level="0"/>
         </div>
     </div>

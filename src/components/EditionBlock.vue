@@ -66,7 +66,10 @@ const onAppend = (component) => {
 }
 
 watch(() => props.modelValue, v => item.value = v, {deep: true});
-watch(item, v => emit('update:modelValue', v), {deep: true});
+watch(item, v => {
+    console.log('updated edition block', v);
+    emit('update:modelValue', v)
+}, {deep: true});
 </script>
 
 <template>

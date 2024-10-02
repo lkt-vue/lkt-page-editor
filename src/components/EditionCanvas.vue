@@ -54,8 +54,14 @@ const getBlockKey = (index: number) => {
 onMounted(() => {
     nextTick(() => {
         sortable.value = new Sortable(dragArea.value, {
-            group: 'group-' + time(),
+            // group: 'group-' + time(),
+            group: 'group',
             handle: '.drag-indicator',
+
+            // handle: ".my-handle",  // Drag handle selector within list items
+            // filter: ".ignore-elements",  // Selectors that do not lead to dragging (String or Function)
+            // preventOnFilter: true, // Call `event.preventDefault()` when triggered `filter`
+            draggable: ".lkt-page-editor-block",  // Specifies which items inside the element should be draggable
             delay: 150,
             animation: 150,
             fallbackOnBody: true,
@@ -72,7 +78,10 @@ onMounted(() => {
 })
 
 watch(() => props.modelValue, v => content.value = v, {deep: true});
-watch(content, v => emit('update:modelValue', v), {deep: true});
+watch(content, v => {
+    console.log('updated edition canvas', v);
+    emit('update:modelValue', v)
+}, {deep: true});
 </script>
 
 <template>

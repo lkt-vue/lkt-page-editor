@@ -114,18 +114,21 @@ export class PageBlock {
         return new PageBlock({
             component: BlockComponentType.Columns,
             columns: 2,
+            blocks: [PageBlock.createTextEditor()],
         })
     }
 
     static createLktBox() {
         return new PageBlock({
             component: BlockComponentType.LktBox,
+            blocks: [PageBlock.createTextEditor()],
         })
     }
 
     static createLktAccordion() {
         return new PageBlock({
             component: BlockComponentType.LktAccordion,
+            blocks: [PageBlock.createTextEditor()],
         })
     }
 

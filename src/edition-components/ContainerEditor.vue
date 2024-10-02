@@ -34,6 +34,7 @@ const computedCanvasLevel = computed(() => {
 })
 
 const computedTitle = computed(() => {
+    if (props.editMode) return '';
     if (item.value.i18nMode) return __(item.value.i18nTitle);
     return item.value.title;
 })
